@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+<xsl:stylesheet
+  xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns:tr="http://transpect.io"
+  xmlns:tr="http://www.transpect.io"
   version="2.0">
 
   <!-- If override is an absolute URI, returns it.
@@ -11,8 +12,8 @@
        The parent path of foo/bar/ and foo/bar is foo/. 
        Applying '..' or '../' to either must yield identical results.
        If override is empty or the empty string, a normalized $uri-so-far will be returned.
-       This is the inverse function to tr:uri-to-relative-path()
-       https://github.com/transpect/xslt-util/uri-to-relative-path/xsl/uri-to-relative-path.xsl
+       This is the inverse function to letex:uri-to-relative-path()
+       https://subversion.le-tex.de/common/letex-util/uri-to-relative-path/uri-to-relative-path.xsl
   -->
   <xsl:function name="tr:uri-composer" as="xs:string">
     <xsl:param name="uri-so-far" as="xs:string"/>
@@ -39,7 +40,8 @@
                 <xsl:choose>
                   <xsl:when test="not(matches(tokenize(., '/')[last()], '^(\.\.)?$'))
                                   and exists($override-file)
-                                  and not(exists($override-path))">
+                                  (: and not(exists($override-path)) :)">
+                    <!-- The commented-out condition created file:/tmp/foo.txt/bar.txt from file:/tmp/foo.txt bar.txt -->
                     <!-- URI ending in what appears to be a regular file name,
                       and the override provides a file name -->
                     <xsl:sequence select="tokenize(., '/')[not(position() = last())]"/>
@@ -49,20 +51,67 @@
                   </xsl:otherwise>
                 </xsl:choose>
               </xsl:variable>
+              <xsl:variable name="encoded-file-override" as="xs:string+">
+                <xsl:choose>
+                  <xsl:when test="not($override-file)">
+                    <xsl:sequence select="''"/>
+                  </xsl:when>
+                  <xsl:when test="matches($override-file, '[#?]')">
+                    <xsl:sequence select="tr:encode-for-uri(replace($override-file, '^([^#?]*)([#?].*)$', '$1'))"/>
+                    <!-- We leave the fragment id or query string part as is (for the time being): --> 
+                    <xsl:sequence select="replace($override-file, '^([^#?]*)([#?].*)$', '$2')"/>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:sequence select="tr:encode-for-uri($override-file)"/>
+                  </xsl:otherwise>
+                </xsl:choose>
+              </xsl:variable>
               <xsl:sequence select="concat(
                                       string-join(
-                                        tr:eat-parent(
-                                          ( $tokenized-so-far[normalize-space()], $override-path )
+                                        tr:encode-all-but-drive-letter(
+                                          tr:eat-parent(
+                                            ( $tokenized-so-far[normalize-space()], $override-path )
+                                          )
                                         ),
                                         '/'
                                       ),
                                       '/',
-                                      $override-file
+                                      string-join($encoded-file-override, '')
                                     )"/>
             </xsl:non-matching-substring>
           </xsl:analyze-string>
         </xsl:variable>
         <xsl:sequence select="string-join($out, '')"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:function>
+  
+  <xsl:function name="tr:encode-for-uri" as="xs:string?">
+    <!-- An idempotent encode-for-uri() -->
+    <xsl:param name="input" as="xs:string?"/>
+    <xsl:choose>
+      <xsl:when test="not($input)"/>
+      <xsl:when test="matches(replace($input, '%[\dA-F]{2}', ''), '^[-_.~a-z\d]*$', 'i')">
+        <!-- already encoded, or nothing to do -->
+        <xsl:sequence select="$input"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:sequence select="encode-for-uri($input)"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:function>
+  
+  <xsl:function name="tr:encode-all-but-drive-letter" as="xs:string*">
+    <xsl:param name="tokens" as="xs:string*"/>
+    <xsl:choose>
+      <xsl:when test="empty($tokens)"/>
+      <xsl:when test="matches($tokens[1], '^[a-z]:$', 'i')">
+        <xsl:sequence select="$tokens[1], for $t in $tokens[position() = (2 to last())]
+                                          return tr:encode-for-uri($t)"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:sequence select="for $t in $tokens
+                              return tr:encode-for-uri($t)"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:function>
@@ -83,7 +132,7 @@
     </xsl:choose>
   </xsl:function>
 
-  <!-- This is here for historic reasons. It might benefit from switching to tr:uri-composer(),
+  <!-- This is here for historic reasons. It might benefit from switching to letex:uri-composer(),
     although the latter currently lacks the fn:resolve-uri() invocation. -->
   <xsl:function name="tr:resolve-uri" as="xs:string">
     <xsl:param name="dir" as="xs:string"/>
@@ -94,7 +143,7 @@
   
   <!-- You should use the xproc step transpect:file-uri if possible. It is 
   applicable to more types of input. Apart from that, the two functions 
-  tr:resolve-system-from-uri() and tr:resolve-uri-from-system() should
+  letex:resolve-system-from-uri() and letex:resolve-uri-from-system() should
   swap their names, shouldn’t they? -->
   <xsl:function name="tr:resolve-system-from-uri" as="xs:string">
     <xsl:param name="uri" as="xs:string"/>
