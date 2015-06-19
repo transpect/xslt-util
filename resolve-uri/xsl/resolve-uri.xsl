@@ -2,7 +2,7 @@
 <xsl:stylesheet
   xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  xmlns:tr="http://www.transpect.io"
+  xmlns:tr="http://transpect.io"
   version="2.0">
 
   <!-- If override is an absolute URI, returns it.
