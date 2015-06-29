@@ -1,6 +1,10 @@
 Copyright (c) 2015, transpect.io
 All rights reserved.
 
+This license pertains to the xslt-util code in this repository with
+exception of the functx directory. The latter code is taken from 
+http://www.xsltfunctions.com/ that is Copyright (c) 2006-2014 Datypic.
+
 Redistribution and use in source and binary forms, with or without
 modification, are permitted provided that the following conditions are met:
 
