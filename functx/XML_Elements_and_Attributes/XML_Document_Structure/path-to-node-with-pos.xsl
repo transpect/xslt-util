@@ -4,8 +4,6 @@
   exclude-result-prefixes="xs"
   version="2.0">
   
-  <xsl:import href="http://www.functx.com/Sequences/Positional/index-of-node.xsl"/>
-  
   <xsl:function name="functx:path-to-node-with-pos" as="xs:string" 
     xmlns:functx="http://www.functx.com" >
     <xsl:param name="node" as="node()?"/> 
@@ -25,4 +23,17 @@
     <xsl:sequence select="string-join($names,'/')"/>
     
   </xsl:function>
+  
+  <xsl:function name="functx:index-of-node" as="xs:integer*" 
+    xmlns:functx="http://www.functx.com" >
+    <xsl:param name="nodes" as="node()*"/> 
+    <xsl:param name="nodeToFind" as="node()"/> 
+    
+    <xsl:sequence select=" 
+      for $seq in (1 to count($nodes))
+      return $seq[$nodes[$seq] is $nodeToFind]
+      "/>
+    
+  </xsl:function>
+  
 </xsl:stylesheet>
