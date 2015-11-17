@@ -1,204 +1,204 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xs="http://www.w3.org/2001/XMLSchema"
-    xmlns:letex="http://www.le-tex.de/namespace"
+    xmlns:tr="http://transpect.io"
     exclude-result-prefixes="xs"
     version="2.0">
     
-    <!--  function letex:is-valid-iso-lang-code
+    <!--  function tr:is-valid-iso-lang-code
           checks whether string matches ISO 639-1 language code
     -->
     
-    <xsl:function name="letex:is-valid-iso-lang-code" as="xs:boolean">
+    <xsl:function name="tr:is-valid-iso-lang-code" as="xs:boolean">
         <xsl:param name="context" as="xs:string"/>
-        <xsl:sequence select="some $i in document('')//letex:langs/letex:lang satisfies $i/@code eq $context"/>
+        <xsl:sequence select="some $i in document('')//tr:langs/tr:lang satisfies $i/@code eq $context"/>
     </xsl:function>    
     
-    <letex:langs>
-        <letex:lang code="alpha2" value="English"/>
-        <letex:lang code="aa" value="Afar"/>
-        <letex:lang code="ab" value="Abkhazian"/>
-        <letex:lang code="ae" value="Avestan"/>
-        <letex:lang code="af" value="Afrikaans"/>
-        <letex:lang code="ak" value="Akan"/>
-        <letex:lang code="am" value="Amharic"/>
-        <letex:lang code="an" value="Aragonese"/>
-        <letex:lang code="ar" value="Arabic"/>
-        <letex:lang code="as" value="Assamese"/>
-        <letex:lang code="av" value="Avaric"/>
-        <letex:lang code="ay" value="Aymara"/>
-        <letex:lang code="az" value="Azerbaijani"/>
-        <letex:lang code="ba" value="Bashkir"/>
-        <letex:lang code="be" value="Belarusian"/>
-        <letex:lang code="bg" value="Bulgarian"/>
-        <letex:lang code="bh" value="Bihari languages"/>
-        <letex:lang code="bi" value="Bislama"/>
-        <letex:lang code="bm" value="Bambara"/>
-        <letex:lang code="bn" value="Bengali"/>
-        <letex:lang code="bo" value="Tibetan"/>
-        <letex:lang code="br" value="Breton"/>
-        <letex:lang code="bs" value="Bosnian"/>
-        <letex:lang code="ca" value="Catalan; Valencian"/>
-        <letex:lang code="ce" value="Chechen"/>
-        <letex:lang code="ch" value="Chamorro"/>
-        <letex:lang code="co" value="Corsican"/>
-        <letex:lang code="cr" value="Cree"/>
-        <letex:lang code="cs" value="Czech"/>
-        <letex:lang code="cu" value="Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic"/>
-        <letex:lang code="cv" value="Chuvash"/>
-        <letex:lang code="cy" value="Welsh"/>
-        <letex:lang code="da" value="Danish"/>
-        <letex:lang code="de" value="German"/>
-        <letex:lang code="dv" value="Divehi; Dhivehi; Maldivian"/>
-        <letex:lang code="dz" value="Dzongkha"/>
-        <letex:lang code="ee" value="Ewe"/>
-        <letex:lang code="el" value="Greek, Modern (1453-)"/>
-        <letex:lang code="en" value="English"/>
-        <letex:lang code="eo" value="Esperanto"/>
-        <letex:lang code="es" value="Spanish; Castilian"/>
-        <letex:lang code="et" value="Estonian"/>
-        <letex:lang code="eu" value="Basque"/>
-        <letex:lang code="fa" value="Persian"/>
-        <letex:lang code="ff" value="Fulah"/>
-        <letex:lang code="fi" value="Finnish"/>
-        <letex:lang code="fj" value="Fijian"/>
-        <letex:lang code="fo" value="Faroese"/>
-        <letex:lang code="fr" value="French"/>
-        <letex:lang code="fy" value="Western Frisian"/>
-        <letex:lang code="ga" value="Irish"/>
-        <letex:lang code="gd" value="Gaelic; Scottish Gaelic"/>
-        <letex:lang code="gl" value="Galician"/>
-        <letex:lang code="gn" value="Guarani"/>
-        <letex:lang code="gu" value="Gujarati"/>
-        <letex:lang code="gv" value="Manx"/>
-        <letex:lang code="ha" value="Hausa"/>
-        <letex:lang code="he" value="Hebrew"/>
-        <letex:lang code="hi" value="Hindi"/>
-        <letex:lang code="ho" value="Hiri Motu"/>
-        <letex:lang code="hr" value="Croatian"/>
-        <letex:lang code="ht" value="Haitian; Haitian Creole"/>
-        <letex:lang code="hu" value="Hungarian"/>
-        <letex:lang code="hy" value="Armenian"/>
-        <letex:lang code="hz" value="Herero"/>
-        <letex:lang code="ia" value="Interlingua (International Auxiliary Language Association)"/>
-        <letex:lang code="id" value="Indonesian"/>
-        <letex:lang code="ie" value="Interlingue; Occidental"/>
-        <letex:lang code="ig" value="Igbo"/>
-        <letex:lang code="ii" value="Sichuan Yi; Nuosu"/>
-        <letex:lang code="ik" value="Inupiaq"/>
-        <letex:lang code="io" value="Ido"/>
-        <letex:lang code="is" value="Icelandic"/>
-        <letex:lang code="it" value="Italian"/>
-        <letex:lang code="iu" value="Inuktitut"/>
-        <letex:lang code="ja" value="Japanese"/>
-        <letex:lang code="jv" value="Javanese"/>
-        <letex:lang code="ka" value="Georgian"/>
-        <letex:lang code="kg" value="Kongo"/>
-        <letex:lang code="ki" value="Kikuyu; Gikuyu"/>
-        <letex:lang code="kj" value="Kuanyama; Kwanyama"/>
-        <letex:lang code="kk" value="Kazakh"/>
-        <letex:lang code="kl" value="Kalaallisut; Greenlandic"/>
-        <letex:lang code="km" value="Central Khmer"/>
-        <letex:lang code="kn" value="Kannada"/>
-        <letex:lang code="ko" value="Korean"/>
-        <letex:lang code="kr" value="Kanuri"/>
-        <letex:lang code="ks" value="Kashmiri"/>
-        <letex:lang code="ku" value="Kurdish"/>
-        <letex:lang code="kv" value="Komi"/>
-        <letex:lang code="kw" value="Cornish"/>
-        <letex:lang code="ky" value="Kirghiz; Kyrgyz"/>
-        <letex:lang code="la" value="Latin"/>
-        <letex:lang code="lb" value="Luxembourgish; Letzeburgesch"/>
-        <letex:lang code="lg" value="Ganda"/>
-        <letex:lang code="li" value="Limburgan; Limburger; Limburgish"/>
-        <letex:lang code="ln" value="Lingala"/>
-        <letex:lang code="lo" value="Lao"/>
-        <letex:lang code="lt" value="Lithuanian"/>
-        <letex:lang code="lu" value="Luba-Katanga"/>
-        <letex:lang code="lv" value="Latvian"/>
-        <letex:lang code="mg" value="Malagasy"/>
-        <letex:lang code="mh" value="Marshallese"/>
-        <letex:lang code="mi" value="Maori"/>
-        <letex:lang code="mk" value="Macedonian"/>
-        <letex:lang code="ml" value="Malayalam"/>
-        <letex:lang code="mn" value="Mongolian"/>
-        <letex:lang code="mr" value="Marathi"/>
-        <letex:lang code="ms" value="Malay"/>
-        <letex:lang code="mt" value="Maltese"/>
-        <letex:lang code="my" value="Burmese"/>
-        <letex:lang code="na" value="Nauru"/>
-        <letex:lang code="nb" value="Bokmål, Norwegian; Norwegian Bokmål"/>
-        <letex:lang code="nd" value="Ndebele, North; North Ndebele"/>
-        <letex:lang code="ne" value="Nepali"/>
-        <letex:lang code="ng" value="Ndonga"/>
-        <letex:lang code="nl" value="Dutch; Flemish"/>
-        <letex:lang code="nn" value="Norwegian Nynorsk; Nynorsk, Norwegian"/>
-        <letex:lang code="no" value="Norwegian"/>
-        <letex:lang code="nr" value="Ndebele, South; South Ndebele"/>
-        <letex:lang code="nv" value="Navajo; Navaho"/>
-        <letex:lang code="ny" value="Chichewa; Chewa; Nyanja"/>
-        <letex:lang code="oc" value="Occitan (post 1500); Provençal"/>
-        <letex:lang code="oj" value="Ojibwa"/>
-        <letex:lang code="om" value="Oromo"/>
-        <letex:lang code="or" value="Oriya"/>
-        <letex:lang code="os" value="Ossetian; Ossetic"/>
-        <letex:lang code="pa" value="Panjabi; Punjabi"/>
-        <letex:lang code="pi" value="Pali"/>
-        <letex:lang code="pl" value="Polish"/>
-        <letex:lang code="ps" value="Pushto; Pashto"/>
-        <letex:lang code="pt" value="Portuguese"/>
-        <letex:lang code="qu" value="Quechua"/>
-        <letex:lang code="rm" value="Romansh"/>
-        <letex:lang code="rn" value="Rundi"/>
-        <letex:lang code="ro" value="Romanian; Moldavian; Moldovan"/>
-        <letex:lang code="ru" value="Russian"/>
-        <letex:lang code="rw" value="Kinyarwanda"/>
-        <letex:lang code="sa" value="Sanskrit"/>
-        <letex:lang code="sc" value="Sardinian"/>
-        <letex:lang code="sd" value="Sindhi"/>
-        <letex:lang code="se" value="Northern Sami"/>
-        <letex:lang code="sg" value="Sango"/>
-        <letex:lang code="si" value="Sinhala; Sinhalese"/>
-        <letex:lang code="sk" value="Slovak"/>
-        <letex:lang code="sl" value="Slovenian"/>
-        <letex:lang code="sm" value="Samoan"/>
-        <letex:lang code="sn" value="Shona"/>
-        <letex:lang code="so" value="Somali"/>
-        <letex:lang code="sq" value="Albanian"/>
-        <letex:lang code="sr" value="Serbian"/>
-        <letex:lang code="ss" value="Swati"/>
-        <letex:lang code="st" value="Sotho, Southern"/>
-        <letex:lang code="su" value="Sundanese"/>
-        <letex:lang code="sv" value="Swedish"/>
-        <letex:lang code="sw" value="Swahili"/>
-        <letex:lang code="ta" value="Tamil"/>
-        <letex:lang code="te" value="Telugu"/>
-        <letex:lang code="tg" value="Tajik"/>
-        <letex:lang code="th" value="Thai"/>
-        <letex:lang code="ti" value="Tigrinya"/>
-        <letex:lang code="tk" value="Turkmen"/>
-        <letex:lang code="tl" value="Tagalog"/>
-        <letex:lang code="tn" value="Tswana"/>
-        <letex:lang code="to" value="Tonga (Tonga Islands)"/>
-        <letex:lang code="tr" value="Turkish"/>
-        <letex:lang code="ts" value="Tsonga"/>
-        <letex:lang code="tt" value="Tatar"/>
-        <letex:lang code="tw" value="Twi"/>
-        <letex:lang code="ty" value="Tahitian"/>
-        <letex:lang code="ug" value="Uighur; Uyghur"/>
-        <letex:lang code="uk" value="Ukrainian"/>
-        <letex:lang code="ur" value="Urdu"/>
-        <letex:lang code="uz" value="Uzbek"/>
-        <letex:lang code="ve" value="Venda"/>
-        <letex:lang code="vi" value="Vietnamese"/>
-        <letex:lang code="vo" value="Volapük"/>
-        <letex:lang code="wa" value="Walloon"/>
-        <letex:lang code="wo" value="Wolof"/>
-        <letex:lang code="xh" value="Xhosa"/>
-        <letex:lang code="yi" value="Yiddish"/>
-        <letex:lang code="yo" value="Yoruba"/>
-        <letex:lang code="za" value="Zhuang; Chuang"/>
-        <letex:lang code="zh" value="Chinese"/>
-        <letex:lang code="zu" value="Zulu"/>
-    </letex:langs>
+    <tr:langs>
+        <tr:lang code="alpha2" value="English"/>
+        <tr:lang code="aa" value="Afar"/>
+        <tr:lang code="ab" value="Abkhazian"/>
+        <tr:lang code="ae" value="Avestan"/>
+        <tr:lang code="af" value="Afrikaans"/>
+        <tr:lang code="ak" value="Akan"/>
+        <tr:lang code="am" value="Amharic"/>
+        <tr:lang code="an" value="Aragonese"/>
+        <tr:lang code="ar" value="Arabic"/>
+        <tr:lang code="as" value="Assamese"/>
+        <tr:lang code="av" value="Avaric"/>
+        <tr:lang code="ay" value="Aymara"/>
+        <tr:lang code="az" value="Azerbaijani"/>
+        <tr:lang code="ba" value="Bashkir"/>
+        <tr:lang code="be" value="Belarusian"/>
+        <tr:lang code="bg" value="Bulgarian"/>
+        <tr:lang code="bh" value="Bihari languages"/>
+        <tr:lang code="bi" value="Bislama"/>
+        <tr:lang code="bm" value="Bambara"/>
+        <tr:lang code="bn" value="Bengali"/>
+        <tr:lang code="bo" value="Tibetan"/>
+        <tr:lang code="br" value="Breton"/>
+        <tr:lang code="bs" value="Bosnian"/>
+        <tr:lang code="ca" value="Catalan; Valencian"/>
+        <tr:lang code="ce" value="Chechen"/>
+        <tr:lang code="ch" value="Chamorro"/>
+        <tr:lang code="co" value="Corsican"/>
+        <tr:lang code="cr" value="Cree"/>
+        <tr:lang code="cs" value="Czech"/>
+        <tr:lang code="cu" value="Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic"/>
+        <tr:lang code="cv" value="Chuvash"/>
+        <tr:lang code="cy" value="Welsh"/>
+        <tr:lang code="da" value="Danish"/>
+        <tr:lang code="de" value="German"/>
+        <tr:lang code="dv" value="Divehi; Dhivehi; Maldivian"/>
+        <tr:lang code="dz" value="Dzongkha"/>
+        <tr:lang code="ee" value="Ewe"/>
+        <tr:lang code="el" value="Greek, Modern (1453-)"/>
+        <tr:lang code="en" value="English"/>
+        <tr:lang code="eo" value="Esperanto"/>
+        <tr:lang code="es" value="Spanish; Castilian"/>
+        <tr:lang code="et" value="Estonian"/>
+        <tr:lang code="eu" value="Basque"/>
+        <tr:lang code="fa" value="Persian"/>
+        <tr:lang code="ff" value="Fulah"/>
+        <tr:lang code="fi" value="Finnish"/>
+        <tr:lang code="fj" value="Fijian"/>
+        <tr:lang code="fo" value="Faroese"/>
+        <tr:lang code="fr" value="French"/>
+        <tr:lang code="fy" value="Western Frisian"/>
+        <tr:lang code="ga" value="Irish"/>
+        <tr:lang code="gd" value="Gaelic; Scottish Gaelic"/>
+        <tr:lang code="gl" value="Galician"/>
+        <tr:lang code="gn" value="Guarani"/>
+        <tr:lang code="gu" value="Gujarati"/>
+        <tr:lang code="gv" value="Manx"/>
+        <tr:lang code="ha" value="Hausa"/>
+        <tr:lang code="he" value="Hebrew"/>
+        <tr:lang code="hi" value="Hindi"/>
+        <tr:lang code="ho" value="Hiri Motu"/>
+        <tr:lang code="hr" value="Croatian"/>
+        <tr:lang code="ht" value="Haitian; Haitian Creole"/>
+        <tr:lang code="hu" value="Hungarian"/>
+        <tr:lang code="hy" value="Armenian"/>
+        <tr:lang code="hz" value="Herero"/>
+        <tr:lang code="ia" value="Interlingua (International Auxiliary Language Association)"/>
+        <tr:lang code="id" value="Indonesian"/>
+        <tr:lang code="ie" value="Interlingue; Occidental"/>
+        <tr:lang code="ig" value="Igbo"/>
+        <tr:lang code="ii" value="Sichuan Yi; Nuosu"/>
+        <tr:lang code="ik" value="Inupiaq"/>
+        <tr:lang code="io" value="Ido"/>
+        <tr:lang code="is" value="Icelandic"/>
+        <tr:lang code="it" value="Italian"/>
+        <tr:lang code="iu" value="Inuktitut"/>
+        <tr:lang code="ja" value="Japanese"/>
+        <tr:lang code="jv" value="Javanese"/>
+        <tr:lang code="ka" value="Georgian"/>
+        <tr:lang code="kg" value="Kongo"/>
+        <tr:lang code="ki" value="Kikuyu; Gikuyu"/>
+        <tr:lang code="kj" value="Kuanyama; Kwanyama"/>
+        <tr:lang code="kk" value="Kazakh"/>
+        <tr:lang code="kl" value="Kalaallisut; Greenlandic"/>
+        <tr:lang code="km" value="Central Khmer"/>
+        <tr:lang code="kn" value="Kannada"/>
+        <tr:lang code="ko" value="Korean"/>
+        <tr:lang code="kr" value="Kanuri"/>
+        <tr:lang code="ks" value="Kashmiri"/>
+        <tr:lang code="ku" value="Kurdish"/>
+        <tr:lang code="kv" value="Komi"/>
+        <tr:lang code="kw" value="Cornish"/>
+        <tr:lang code="ky" value="Kirghiz; Kyrgyz"/>
+        <tr:lang code="la" value="Latin"/>
+        <tr:lang code="lb" value="Luxembourgish; Letzeburgesch"/>
+        <tr:lang code="lg" value="Ganda"/>
+        <tr:lang code="li" value="Limburgan; Limburger; Limburgish"/>
+        <tr:lang code="ln" value="Lingala"/>
+        <tr:lang code="lo" value="Lao"/>
+        <tr:lang code="lt" value="Lithuanian"/>
+        <tr:lang code="lu" value="Luba-Katanga"/>
+        <tr:lang code="lv" value="Latvian"/>
+        <tr:lang code="mg" value="Malagasy"/>
+        <tr:lang code="mh" value="Marshallese"/>
+        <tr:lang code="mi" value="Maori"/>
+        <tr:lang code="mk" value="Macedonian"/>
+        <tr:lang code="ml" value="Malayalam"/>
+        <tr:lang code="mn" value="Mongolian"/>
+        <tr:lang code="mr" value="Marathi"/>
+        <tr:lang code="ms" value="Malay"/>
+        <tr:lang code="mt" value="Maltese"/>
+        <tr:lang code="my" value="Burmese"/>
+        <tr:lang code="na" value="Nauru"/>
+        <tr:lang code="nb" value="Bokmål, Norwegian; Norwegian Bokmål"/>
+        <tr:lang code="nd" value="Ndebele, North; North Ndebele"/>
+        <tr:lang code="ne" value="Nepali"/>
+        <tr:lang code="ng" value="Ndonga"/>
+        <tr:lang code="nl" value="Dutch; Flemish"/>
+        <tr:lang code="nn" value="Norwegian Nynorsk; Nynorsk, Norwegian"/>
+        <tr:lang code="no" value="Norwegian"/>
+        <tr:lang code="nr" value="Ndebele, South; South Ndebele"/>
+        <tr:lang code="nv" value="Navajo; Navaho"/>
+        <tr:lang code="ny" value="Chichewa; Chewa; Nyanja"/>
+        <tr:lang code="oc" value="Occitan (post 1500); Provençal"/>
+        <tr:lang code="oj" value="Ojibwa"/>
+        <tr:lang code="om" value="Oromo"/>
+        <tr:lang code="or" value="Oriya"/>
+        <tr:lang code="os" value="Ossetian; Ossetic"/>
+        <tr:lang code="pa" value="Panjabi; Punjabi"/>
+        <tr:lang code="pi" value="Pali"/>
+        <tr:lang code="pl" value="Polish"/>
+        <tr:lang code="ps" value="Pushto; Pashto"/>
+        <tr:lang code="pt" value="Portuguese"/>
+        <tr:lang code="qu" value="Quechua"/>
+        <tr:lang code="rm" value="Romansh"/>
+        <tr:lang code="rn" value="Rundi"/>
+        <tr:lang code="ro" value="Romanian; Moldavian; Moldovan"/>
+        <tr:lang code="ru" value="Russian"/>
+        <tr:lang code="rw" value="Kinyarwanda"/>
+        <tr:lang code="sa" value="Sanskrit"/>
+        <tr:lang code="sc" value="Sardinian"/>
+        <tr:lang code="sd" value="Sindhi"/>
+        <tr:lang code="se" value="Northern Sami"/>
+        <tr:lang code="sg" value="Sango"/>
+        <tr:lang code="si" value="Sinhala; Sinhalese"/>
+        <tr:lang code="sk" value="Slovak"/>
+        <tr:lang code="sl" value="Slovenian"/>
+        <tr:lang code="sm" value="Samoan"/>
+        <tr:lang code="sn" value="Shona"/>
+        <tr:lang code="so" value="Somali"/>
+        <tr:lang code="sq" value="Albanian"/>
+        <tr:lang code="sr" value="Serbian"/>
+        <tr:lang code="ss" value="Swati"/>
+        <tr:lang code="st" value="Sotho, Southern"/>
+        <tr:lang code="su" value="Sundanese"/>
+        <tr:lang code="sv" value="Swedish"/>
+        <tr:lang code="sw" value="Swahili"/>
+        <tr:lang code="ta" value="Tamil"/>
+        <tr:lang code="te" value="Telugu"/>
+        <tr:lang code="tg" value="Tajik"/>
+        <tr:lang code="th" value="Thai"/>
+        <tr:lang code="ti" value="Tigrinya"/>
+        <tr:lang code="tk" value="Turkmen"/>
+        <tr:lang code="tl" value="Tagalog"/>
+        <tr:lang code="tn" value="Tswana"/>
+        <tr:lang code="to" value="Tonga (Tonga Islands)"/>
+        <tr:lang code="tr" value="Turkish"/>
+        <tr:lang code="ts" value="Tsonga"/>
+        <tr:lang code="tt" value="Tatar"/>
+        <tr:lang code="tw" value="Twi"/>
+        <tr:lang code="ty" value="Tahitian"/>
+        <tr:lang code="ug" value="Uighur; Uyghur"/>
+        <tr:lang code="uk" value="Ukrainian"/>
+        <tr:lang code="ur" value="Urdu"/>
+        <tr:lang code="uz" value="Uzbek"/>
+        <tr:lang code="ve" value="Venda"/>
+        <tr:lang code="vi" value="Vietnamese"/>
+        <tr:lang code="vo" value="Volapük"/>
+        <tr:lang code="wa" value="Walloon"/>
+        <tr:lang code="wo" value="Wolof"/>
+        <tr:lang code="xh" value="Xhosa"/>
+        <tr:lang code="yi" value="Yiddish"/>
+        <tr:lang code="yo" value="Yoruba"/>
+        <tr:lang code="za" value="Zhuang; Chuang"/>
+        <tr:lang code="zh" value="Chinese"/>
+        <tr:lang code="zu" value="Zulu"/>
+    </tr:langs>
 </xsl:stylesheet>
