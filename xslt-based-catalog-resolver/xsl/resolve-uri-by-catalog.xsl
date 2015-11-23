@@ -25,7 +25,7 @@
     </xsl:if>
   </xsl:template>
 
-  <!-- for p:xslt invocation; other steps (e.g., transpect:file-uri) might rely on specific semantics, 
+  <!-- for p:xslt invocation; other steps (e.g., tr:file-uri) might rely on specific semantics, 
   so don’t change the attribute names and their semantics here -->
   <xsl:template name="resolve">
     <result>

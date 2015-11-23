@@ -12,7 +12,7 @@
        The parent path of foo/bar/ and foo/bar is foo/. 
        Applying '..' or '../' to either must yield identical results.
        If override is empty or the empty string, a normalized $uri-so-far will be returned.
-       This is the inverse function to letex:uri-to-relative-path()
+       This is the inverse function to tr:uri-to-relative-path()
        https://subversion.le-tex.de/common/letex-util/uri-to-relative-path/uri-to-relative-path.xsl
   -->
   <xsl:function name="tr:uri-composer" as="xs:string">
@@ -132,7 +132,7 @@
     </xsl:choose>
   </xsl:function>
 
-  <!-- This is here for historic reasons. It might benefit from switching to letex:uri-composer(),
+  <!-- This is here for historic reasons. It might benefit from switching to tr:uri-composer(),
     although the latter currently lacks the fn:resolve-uri() invocation. -->
   <xsl:function name="tr:resolve-uri" as="xs:string">
     <xsl:param name="dir" as="xs:string"/>
@@ -143,7 +143,7 @@
   
   <!-- You should use the xproc step transpect:file-uri if possible. It is 
   applicable to more types of input. Apart from that, the two functions 
-  letex:resolve-system-from-uri() and letex:resolve-uri-from-system() should
+  tr:resolve-system-from-uri() and tr:resolve-uri-from-system() should
   swap their names, shouldn’t they? -->
   <xsl:function name="tr:resolve-system-from-uri" as="xs:string">
     <xsl:param name="uri" as="xs:string"/>

@@ -5,14 +5,14 @@
   xmlns:dbk="http://docbook.org/ns/docbook"
   xmlns="http://www.w3.org/1999/xhtml"
   xmlns:html="http://www.w3.org/1999/xhtml"
-  xmlns:hub2htm="http://www.le-tex.de/namespace/hub2htm" 
+  xmlns:hub2htm="http://transpect.io/hub2htm" 
   exclude-result-prefixes="xs css dbk"
   version="2.0">
   
   <!-- remember to check out https://subversion.le-tex.de/common/hub2html_simple/trunk/ and add something like
-    <rewriteURI uriStartString="http://transpect.le-tex.de/hub2html/" rewritePrefix="/your/checkout/dir"/>
+    <rewriteURI uriStartString="http://transpect.io/hub2html/" rewritePrefix="/your/checkout/dir"/>
     to your catalog. -->
-  <xsl:import href="http://transpect.le-tex.de/hub2html/xsl/css-rules.xsl"/>
+  <xsl:import href="http://transpect.io/hub2html/xsl/css-rules.xsl"/>
 
   <xsl:output method="xhtml"
     doctype-public="-//W3C//DTD XHTML 1.0//EN"
