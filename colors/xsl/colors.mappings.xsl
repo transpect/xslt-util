@@ -176,7 +176,7 @@
       /@rgb"/>
   </xsl:function>
   
-<css:colors name="pantone-c-rgb-map">
+  <css:colors name="pantone-c-rgb-map">
     <css:color name="Yellow C" rgb="254 221 0"/>
     <css:color name="Yellow 012 C" rgb="255 215 0"/>
     <css:color name="Orange 021 C" rgb="254 80 0"/>

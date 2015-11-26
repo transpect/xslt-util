@@ -6,8 +6,9 @@
   version="2.0">
 
   <xsl:function name="tr:length-to-unitless-twip" as="xs:double?">
-    <xsl:param name="in" as="xs:string"/>
+    <xsl:param name="in" as="xs:string?"/>
     <xsl:choose>
+      <xsl:when test="not($in)"/>
       <xsl:when test="matches($in, '^-?[\d.]+mm$')">
         <xsl:sequence select="number(replace($in, 'mm$', '')) * 56.6929"/>
       </xsl:when>
@@ -61,6 +62,35 @@
   <xsl:function name="tr:unitless-twip-to-pt" as="xs:string">
     <xsl:param name="twips" as="xs:double"/>
     <xsl:sequence select="concat($twips * 0.05, 'pt')"/>
+  </xsl:function>
+
+  <xsl:function name="tr:unitless-twip-to-pt" as="xs:string">
+    <xsl:param name="twips" as="xs:double"/>
+    <xsl:param name="round-precision" as="xs:integer"/><!-- see 2nd argument in function tr:round-double-->
+    <xsl:sequence select="concat(tr:round-with-precision($twips * 0.05, $round-precision), 'pt')" />
+  </xsl:function>
+  
+  <!-- function round-double:
+       example call tr:round-double(113.39999, 2) output will be: 113.4 
+       example call tr:round-double(5, 4) output will be: 5 -->
+  <xsl:function name="tr:round-with-precision" as="xs:double">
+    <xsl:param name="val" as="xs:double"/>
+    <xsl:param name="round-precision" as="xs:integer"/><!-- digits after the dot '.' -->
+    <xsl:variable name="round-factor" as="xs:integer"
+      select="xs:integer(string-join(('1', for $i in 0 to $round-precision return '0'), ''))"/>
+    <xsl:variable name="rounded" as="xs:double"
+      select="round($val * $round-factor) div $round-factor"/>
+
+    <xsl:sequence select="xs:double(
+                            replace(
+                              xs:string($rounded), 
+                              concat(
+                                '^(\d+\.', 
+                                string-join(for $i in 0 to $round-precision return '\d', ''),
+                                ').*?$'), 
+                              '$1'
+                            )
+                          )"/>
   </xsl:function>
 
   <xsl:param name="tr:relative-table-widths" as="xs:string?">

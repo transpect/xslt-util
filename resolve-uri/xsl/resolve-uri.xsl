@@ -66,18 +66,22 @@
                   </xsl:otherwise>
                 </xsl:choose>
               </xsl:variable>
-              <xsl:sequence select="concat(
-                                      string-join(
-                                        tr:encode-all-but-drive-letter(
-                                          tr:eat-parent(
-                                            ( $tokenized-so-far[normalize-space()], $override-path )
-                                          )
-                                        ),
-                                        '/'
-                                      ),
+              <xsl:variable name="parents-eaten-encoded" as="xs:string?"
+                select="string-join(
+                          tr:encode-all-but-drive-letter(
+                            tr:eat-parent(
+                              ( $tokenized-so-far[normalize-space()], $override-path )
+                            )
+                          ),
+                          '/'
+                        )"/>
+            <xsl:sequence select="if($parents-eaten-encoded ne '') 
+                                    then concat(
+                                      $parents-eaten-encoded,
                                       '/',
                                       string-join($encoded-file-override, '')
-                                    )"/>
+                                    ) 
+                                    else string-join($encoded-file-override, '')"/>
             </xsl:non-matching-substring>
           </xsl:analyze-string>
         </xsl:variable>

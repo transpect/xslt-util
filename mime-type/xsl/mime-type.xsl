@@ -25,7 +25,7 @@
       else if($file-extension eq 'ncx') then 'application/x-dtbncx+xml' 
       else if($file-extension eq 'otf') then 'application/vnd.ms-opentype'
       else if($file-extension eq 'eot') then 'application/vnd.ms-fontobject'
-      else if($file-extension eq 'ttf') then 'application/x-truetype-font'
+      else if($file-extension eq 'ttf') then 'application/x-font-truetype'
       else if($file-extension eq 'woff') then 'application/font-woff' 
       else if($file-extension eq 'smil') then 'application/smil+xml' 
       else if($file-extension eq 'pls') then 'application/pls+xml'

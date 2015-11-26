@@ -179,6 +179,20 @@
                                     concat('#', $tokenized[2])
                                   )"/>
           </xsl:when>
+          <xsl:when test="$type-out eq 'rgb'">
+            <xsl:sequence select="concat(
+                                    'rgb(',
+                                    string-join(
+                                      for $double in tr:hex-rgb-color-to-ints(
+                                        tr:hex-rgb-to-six-digits-hex-rgb(
+                                          concat('#', $tokenized[2])
+                                        )
+                                      ) return xs:string($double),
+                                      ','
+                                    ),
+                                    ')'
+                                  )"/>
+          </xsl:when>
           <xsl:otherwise>
             <xsl:message select="'colors/colors.xsl, tr:convert-css-color: unimplemented conversion from input hex to type-out', $type-out, 'Input color value:', $css-color"/>
           </xsl:otherwise>

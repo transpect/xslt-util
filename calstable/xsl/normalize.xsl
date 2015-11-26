@@ -160,8 +160,7 @@
     <xsl:param name="colspecs" as="document-node(element(calstable:colspecs))"/>
     <xsl:choose>
       <xsl:when test="exists(key('calstable:colspec-by-colname', $colname, $colspecs)/@colnum)">
-        <xsl:sequence
-          select="xs:integer(key('calstable:colspec-by-colname', $colname, $colspecs)/@colnum)"/>
+        <xsl:sequence select="xs:integer(key('calstable:colspec-by-colname', $colname, $colspecs)/@colnum)"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:message terminate="yes"> There is no colspec for colname <xsl:value-of
