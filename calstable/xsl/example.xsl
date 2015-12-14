@@ -2,7 +2,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:css="http://www.w3.org/1996/css"
-  xmlns:hub="http://docbook.org/ns/docbook"
   xmlns:dbk="http://docbook.org/ns/docbook"
   xmlns:saxon="http://saxon.sf.net/"
   xmlns:tr="http://www.transpect.io"
