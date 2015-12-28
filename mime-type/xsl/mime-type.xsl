@@ -12,7 +12,7 @@
   
   <xsl:function name="tr:fileext-to-mime-type" as="xs:string">
     <xsl:param name="fileref" as="xs:string"/>
-    <xsl:variable name="file-extension" select="lower-case(replace($fileref, '.*\.(.*)$', '$1'))"/>
+    <xsl:variable name="file-extension" select="lower-case(replace($fileref, '.*\.(.*?)(#.+)?$', '$1'))"/>
     <xsl:variable name="media-type" select="if( contains($file-extension, 'html')) then 'application/xhtml+xml' 
       else if($file-extension eq 'gif') then 'image/gif'
       else if($file-extension eq 'jpg') then 'image/jpeg'
@@ -26,7 +26,8 @@
       else if($file-extension eq 'otf') then 'application/vnd.ms-opentype'
       else if($file-extension eq 'eot') then 'application/vnd.ms-fontobject'
       else if($file-extension eq 'ttf') then 'application/x-font-truetype'
-      else if($file-extension eq 'woff') then 'application/font-woff' 
+      else if($file-extension eq 'woff') then 'application/font-woff'
+      else if($file-extension eq 'woff2') then 'application/font-woff' 
       else if($file-extension eq 'smil') then 'application/smil+xml' 
       else if($file-extension eq 'pls') then 'application/pls+xml'
       else if($file-extension eq 'mp3') then 'audio/mpeg'
