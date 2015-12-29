@@ -145,7 +145,7 @@
   </xsl:function>
 
   
-  <!-- You should use the xproc step transpect:file-uri if possible. It is 
+  <!-- You should use the xproc step tr:file-uri if possible. It is 
   applicable to more types of input. Apart from that, the two functions 
   tr:resolve-system-from-uri() and tr:resolve-uri-from-system() should
   swap their names, shouldn’t they? -->
