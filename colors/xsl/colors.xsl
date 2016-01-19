@@ -52,12 +52,15 @@
         <xsl:sequence select="upper-case($in)" />
       </xsl:when>
       <xsl:when test="matches($in, $three-digits-hex-color-regex)">
-        <xsl:sequence select="codepoints-to-string(
-                                for $i 
-                                in string-to-codepoints(
-                                     upper-case($stripped-pound)
-                                   )
-                                return ($i, $i)
+        <xsl:sequence select="concat(
+                                '#',
+                                codepoints-to-string(
+                                  for $i 
+                                  in string-to-codepoints(
+                                       upper-case($stripped-pound)
+                                     )
+                                  return ($i, $i)
+                                )
                               )" />
       </xsl:when>
       <xsl:otherwise>
