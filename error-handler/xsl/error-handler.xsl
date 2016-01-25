@@ -15,9 +15,9 @@
     xmlns:rel		= "http://schemas.openxmlformats.org/package/2006/relationships"
     xmlns:exsl		= 'http://exslt.org/common'
     xmlns:saxon		= "http://saxon.sf.net/"
-    xmlns:letex		= "http://www.le-tex.de/namespace"
+    xmlns:tr		= "http://transpect.io"
 
-    exclude-result-prefixes = "w o v wx xs dbk pkg r rel word200x exsl saxon letex fn"
+    exclude-result-prefixes = "w o v wx xs dbk pkg r rel word200x exsl saxon tr fn"
 >
 
   <xsl:param name="error-mode" select="'debug'"/>
@@ -72,9 +72,9 @@
           <xsl:message select="concat('##  Level: ', $hash/value[@key = 'level'])"/>
         </xsl:if>
         <xsl:if test="$hash/value[@key = 'comment']">
-          <letex:comment xpath="{$hash/value[@key = 'xpath']}">
+          <tr:comment xpath="{$hash/value[@key = 'xpath']}">
             <xsl:value-of select="$msg-text"/>
-          </letex:comment>
+          </tr:comment>
         </xsl:if>
         <xsl:if test="$hash/value[@key = 'xpath']">
           <xsl:message select="concat('##  ', $hash/value[@key = 'xpath'])"/>

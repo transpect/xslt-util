@@ -5,9 +5,9 @@
   xmlns:fn              = "http://www.w3.org/2005/xpath-functions"
   xmlns:xs		= "http://www.w3.org/2001/XMLSchema"
   xmlns:saxon		= "http://saxon.sf.net/"
-  xmlns:letex		= "http://www.le-tex.de/namespace"
+  xmlns:tr		= "http://transpect.io"
 
-  exclude-result-prefixes = "xs saxon fn letex"
+  exclude-result-prefixes = "xs saxon fn tr"
 >
 
   <!-- ================================================================================ -->
