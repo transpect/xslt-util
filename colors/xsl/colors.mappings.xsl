@@ -167,9 +167,10 @@
     <css:color name="yellow"                hex="#FFFF00" />
     <css:color name="yellowgreen"           hex="#9ACD32" />
   </css:colors>
-  
-  <xsl:function name="tr:pantone-to-rgb" as="xs:string?">
+ <!-- as="xs:string?"-->
+  <xsl:function name="tr:pantone-to-rgb">
     <xsl:param name="pantone-name"  as="xs:string?"/>
+    <xsl:message select="'äääääääääääääääääääääääää', $pantone-name"/>
     <xsl:variable name="which-pantone" select="lower-case(replace($pantone-name, '^.+([CU])$', '$1'))"/>
     <xsl:sequence select="document('')
       //css:colors[@name eq concat('pantone-', $which-pantone, '-rgb-map')]
@@ -1550,6 +1551,8 @@
     <css:color name="805 U" rgb="255 116 119"/>
     <css:color name="806 U" rgb="255 72 176"/>
     <css:color name="807 U" rgb="232 56 191"/>
+    <css:color name="808 U" rgb="0 172 168"/>
+    <css:color name="809 U" rgb="240 229 0"/>
     <css:color name="871 U" rgb="173 152 110"/>
     <css:color name="872 U" rgb="172 147 110"/>
     <css:color name="873 U" rgb="174 144 111"/>
