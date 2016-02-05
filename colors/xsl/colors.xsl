@@ -172,6 +172,7 @@
           </xsl:when>
           <xsl:otherwise>
             <xsl:message select="'colors/colors.xsl, tr:convert-css-color: unimplemented conversion from input device-cmyk to type-out', $type-out, 'Input color value:', $css-color"/>
+            <xsl:value-of select="$css-color"/>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
@@ -198,6 +199,7 @@
           </xsl:when>
           <xsl:otherwise>
             <xsl:message select="'colors/colors.xsl, tr:convert-css-color: unimplemented conversion from input hex to type-out', $type-out, 'Input color value:', $css-color"/>
+            <xsl:value-of select="$css-color"/>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
@@ -214,6 +216,7 @@
           </xsl:when>
           <xsl:otherwise>
             <xsl:message select="'colors/colors.xsl, tr:convert-css-color: unimplemented conversion from rgb to', $type-out"/>
+            <xsl:value-of select="$css-color"/>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:when>
@@ -222,6 +225,7 @@
       </xsl:when>
       <xsl:otherwise>
         <xsl:message select="'colors/colors.xsl, tr:convert-css-color: unimplemented color type conversion:', $type-in, 'to', $type-out"/>
+        <xsl:value-of select="$css-color"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:function>
