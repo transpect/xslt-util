@@ -170,6 +170,11 @@
                                     tr:device-cmyk-to-rgb-int-triple($css-color)
                                   )"/>
           </xsl:when>
+          <xsl:when test="$type-out eq 'hex'">
+            <xsl:sequence select="tr:rgb-int-triple-to-rgb(
+              tr:device-cmyk-to-rgb-int-triple($css-color)
+              )"/>
+          </xsl:when>
           <xsl:otherwise>
             <xsl:message select="'colors/colors.xsl, tr:convert-css-color: unimplemented conversion from input device-cmyk to type-out', $type-out, 'Input color value:', $css-color"/>
             <xsl:value-of select="$css-color"/>
@@ -206,7 +211,7 @@
       <xsl:when test="$type-in eq 'rgb'">
         <xsl:choose>
           <xsl:when test="$type-out eq 'hex'">
-            <xsl:if test="some $i in $tokenized satisfies (not($i castable as xs:integer))">
+            <xsl:if test="some $i in $tokenized[position() gt 1] satisfies (not($i castable as xs:integer))">
               <xsl:message>tr:int-rgb-colors-to-hex: cannot cast one or more of '<xsl:value-of select="$tokenized"/>' to integer</xsl:message>
             </xsl:if>            
             <xsl:sequence select="tr:int-rgb-colors-to-hex(
