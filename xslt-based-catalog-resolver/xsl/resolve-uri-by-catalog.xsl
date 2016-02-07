@@ -47,7 +47,7 @@
 
   <!-- maybe some input normalization is missing yet -->
   <xsl:key name="cat:uri-by-name" match="cat:uri" use="@name"/>
-  <xsl:key name="cat:uri-by-uri" match="cat:uri" use="@uri"/>
+  <xsl:key name="cat:uri-by-uri" match="cat:uri" use="cat:normalize-file-uri(@uri)"/>
   
   <!-- You might want to call this once for a catalog and then pass the expanded catalog 
     to the resolution functions. Otherwise the processor might read the nextCatalogs over 
@@ -102,21 +102,22 @@
                     select="if ($catalog/cat:catalog/@expanded = 'yes')
                             then $catalog
                             else tr:expand-nextCatalog($catalog)"/>
-      <xsl:variable name="matching-uri" select="key('cat:uri-by-uri', $uri-in, $expand-nextCatalog)" as="element(cat:uri)*"/>
+      <xsl:variable name="uri" select="cat:normalize-file-uri($uri-in)"/>
+      <xsl:variable name="matching-uri" select="key('cat:uri-by-uri', $uri, $expand-nextCatalog)" as="element(cat:uri)*"/>
       <xsl:choose>
         <xsl:when test="$matching-uri">
           <xsl:sequence select="string($matching-uri[1]/@name)"/>
         </xsl:when>
         <xsl:otherwise>
           <xsl:variable name="candidates" as="element(cat:rewriteURI)*"
-                        select="$expand-nextCatalog//cat:rewriteURI[starts-with($uri-in, @rewritePrefix)]"/>
+                        select="$expand-nextCatalog//cat:rewriteURI[starts-with($uri, @rewritePrefix)]"/>
           <xsl:variable name="max" as="xs:double?"
                         select="max(for $c in $candidates return string-length($c/@rewritePrefix))"/>
           <xsl:variable name="longest-match" as="element(cat:rewriteURI)?" 
                         select="($candidates[string-length(@rewritePrefix) = $max])[1]"/>
           <xsl:choose>
             <xsl:when test="$longest-match">
-              <xsl:sequence select="concat($longest-match/@uriStartString, substring($uri-in, $max + 1))"/>
+              <xsl:sequence select="concat($longest-match/@uriStartString, substring($uri, $max + 1))"/>
             </xsl:when>
             <xsl:otherwise>
               <xsl:sequence select="$uri-in"/>
@@ -144,8 +145,13 @@
   </xsl:template>
   
   <xsl:template match="@rewritePrefix" mode="cat:expand-nextCatalog">
-    <xsl:attribute name="{name()}" select="resolve-uri(., base-uri())"/>
+    <xsl:attribute name="{name()}" select="cat:normalize-file-uri(resolve-uri(., base-uri()))"/>
   </xsl:template>
+  
+  <xsl:function name="cat:normalize-file-uri" as="xs:string">
+    <xsl:param name="input" as="xs:string"/>
+    <xsl:sequence select="replace($input, '^file:/([^/])', 'file:///$1')"/>
+  </xsl:function>
   
   <xsl:template match="cat:nextCatalog" mode="cat:expand-nextCatalog">
     <xsl:choose>
