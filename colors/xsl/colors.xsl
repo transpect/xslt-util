@@ -171,9 +171,8 @@
                                   )"/>
           </xsl:when>
           <xsl:when test="$type-out eq 'hex'">
-            <xsl:sequence select="tr:rgb-int-triple-to-rgb(
-              tr:device-cmyk-to-rgb-int-triple($css-color)
-              )"/>
+            <xsl:variable name="rgb" select="tr:rgb-int-triple-to-rgb(tr:device-cmyk-to-rgb-int-triple($css-color))"/>
+            <xsl:sequence select="tr:convert-css-color($rgb, 'hex')"/>
           </xsl:when>
           <xsl:otherwise>
             <xsl:message select="'colors/colors.xsl, tr:convert-css-color: unimplemented conversion from input device-cmyk to type-out', $type-out, 'Input color value:', $css-color"/>
