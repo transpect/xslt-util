@@ -69,30 +69,39 @@
   <xsl:function name="calstable:normalize" as="element(*)">
     <!-- tbody in a namespace or in no namespace -->
     <xsl:param name="tbody" as="element()"/>
-    <xsl:variable name="colspecs" as="document-node(element(calstable:colspecs))">
-      <xsl:document>
-        <calstable:colspecs>
-          <xsl:apply-templates select="$tbody/../*:colspec[last()]" mode="calstable:colspec"/>
-        </calstable:colspecs>
-      </xsl:document>
-    </xsl:variable>
-    <xsl:variable name="table_with_no_colspans" as="element(*)*">
-      <!-- rows, in a namespace or not -->
-      <xsl:apply-templates select="$tbody" mode="calstable:colspan">
-        <xsl:with-param name="colspecs" select="$colspecs" tunnel="yes"/>
-        <xsl:with-param name="spanspecs" select="$tbody/../*:spanspec" tunnel="yes"/>
-      </xsl:apply-templates>
-    </xsl:variable>
-    <xsl:variable name="table_with_no_rowspans" as="element(*)*">
-      <!-- rows, in a namespace or not -->
-      <xsl:apply-templates select="$table_with_no_colspans" mode="calstable:rowspan"/>
-    </xsl:variable>
-    <xsl:for-each select="$tbody">
-      <!-- missing: XSLT 3.0’s xsl:copy/@select -->
-      <xsl:copy copy-namespaces="no">
-        <xsl:apply-templates select="$table_with_no_rowspans" mode="calstable:final"/>
-      </xsl:copy>
-    </xsl:for-each>
+    <xsl:choose>
+      <xsl:when test="exists($tbody/../*:colspec)">
+        <xsl:variable name="colspecs" as="document-node(element(calstable:colspecs))">
+          <xsl:document>
+            <calstable:colspecs>
+              <xsl:apply-templates select="$tbody/../*:colspec[last()]" mode="calstable:colspec"/>
+            </calstable:colspecs>
+          </xsl:document>
+        </xsl:variable>
+        <xsl:variable name="table_with_no_colspans" as="element(*)*">
+          <!-- rows, in a namespace or not -->
+          <xsl:apply-templates select="$tbody" mode="calstable:colspan">
+            <xsl:with-param name="colspecs" select="$colspecs" tunnel="yes"/>
+            <xsl:with-param name="spanspecs" select="$tbody/../*:spanspec" tunnel="yes"/>
+          </xsl:apply-templates>
+        </xsl:variable>
+        <xsl:variable name="table_with_no_rowspans" as="element(*)*">
+          <!-- rows, in a namespace or not -->
+          <xsl:apply-templates select="$table_with_no_colspans" mode="calstable:rowspan"/>
+        </xsl:variable>
+        <xsl:for-each select="$tbody">
+          <!-- missing: XSLT 3.0’s xsl:copy/@select -->
+          <xsl:copy copy-namespaces="no">
+            <xsl:apply-templates select="$table_with_no_rowspans" mode="calstable:final"/>
+          </xsl:copy>
+        </xsl:for-each>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:message select="'calstable/xsl/normalize.xsl: No colspec in table with ', ($tbody/ancestor::*[@srcpath][1]/@srcpath, $tbody/*:row/*[1])[1],
+          '&#xa;Returning the argument to clastable:normalize() unchanged.'"/>
+        <xsl:sequence select="$tbody"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:function>
 
   <xsl:function name="calstable:check-normalized" as="element(*)">
