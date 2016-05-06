@@ -19,8 +19,8 @@
     doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"/>
 
   <!-- sample invocation:
-    saxon -xsl:converter/xsl/styledoc.xsl -it:main uri=file:/$(cygpath -ma adaptions) -o:doc/XML-Satzrichtlinien/styles.xhtml
-    On Unix systems, it should work with realpath instead of cygpath. Or use a URL relative to xsl (uri=../../adaptions).
+    saxon -xsl:converter/xsl/styledoc.xsl -it:main uri=file:/$(cygpath -ma a9s) -o:doc/XML-Satzrichtlinien/styles.xhtml
+    On Unix systems, it should work with realpath instead of cygpath. Or use a URL relative to xsl (uri=../../a9s).
   -->
 
   <xsl:param name="uri" as="xs:string"/>
@@ -266,8 +266,8 @@
   
   <xsl:function name="css:template-name" as="xs:string">
     <xsl:param name="uri" as="xs:string"/>
-    <xsl:sequence select="if (matches($uri, '/(adaptions|content)/(.+?)/styles/cssa.xml$'))
-                          then replace($uri, '^.+/(adaptions|content)/(.+?)/styles/cssa.xml$', '$2')
+    <xsl:sequence select="if (matches($uri, '/(a9s|content)/(.+?)/styles/cssa.xml$'))
+                          then replace($uri, '^.+/(a9s|content)/(.+?)/styles/cssa.xml$', '$2')
                           else replace($uri, '^.+/(.+?)/cssa.xml$', '$1')"/>
   </xsl:function>
   
