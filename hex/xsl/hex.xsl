@@ -6,6 +6,8 @@
   xmlns:tr-hex-private		= "http://transpect.io"
   >
 
+  <xsl:output method="text"/><!-- only applies to the 'test' template below -->
+
   <xsl:function name="tr:hex-to-dec" as="xs:integer">
     <xsl:param name="in" as="xs:string"/> <!-- e.g. 030C -->
     <xsl:sequence select="
@@ -120,9 +122,29 @@
     </xsl:choose>
   </xsl:function>
 
+  <xsl:function name="tr:escape-html-uri" as="xs:string">
+    <xsl:param name="in" as="xs:string"/>
+    <xsl:variable name="prelim" as="xs:string*">
+      <xsl:analyze-string select="escape-html-uri($in)" regex="[\[\]&lt;&gt;]">
+        <xsl:matching-substring>
+          <xsl:sequence select="concat('%', tr:dec-to-hex(string-to-codepoints(.)[1]))"/>
+        </xsl:matching-substring>
+        <xsl:non-matching-substring>
+          <xsl:sequence select="."/>
+        </xsl:non-matching-substring>
+      </xsl:analyze-string>
+    </xsl:variable>
+    <xsl:sequence select="string-join($prelim, '')"/>
+  </xsl:function>
+
   <xsl:template name="test">
-    <!-- Should return 'À la Pêche' -->
+    <!-- Should return:
+À la Pêche
+ http://doi.org/10.1352/0895-8017(2008)113%5B32:ECICWD%5D%C3%A4%3E2.0.CO;2
+-->
     <xsl:sequence select="tr:unescape-uri('A%CC%80%20la%20Pe%CC%82che')"/>
+    <xsl:sequence select="'&#xa;'"/>
+    <xsl:sequence select="tr:escape-html-uri('http://doi.org/10.1352/0895-8017(2008)113[32:ECICWD]ä>2.0.CO;2')"/>
   </xsl:template>
 
 </xsl:stylesheet>
