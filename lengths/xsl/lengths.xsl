@@ -15,6 +15,12 @@
       <xsl:when test="matches($in, '^-?[\d.]+pt$')">
         <xsl:sequence select="number(replace($in, 'pt$', '')) * 20"/>
       </xsl:when>
+      <xsl:when test="matches($in, '^-?[\d.]+in$')">
+        <xsl:sequence select="number(replace($in, 'in$', '')) * 1440"/>
+      </xsl:when>
+      <xsl:when test="matches($in, '^-?[\d.]+cm$')">
+        <xsl:sequence select="number(replace($in, 'cm$', '')) * 566.929"/>
+      </xsl:when>
       <xsl:when test="matches($in,  '^-?[\d.]+%$')">
         <!-- * 50 – why is that?? -->
         <xsl:sequence select="number(replace($in, '%$', '')) * 50"/>
@@ -22,7 +28,7 @@
       <xsl:when test="$in eq 'auto'"/>
       <xsl:otherwise>
         <xsl:message>Value '<xsl:value-of select="$in"/>' is not supported in function
-          tr:length-to-unitless-twip. Allowed values are mm, pt, % and auto.</xsl:message>
+          tr:length-to-unitless-twip. Allowed values are in, mm, pt, % and auto.</xsl:message>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:function>
