@@ -15,6 +15,9 @@
       <xsl:when test="matches($in, '^-?[\d.]+pt$')">
         <xsl:sequence select="number(replace($in, 'pt$', '')) * 20"/>
       </xsl:when>
+      <xsl:when test="matches($in, '^-?[\d.]+px$')">
+        <xsl:sequence select="number(replace($in, 'px$', '')) * 15"/>
+      </xsl:when>
       <xsl:when test="matches($in, '^-?[\d.]+in$')">
         <xsl:sequence select="number(replace($in, 'in$', '')) * 1440"/>
       </xsl:when>
