@@ -124,7 +124,8 @@
         select="for $cw in *:colspec/@colwidth return tr:length-to-unitless-twip($cw)"/>
       <xsl:apply-templates mode="#current">
         <xsl:with-param name="colwidths-in-twips" select="$colspec-colwidths-in-twips" tunnel="yes"/>
-        <xsl:with-param name="colwidth-sum-in-twips" select="sum(($colspec-colwidths-in-twips, 0))"
+		<!-- slightly smaller percents to avoid table width calculation with ore than 100%-->
+        <xsl:with-param name="colwidth-sum-in-twips" select="sum(($colspec-colwidths-in-twips, 0))*1.001"
           tunnel="yes"/>
       </xsl:apply-templates>
     </xsl:copy>
