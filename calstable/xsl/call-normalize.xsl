@@ -3,7 +3,7 @@
   xmlns:calstable="http://docs.oasis-open.org/ns/oasis-exchange/table"
   version="2.0">
   
-  <xsl:import href="http://transpect.io/xslt-util/calstable/xsl/normalize.xsl"/>
+  <xsl:import href="normalize.xsl"/>
   
   <xsl:param name="debug" select="'no'"/>
   <xsl:param name="debug-dir-uri" select="'debug'"/>
