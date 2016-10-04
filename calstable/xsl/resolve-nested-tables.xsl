@@ -3,7 +3,8 @@
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:functx="http://www.functx.com"
   xmlns:calstable="http://docs.oasis-open.org/ns/oasis-exchange/table"
-  exclude-result-prefixes="xs"
+  xmlns="http://docbook.org/ns/docbook"
+  exclude-result-prefixes="xs functx calstable"
   version="2.0">
   
   <!-- This stylesheet resolves tables that are nested within tables cells. It depends on 
@@ -28,7 +29,7 @@
     <!-- create virtual rows -->
     <xsl:for-each select="2 to ($nested-table-rows)">
       <xsl:variable name="row-index" select="." as="xs:integer"/>
-      <row calstable:type="virtual">
+      <row calstable:type="nested-table">
         <xsl:apply-templates select="$row/*:entry" mode="calstable:create-virtual-entries">
           <xsl:with-param name="row-index" select="$row-index" tunnel="yes"/>
         </xsl:apply-templates>
@@ -44,9 +45,11 @@
     <xsl:variable name="content-before" select="$nested-table/preceding-sibling::*" as="element()*"/>
     <xsl:variable name="content-after" select="$nested-table/following-sibling::*" as="element()*"/>
     <xsl:variable name="last-row-index" select="count($nested-table//*:row)" as="xs:integer"/>
+    <!-- iterate over entries -->
     <xsl:for-each select="$nested-table//*:row[$row-index]/*:entry">
       <xsl:copy>
-        <xsl:attribute name="calstable:type" select="'resolved-table'"/>
+        <xsl:attribute name="calstable:type" select="'nested-table'"/>
+        <xsl:apply-templates select="@*" mode="calstable:resolve-nested-tables"/>
         <!-- wrap content into first cell -->
         <xsl:if test="exists($content-before) and $row-index eq 1 and position() eq 1">
           <xsl:apply-templates select="$content-before" mode="calstable:resolve-nested-tables"/>
@@ -69,13 +72,13 @@
     <xsl:choose>
       <xsl:when test="$row-index eq 1">
         <xsl:copy>
-          <xsl:attribute name="id" select="(@xml:id, $id)[1]"/>
-          <xsl:apply-templates select="@*, node()" mode="calstable:resolve-nested-tables"/>
+          <xsl:attribute name="xml:id" select="(@xml:id, $id)[1]"/>
+          <xsl:apply-templates select="@* except @xml:id, node()" mode="calstable:resolve-nested-tables"/>
         </xsl:copy>
       </xsl:when>
       <xsl:otherwise>
-        <entry calstable:type="virtual">
-          <xsl:attribute name="linkend" select="(preceding-sibling::*:entry[@xml:id][1], $id)"/>
+        <entry calstable:type="nested-table-virtual-cell">
+          <xsl:apply-templates select="@* except @calstable:*" mode="calstable:resolve-nested-tables"/>
         </entry>
       </xsl:otherwise>
     </xsl:choose>
@@ -91,18 +94,63 @@
                                          parent::*:row/following-sibling::*:row/*:entry[$index]//*:row)
                               return count($i/*:entry)
                               )" as="xs:integer"/>
-    <xsl:variable name="id" select="concat('calstable_', generate-id())" as="xs:string"/>
+    <xsl:variable name="idref" 
+                  select="(@linkend,
+                           preceding::*:entry[1][@linkend]/@linkend)[1]" as="xs:string"/>
     <xsl:copy>
-      <xsl:apply-templates select="@*, node()" mode="#current"/>
+      <xsl:choose>
+        <xsl:when test="preceding::*:entry[@linkend eq $idref]">
+          <xsl:attribute name="linkend" select="$idref"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:attribute name="xml:id" select="(@xml:id, @linkend)[1]"/>
+        </xsl:otherwise>
+      </xsl:choose>
+      <xsl:apply-templates select="@* except @linkend, node()" mode="#current"/>
     </xsl:copy>
     <xsl:for-each select="2 to $max-cell-count">
-      <entry calstable:type="virtual"/>
+      <entry calstable:type="nested-table-in-column">
+        <xsl:attribute name="linkend" select="$idref"/>
+      </entry>
     </xsl:for-each>
+  </xsl:template>
+  
+  <!-- additional colspec -->
+  
+  <xsl:template match="*:tgroup" mode="calstable:resolve-nested-tables">
+    <xsl:variable name="tgroup" select="." as="element()"/>
+    <xsl:copy>
+      <xsl:apply-templates select="@*" mode="#current"/>
+      <xsl:for-each select="*:colspec">
+        <xsl:variable name="index" select="position()" as="xs:integer"/>
+        <xsl:variable name="additional-cols" 
+                      select="for $i in $tgroup//*:row/*:entry[$index] 
+                              return max(for $j in $i//*:row 
+                                         return count($j/*:entry))" as="xs:integer?"/>
+        <xsl:variable name="colwidth" select="@colwidth" as="attribute(colwidth)?"/>
+        <xsl:copy>
+          <xsl:apply-templates select="@*, node()" mode="#current"/>
+        </xsl:copy>
+        <xsl:for-each select="2 to $additional-cols">
+          <colspec calstable:type="nested-table">
+            <xsl:attribute name="colname" select="concat('col-', ($index + position()))"/>
+            <xsl:if test="exists($colwidth)">
+              <xsl:attribute name="colwidth" 
+                             select="concat(
+                                            xs:decimal(replace($colwidth, '[a-z]+$', '$1')) div ($additional-cols - 1),
+                                            replace($colwidth, '^[0-9]+\.?[0-9]*', '$1')
+                                            )"/>
+            </xsl:if>
+          </colspec>
+        </xsl:for-each>
+      </xsl:for-each>
+      <xsl:apply-templates select="* except *:colspec" mode="#current"/>
+    </xsl:copy>
   </xsl:template>
   
   <!-- identity template -->
   
-  <xsl:template match="@*|*|processing-instruction()" mode="calstable:resolve-nested-tables">
+  <xsl:template match="@*|*|processing-instruction()" mode="#all">
     <xsl:copy>
       <xsl:apply-templates select="@*, node()" mode="#current"/>
     </xsl:copy>
