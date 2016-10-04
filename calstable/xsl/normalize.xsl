@@ -114,7 +114,7 @@
     <xsl:variable name="actual-col-lengths" as="xs:integer+"
       select="for $i in (1 to max($actual-row-lengths)) return count($normalized-tbody/*/*[position() = $i])"/>
     <xsl:variable name="actual-morerows"
-      select="for $r in $normalized-tbody//*:row return (for $m in $r//@calstable:morerows return (if (count($r/following-sibling::*:row)-xs:integer($m) lt 0) then concat('(', count($m/parent::*:entry/preceding-sibling::*:entry)+1,',',count($r/preceding-sibling::*:row)+1, ')') else ()))"
+      select="for $r in $normalized-tbody/*:row return (for $m in $r//@calstable:morerows return (if (count($r/following-sibling::*:row)-xs:integer($m) lt 0) then concat('(', count($m/parent::*:entry/preceding-sibling::*:entry)+1,',',count($r/preceding-sibling::*:row)+1, ')') else ()))"
       as="xs:string*"/>
     <xsl:variable name="irregular-row-lengths"
       select="count(distinct-values($actual-row-lengths)) ne 1" as="xs:boolean"/>
@@ -182,7 +182,7 @@
 
   <xsl:key name="calstable:colspec-by-colname" match="*:colspec" use="@colname"/>
 
-  <xsl:template match="*:entry | *:entrytbl" mode="calstable:colspan">
+  <xsl:template match="*:entry[not(ancestor::*:entry)] | *:entrytbl[not(ancestor::*:entry)]" mode="calstable:colspan">
     <xsl:param name="colspecs" as="document-node(element(calstable:colspecs))" tunnel="yes"/>
     <xsl:param name="spanspecs" as="element(*)*" tunnel="yes"/>
     <xsl:variable name="namest" as="xs:string?"
