@@ -11,19 +11,13 @@
   
   <p:input port="source"/>  
   <p:output port="result"/>
-  
-  <p:option name="debug" select="'no'"/>
-  <p:option name="debug-dir-uri" select="'debug'"/>
-  
+    
   <p:import href="normalize.xpl"/>
   <p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
   
   <!-- resolve colspans and rowspans in the first place -->
   
-  <tr:normalize-calstables>
-    <p:with-option name="debug" select="$debug"/>
-    <p:with-option name="debug-dir-uri" select="$debug-dir-uri"/>
-  </tr:normalize-calstables>
+  <tr:normalize-calstables name="normalize"/>
 
   <p:viewport match="*:informaltable|*:table">
     

@@ -9,12 +9,8 @@
   type="tr:normalize-calstables">
   
   <p:input port="source"/>
-  
   <p:output port="result"/>
-  
-  <p:option name="debug" select="'no'"/>
-  <p:option name="debug-dir-uri" select="'debug'"/>
-  
+    
   <p:import href="http://xmlcalabash.com/extension/steps/library-1.0.xpl"/>
   
   <p:documentation>Rowspans and Colspans are dissolved and filled with empty cells. 
@@ -45,16 +41,14 @@
           <p:input port="stylesheet">
             <p:document href="../xsl/call-normalize.xsl"/>
           </p:input>
-          <p:with-param name="debug" select="$debug"/>
-          <p:with-param name="debug-dir-uri" select="$debug-dir-uri"/>
+          <p:input port="parameters">
+            <p:empty/>
+          </p:input>
         </p:xslt>
         
       </p:viewport>
       
-      <tr:normalize-calstables>
-        <p:with-option name="debug" select="$debug"/>
-        <p:with-option name="debug-dir-uri" select="$debug-dir-uri"/>
-      </tr:normalize-calstables>
+      <tr:normalize-calstables/>
       
     </p:when>
     <p:otherwise>
@@ -65,8 +59,9 @@
           <p:input port="stylesheet">
             <p:document href="../xsl/call-normalize.xsl"/>
           </p:input>
-          <p:with-param name="debug" select="$debug"/>
-          <p:with-param name="debug-dir-uri" select="$debug-dir-uri"/>
+          <p:input port="parameters">
+            <p:empty/>
+          </p:input>
         </p:xslt>
         
       </p:viewport>

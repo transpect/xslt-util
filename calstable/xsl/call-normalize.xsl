@@ -25,12 +25,6 @@
     <xsl:copy>
       <xsl:apply-templates/>
     </xsl:copy>
-    <!-- debugging -->
-    <xsl:if test="$debug eq 'yes'">
-      <xsl:result-document indent="yes" method="xml" href="{$debug-dir-uri}/calstable-normalize/mml2tex.xml">
-        <xsl:apply-templates select="/*"/>
-      </xsl:result-document>
-    </xsl:if>
   </xsl:template>
   
 </xsl:stylesheet>
