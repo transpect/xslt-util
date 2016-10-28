@@ -96,7 +96,7 @@
                               )" as="xs:integer"/>
     <xsl:variable name="idref" 
                   select="(@linkend,
-                           preceding::*:entry[1][@linkend]/@linkend)[1]" as="xs:string"/>
+                           preceding::*:entry[1][@linkend]/@linkend)[1]" as="xs:string*"/>
     <xsl:copy>
       <xsl:choose>
         <xsl:when test="preceding::*:entry[@linkend eq $idref]">
