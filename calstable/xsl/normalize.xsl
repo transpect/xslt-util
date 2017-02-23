@@ -98,7 +98,7 @@
       </xsl:when>
       <xsl:otherwise>
         <xsl:message select="'calstable/xsl/normalize.xsl: No colspec in table with ', ($tbody/ancestor::*[@srcpath][1]/@srcpath, $tbody/*:row/*[1])[1],
-          '&#xa;Returning the argument to clastable:normalize() unchanged.'"/>
+          '&#xa;Returning the argument to calstable:normalize() unchanged.'"/>
         <xsl:sequence select="$tbody"/>
       </xsl:otherwise>
     </xsl:choose>
