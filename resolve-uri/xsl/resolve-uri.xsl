@@ -75,7 +75,7 @@
                           ),
                           '/'
                         )"/>
-            <xsl:sequence select="if($parents-eaten-encoded ne '') 
+              <xsl:sequence select="if($parents-eaten-encoded ne '') 
                                     then concat(
                                       $parents-eaten-encoded,
                                       '/',
@@ -125,7 +125,7 @@
     <xsl:param name="tokens" as="xs:string*"/>
     <!-- Discard empty path components or references to the current directory -->
     <xsl:variable name="filtered" select="$tokens[not(. = ('', '.'))]" as="xs:string*"/>
-    <xsl:variable name="pos" select="index-of($filtered, '..')" as="xs:integer*"/>
+    <xsl:variable name="pos" select="index-of($filtered, '..')[not(. = 1)]" as="xs:integer*"/>
     <xsl:choose>
       <xsl:when test="exists($pos)">
         <xsl:sequence select="tr:eat-parent((subsequence($filtered, 1, $pos[1] - 2), subsequence($filtered, $pos[1] + 1)))"/>
