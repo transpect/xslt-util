@@ -125,13 +125,30 @@
     <xsl:param name="tokens" as="xs:string*"/>
     <!-- Discard empty path components or references to the current directory -->
     <xsl:variable name="filtered" select="$tokens[not(. = ('', '.'))]" as="xs:string*"/>
-    <xsl:variable name="pos" select="index-of($filtered, '..')[not(. = 1)]" as="xs:integer*"/>
+    <xsl:variable name="prelim-pos" select="index-of($filtered, '..')" as="xs:integer*"/>
+    <xsl:variable name="pos" select="tr:reprieve-leading-parents($prelim-pos, 1)" as="xs:integer*"/>
     <xsl:choose>
       <xsl:when test="exists($pos)">
         <xsl:sequence select="tr:eat-parent((subsequence($filtered, 1, $pos[1] - 2), subsequence($filtered, $pos[1] + 1)))"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:sequence select="$filtered"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:function>
+  
+  <xsl:function name="tr:reprieve-leading-parents" as="xs:integer*">
+    <!-- will turn (1, 2, 4, 5) into (4, 5) 
+         and (2, 4, 5) into (2, 4, 5). 
+         That is, leading '..' paths will stay untouched in tr:eat-parent() -->
+    <xsl:param name="parent-positions" as="xs:integer*"/>
+    <xsl:param name="look-at" as="xs:integer"/>
+    <xsl:choose>
+      <xsl:when test="$parent-positions[1] = $look-at">
+        <xsl:sequence select="tr:reprieve-leading-parents(subsequence($parent-positions, 2), $look-at + 1)"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:sequence select="$parent-positions"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:function>
