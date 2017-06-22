@@ -10,9 +10,25 @@
   
   <xsl:function name="tr:isbn10-to-isbn13" as="xs:string">
     <xsl:param name="isbn10" as="xs:string"/>
+    <xsl:sequence select="tr:isbn10-to-isbn13($isbn10, $isbn10-to-isbn13-with-978-hyphen-minus)"/>
+  </xsl:function>
+  
+  <xsl:function name="tr:isbn10-to-isbn13" as="xs:string">
+    <xsl:param name="isbn10" as="xs:string"/>
+    <xsl:param name="hyphen-after-978" as="xs:boolean"/>
     <xsl:variable name="normalized-isbn" as="xs:string"
       select="replace($isbn10, '[-\s]+', '')"/>
     <xsl:choose>
+      <xsl:when test="string-length($normalized-isbn) = 13 and starts-with($normalized-isbn, '978')">
+        <xsl:choose>
+          <xsl:when test="$hyphen-after-978">
+            <xsl:value-of select="replace($normalized-isbn, '^978', '978-')"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:sequence select="$normalized-isbn"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
       <xsl:when test="string-length($normalized-isbn) = 10">
         <xsl:variable name="isbn13-with-new-check-digit" as="xs:string">
           <xsl:analyze-string select="concat('978', $normalized-isbn)" regex="^(.)(.)(.)(.)(.)(.)(.)(.)(.)(.)(.)(.).$">
@@ -61,7 +77,7 @@
                             )
                           ) mod 10 = 0">
             <xsl:choose>
-              <xsl:when test="$isbn10-to-isbn13-with-978-hyphen-minus">
+              <xsl:when test="$hyphen-after-978">
                 <xsl:value-of select="replace($isbn13-with-new-check-digit, '^978', '978-')"/>
               </xsl:when>
               <xsl:otherwise>
