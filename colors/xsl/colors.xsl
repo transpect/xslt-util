@@ -253,4 +253,65 @@
                           )"/>
   </xsl:function>
 
+  <xsl:function name="tr:rgb-to-cmyk" as="xs:double*">
+    <xsl:param name="rgb" as="xs:double*"/>
+    
+    <xsl:variable name="r" select="$rgb[1] div 255"/>
+    <xsl:variable name="g" select="$rgb[2] div 255"/>
+    <xsl:variable name="b" select="$rgb[3] div 255"/>
+    <xsl:variable name="cmax" select="max(($r, $g, $b))"/>
+    
+    <xsl:variable name="k" select="1 - $cmax"/>
+    <xsl:variable name="c" select="if ($cmax = 0) then 0 else (1 - $r - $k) div (1 - $k)"/>
+    <xsl:variable name="m" select="if ($cmax = 0) then 0 else (1 - $g - $k) div (1 - $k)"/>
+    <xsl:variable name="y" select="if ($cmax = 0) then 0 else (1 - $b - $k) div (1 - $k)"/>
+    <xsl:sequence select="($c, $m, $y, $k)"/>
+  </xsl:function>
+  
+  <xsl:function name="tr:rgb-to-hsl" as="xs:double*">
+    <xsl:param name="rgb" as="xs:double*"/>
+    
+    <xsl:variable name="r" select="$rgb[1] div 255"/>
+    <xsl:variable name="g" select="$rgb[2] div 255"/>
+    <xsl:variable name="b" select="$rgb[3] div 255"/>
+    <xsl:variable name="cmax" select="max(($r, $g, $b))"/>
+    <xsl:variable name="cmin" select="min(($r, $g, $b))"/>
+    <xsl:variable name="delta" select="$cmax - $cmin"/>
+    
+    <xsl:variable name="pre-h" select="if ($delta = 0) 
+      then 0 
+      else if ($cmax = $r) 
+      then 60 * ((($g - $b) div $delta) mod 6) 
+      else if ($cmax = $g) 
+      then 60 * ((($b - $r) div $delta) + 2) 
+      else 60 * ((($r - $g) div $delta) + 4)"/>
+    <xsl:variable name="h" select="if ($pre-h lt 0) then $pre-h + 360 else $pre-h"/>
+    <xsl:variable name="l" select="($cmax + $cmin) div 2"/>
+    <xsl:variable name="s" select="if ($delta=0) then 0 else $delta div (1 - abs((2 * $l) - 1))"/>
+    <xsl:sequence select="($h, $s * 100, $l * 100)"/>
+  </xsl:function>
+  
+  <xsl:function name="tr:rgb-to-hsv" as="xs:double*">
+    <xsl:param name="rgb" as="xs:double*"/>
+    
+    <xsl:variable name="r" select="$rgb[1] div 255"/>
+    <xsl:variable name="g" select="$rgb[2] div 255"/>
+    <xsl:variable name="b" select="$rgb[3] div 255"/>
+    <xsl:variable name="cmax" select="max(($r, $g, $b))"/>
+    <xsl:variable name="cmin" select="min(($r, $g, $b))"/>
+    <xsl:variable name="delta" select="$cmax - $cmin"/>
+    
+    <xsl:variable name="pre-h" select="if ($delta = 0) 
+      then 0 
+      else if ($cmax = $r) 
+      then 60 * ((($g - $b) div $delta) mod 6) 
+      else if ($cmax = $g) 
+      then 60 * ((($b - $r) div $delta) + 2) 
+      else 60 * ((($r - $g)  div $delta) + 4)"/>
+    <xsl:variable name="h" select="if ($pre-h lt 0) then $pre-h + 360 else $pre-h"/>
+    <xsl:variable name="s" select="if ($cmax = 0) then 0 else $delta div $cmax"/>
+    <xsl:variable name="v" select="$cmax"/>
+    <xsl:sequence select="($h, $s * 100, $v *100)"/>
+  </xsl:function>
+
 </xsl:stylesheet>
