@@ -15,6 +15,13 @@
                               /css:color[@name eq $keyword]
                                 /@hex"/>
   </xsl:function>
+  
+  <xsl:function name="tr:color-hex-rgb-to-keyword" as="xs:string*">
+    <xsl:param name="hex" as="xs:string" />
+    <xsl:sequence select="if (exists(document('')//css:colors[@name eq 'keyword-hex-map']/css:color[@hex eq $hex][@name])) 
+                          then document('')//css:colors[@name eq 'keyword-hex-map']/css:color[@hex eq $hex]/@name 
+                          else 'Not found'"/>
+  </xsl:function>
 
   <!-- Keyword-Hex-Map
        See section 4.3 of http://www.w3.org/TR/css3-color/ -->
