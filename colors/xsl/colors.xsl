@@ -311,7 +311,90 @@
     <xsl:variable name="h" select="if ($pre-h lt 0) then $pre-h + 360 else $pre-h"/>
     <xsl:variable name="s" select="if ($cmax = 0) then 0 else $delta div $cmax"/>
     <xsl:variable name="v" select="$cmax"/>
-    <xsl:sequence select="($h, $s * 100, $v *100)"/>
+    <xsl:sequence select="($h, $s * 100, $v * 100)"/>
+  </xsl:function>
+  
+  <xsl:function name="tr:hsv-to-rgb" as="xs:double*">
+    <xsl:param name="hsv" as="xs:double*"/>
+    
+    <xsl:variable name="h" select="$hsv[1]"/>
+    <xsl:variable name="s" select="$hsv[2] div 100"/>
+    <xsl:variable name="v" select="$hsv[3] div 100"/>
+    <xsl:variable name="C" select="$v * $s"/>
+    <xsl:variable name="X" select="$C * (1 - abs(($h div 60) mod 2 - 1))"/>
+    <xsl:variable name="m" select="$v - $C"/>
+    <xsl:variable name="rgb-prime" as="xs:double*">
+      <xsl:choose>
+        <xsl:when test="$h lt 60">
+          <xsl:sequence select="($C, $X, 0)"/>
+        </xsl:when>
+        <xsl:when test="$h lt 120">
+          <xsl:sequence select="($X, $C, 0)"/>
+        </xsl:when>
+        <xsl:when test="$h lt 180">
+          <xsl:sequence select="(0, $C, $X)"/>
+        </xsl:when>
+        <xsl:when test="$h lt 240">
+          <xsl:sequence select="(0, $X, $C)"/>
+        </xsl:when>
+        <xsl:when test="$h lt 300">
+          <xsl:sequence select="($X, 0, $C)"/>
+        </xsl:when>
+        <xsl:when test="$h lt 360">
+          <xsl:sequence select="($C, 0, $X)"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:sequence select="($C, $X, 0)"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:sequence select="for $v in $rgb-prime return round(($v + $m) * 255)"/>
+  </xsl:function>
+  
+  <xsl:function name="tr:hsl-to-rgb" as="xs:double*">
+    <xsl:param name="hsl" as="xs:double*"/>
+    
+    <xsl:variable name="h" select="$hsl[1]"/>
+    <xsl:variable name="s" select="$hsl[2] div 100"/>
+    <xsl:variable name="l" select="$hsl[3] div 100"/>
+    <xsl:variable name="C" select="(1 - abs((2 * $l) - 1)) * $s"/>
+    <xsl:variable name="X" select="$C * (1 - abs(($h div 60) mod 2 - 1))"/>
+    <xsl:variable name="m" select="$l - ($C div 2)"/>
+    <xsl:variable name="rgb-prime" as="xs:double*">
+      <xsl:choose>
+        <xsl:when test="$h lt 60">
+          <xsl:sequence select="($C, $X, 0)"/>
+        </xsl:when>
+        <xsl:when test="$h lt 120">
+          <xsl:sequence select="($X, $C, 0)"/>
+        </xsl:when>
+        <xsl:when test="$h lt 180">
+          <xsl:sequence select="(0, $C, $X)"/>
+        </xsl:when>
+        <xsl:when test="$h lt 240">
+          <xsl:sequence select="(0, $X, $C)"/>
+        </xsl:when>
+        <xsl:when test="$h lt 300">
+          <xsl:sequence select="($X, 0, $C)"/>
+        </xsl:when>
+        <xsl:when test="$h lt 360">
+          <xsl:sequence select="($C, 0, $X)"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:sequence select="($C, $X, 0)"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:sequence select="for $v in $rgb-prime return round(($v + $m) * 255)"/>
+  </xsl:function>
+  
+  <xsl:function name="tr:cmyk-to-rgb" as="xs:double*">
+    <xsl:param name="cmyk" as="xs:double*"/>
+    
+    <xsl:variable name="r" select="round(255 * (1 - $cmyk[1]) * (1 - $cmyk[4]))"/>
+    <xsl:variable name="g" select="round(255 * (1 - $cmyk[2]) * (1 - $cmyk[4]))"/>
+    <xsl:variable name="b" select="round(255 * (1 - $cmyk[3]) * (1 - $cmyk[4]))"/>
+    <xsl:sequence select="($r, $g, $b)"/>
   </xsl:function>
 
 </xsl:stylesheet>
