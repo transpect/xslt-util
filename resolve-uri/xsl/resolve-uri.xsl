@@ -13,7 +13,7 @@
        Applying '..' or '../' to either must yield identical results.
        If override is empty or the empty string, a normalized $uri-so-far will be returned.
        This is the inverse function to tr:uri-to-relative-path()
-       https://subversion.le-tex.de/common/letex-util/uri-to-relative-path/uri-to-relative-path.xsl
+       https://github.com/transpect/xslt-util/blob/master/uri-to-relative-path/xsl/uri-to-relative-path.xsl
   -->
   <xsl:function name="tr:uri-composer" as="xs:string">
     <xsl:param name="uri-so-far" as="xs:string"/>
