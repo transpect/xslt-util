@@ -13,6 +13,7 @@ The result should look like:
 1 double
 true boolean
 1 string
+file:/…/xslt-util/sequence-type/xsl/test.xsl anyURI
 <foo bar="baz"/>document-node(element(foo))
 <foo bar="baz"/>document-node(element(foo))
 <foo bar="baz"/>element(foo)
