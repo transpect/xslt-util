@@ -7,6 +7,8 @@
   
   <xsl:import href="sequence-type.xsl"/>
   
+  <xsl:output method="text"/>
+  
   <xsl:template name="test">
     <xsl:variable name="i" select="1" as="xs:integer"/>
     <xsl:message select="$i, tr:sequenceType($i)"/>
