@@ -19,6 +19,9 @@
       <xsl:when test="$item instance of xs:string">
         <xsl:sequence select="'string'"/>
       </xsl:when>
+      <xsl:when test="$item instance of xs:anyURI">
+        <xsl:sequence select="'anyURI'"/>
+      </xsl:when>
       <xsl:when test="$item instance of xs:anyAtomicType">
         <xsl:sequence select="'anyAtomicType'"/>
       </xsl:when>
