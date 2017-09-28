@@ -41,7 +41,7 @@
   
   <xsl:template match="*:entry[calstable:nested-table-exists(.)]" mode="calstable:create-virtual-entries">
     <xsl:param name="row-index" tunnel="yes" as="xs:integer"/>
-    <xsl:variable name="nested-table" select="(.//*:informaltable|.//*:table)" as="element()"/>
+    <xsl:variable name="nested-table" select="(.//*:informaltable|.//*:table)" as="element()+"/>
     <xsl:variable name="content-before" select="$nested-table/preceding-sibling::*" as="element()*"/>
     <xsl:variable name="content-after" select="$nested-table/following-sibling::*" as="element()*"/>
     <xsl:variable name="last-row-index" select="count($nested-table//*:row)" as="xs:integer"/>
