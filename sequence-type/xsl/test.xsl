@@ -22,6 +22,8 @@
     <xsl:message select="$m, tr:sequenceType($m)"/>
     <xsl:variable name="n" select="'1'" as="xs:string"/>
     <xsl:message select="$n, tr:sequenceType($n)"/>
+    <xsl:variable name="u" select="document-uri(doc(''))" as="xs:anyURI"/>
+    <xsl:message select="$u, tr:sequenceType($u)"/>
     <xsl:variable name="foo" as="document-node(element(foo))">
       <xsl:document>
         <foo bar="baz"/>
