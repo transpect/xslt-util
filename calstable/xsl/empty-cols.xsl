@@ -5,19 +5,27 @@
   exclude-result-prefixes="xs"
   version="2.0">
   
-  <!-- return all @colnum values, where there is no entry containing text -->
+  <!-- return all @colnum values, where there is no entry containing either:
+    - text
+    - or at least one text-like-element (string matching elements local-name())
+    The second option is useful images or footnote-refs, containing no text() themselves
+  -->
   <xsl:function name="calstable:empty-cols" as="xs:integer*">
     <xsl:param name="tgroup" as="element(tgroup)"/>
-    <xsl:sequence select="$tgroup/colspec/@colnum[calstable:is-empty-col(., $tgroup)]"/>
+    <xsl:param name="text-like-elements" as="xs:string+"/>
+    <xsl:sequence select="$tgroup/colspec/@colnum[calstable:is-empty-col(., $tgroup, $text-like-elements)]"/>
   </xsl:function>
   
-  <!-- return true if there is no entry using the col specified by colnum directly or indirectly in a namest/nameend span -->
+  <!-- return true if there is no entry using the col specified by colnum directly or indirectly in a namest/nameend span.
+  Not using means the same as in function calstable:empty-cols#2
+  -->
   <xsl:function name="calstable:is-empty-col" as="xs:boolean">
     <xsl:param name="colnum" as="xs:decimal"/>
     <xsl:param name="tgroup" as="element(tgroup)"/>
+    <xsl:param name="text-like-elements" as="xs:string+"/>
     <xsl:variable name="colnames" select="$tgroup/colspec[@colnum=$colnum]/@colname"/>
     <xsl:variable name="entries" select="$tgroup//(entry[@colname = $colnames], entry[@namest][calstable:is-col-in-span($colnum, @namest, @nameend, $tgroup/colspec)])"/>
-    <xsl:sequence select="empty($entries//text())"/>
+    <xsl:sequence select="empty(($entries//text(), $entries//*[local-name() = $text-like-elements]))"/>
   </xsl:function>
   
   <!-- return true if col for colnum is beetween namest and nameend (inclusive) -->
@@ -30,5 +38,19 @@
     <xsl:variable name="end" select="$colspecs[@colname = $nameend]/@colnum" as="xs:integer"/>
     <xsl:sequence select="$colnum = ($start to $end)"/>
   </xsl:function>
+
+  <!-- templates where only text should be matched, no element to -->
+  <!-- return all @colnum values, where there is no entry containing text -->
+  <xsl:function name="calstable:empty-cols" as="xs:integer*">
+    <xsl:param name="tgroup" as="element(tgroup)"/>
+    <xsl:sequence select="calstable:empty-cols($tgroup, '')"/>
+  </xsl:function>
   
+  <!-- return true if there is no entry containing text, using the col specified by colnum directly or indirectly in a namest/nameend span -->
+  <xsl:function name="calstable:is-empty-col" as="xs:boolean">
+    <xsl:param name="colnum" as="xs:decimal"/>
+    <xsl:param name="tgroup" as="element(tgroup)"/>
+    <xsl:sequence select="calstable:is-empty-col($colnum, $tgroup, '')"/>
+  </xsl:function>
+
 </xsl:stylesheet>
