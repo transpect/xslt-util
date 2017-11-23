@@ -24,7 +24,7 @@
     <xsl:param name="tgroup" as="element(tgroup)"/>
     <xsl:param name="text-like-elements" as="xs:string+"/>
     <xsl:variable name="colnames" select="$tgroup/colspec[@colnum=$colnum]/@colname"/>
-    <xsl:variable name="entries" select="$tgroup/*/(entry[@colname = $colnames], entry[@namest][calstable:is-col-in-span($colnum, @namest, @nameend, $tgroup/colspec)])"/>
+    <xsl:variable name="entries" select="$tgroup/*/row/(entry[@colname = $colnames], entry[@namest][calstable:is-col-in-span($colnum, @namest, @nameend, $tgroup/colspec)])"/>
     <xsl:sequence select="empty(($entries//text(), $entries//*[local-name() = $text-like-elements]))"/>
   </xsl:function>
   
