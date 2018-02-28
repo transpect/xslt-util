@@ -121,18 +121,20 @@
         <xsl:when test="string-length(.) gt $limit and self::text()">
           <xsl:variable name="str" select="." as="xs:string"/>
           <xsl:for-each select="0 to (string-length($str) - 1) idiv $limit">
-            <xsl:element name="{$qname}">
+            <xsl:element name="{$qname}" namespace="{namespace-uri-from-QName($qname)}" exclude-result-prefixes="#all">
+              <xsl:copy-of select="$seq/@*"/>
               <xsl:value-of select="substring($str, . * $limit + 1, $limit)"/>
             </xsl:element>
           </xsl:for-each>
         </xsl:when>
         <!-- preserve original xml structure in the final token -->
         <xsl:otherwise>
-          <xsl:element name="{$qname}">
+          <xsl:element name="{$qname}" namespace="{namespace-uri-from-QName($qname)}" exclude-result-prefixes="#all">
+            <xsl:copy-of select="$seq/@*"/>
             <xsl:choose>
               <xsl:when test="$current">
-                <xsl:element name="{$current/name()}" exclude-result-prefixes="#all">
-                  <xsl:copy-of select="$current/@*"/>
+                <xsl:element name="{$current/name()}" namespace="{namespace-uri-from-QName($qname)}" exclude-result-prefixes="#all">
+                  <xsl:copy-of select="$seq/@*"/>
                   <xsl:sequence select="."/>
                 </xsl:element>
               </xsl:when>
