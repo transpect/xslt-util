@@ -5,6 +5,8 @@
   exclude-result-prefixes="xs"
   version="2.0">
   
+  <xsl:import href="functions.xsl"/>
+  
   <!-- return all @colnum values, where there is no entry containing either:
     - text
     - or at least one text-like-element (string matching elements local-name())
@@ -28,17 +30,6 @@
     <xsl:sequence select="empty(($entries//text(), $entries//*[local-name() = $text-like-elements]))"/>
   </xsl:function>
   
-  <!-- return true if col for colnum is beetween namest and nameend (inclusive) -->
-  <xsl:function name="calstable:is-col-in-span" as="xs:boolean">
-    <xsl:param name="colnum" as="xs:decimal"/>
-    <xsl:param name="namest" as="xs:string"/>
-    <xsl:param name="nameend" as="xs:string"/>
-    <xsl:param name="colspecs" as="element(colspec)+"/>
-    <xsl:variable name="start" select="$colspecs[@colname = $namest]/@colnum" as="xs:integer"/>
-    <xsl:variable name="end" select="$colspecs[@colname = $nameend]/@colnum" as="xs:integer"/>
-    <xsl:sequence select="$colnum = ($start to $end)"/>
-  </xsl:function>
-
   <!-- templates where only text should be matched, no element to -->
   <!-- return all @colnum values, where there is no entry containing text -->
   <xsl:function name="calstable:empty-cols" as="xs:integer*">
