@@ -79,4 +79,11 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:function>
+  
+  <!-- return true if width1 is greater or equal to width2. Unit string 'pt' may be appended. -->
+  <xsl:function name="calstable:first-width-ge" as="xs:boolean">
+    <xsl:param name="width1" as="xs:string"/>
+    <xsl:param name="width2" as="xs:string"/>
+    <xsl:sequence select="replace($width1, 'pt', '') ge replace($width2, 'pt', '')"/>
+  </xsl:function>
 </xsl:stylesheet>

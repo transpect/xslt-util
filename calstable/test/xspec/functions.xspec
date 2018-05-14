@@ -153,4 +153,35 @@
       </x:scenario>
     </x:scenario>
   </x:scenario>
+  
+  <x:scenario label="Testing first-width-ge">
+    <x:scenario label="Given both width are 0">
+      <x:call function="calstable:first-width-ge">
+        <x:param name="width1" select="'0'"/>
+        <x:param name="width2" select="'0'"/>
+      </x:call>
+      <x:expect label="function returns true" select="true()"/>
+    </x:scenario>
+    <x:scenario label="Given width1 is 0">
+      <x:call function="calstable:first-width-ge">
+        <x:param name="width1" select="'0'"/>
+        <x:param name="width2" select="'1'"/>
+      </x:call>
+      <x:expect label="function returns true" select="false()"/>
+    </x:scenario>
+    <x:scenario label="Given width2 is 0">
+      <x:call function="calstable:first-width-ge">
+        <x:param name="width1" select="'1'"/>
+        <x:param name="width2" select="'0'"/>
+      </x:call>
+      <x:expect label="function returns true" select="true()"/>
+    </x:scenario>
+    <x:scenario label="Given width with 'pt' unit">
+      <x:call function="calstable:first-width-ge">
+        <x:param name="width1" select="'0pt'"/>
+        <x:param name="width2" select="'0pt'"/>
+      </x:call>
+      <x:expect label="function returns true" select="true()"/>
+    </x:scenario>
+  </x:scenario>
 </x:description>
