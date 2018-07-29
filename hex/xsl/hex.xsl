@@ -10,11 +10,13 @@
 
   <xsl:function name="tr:hex-to-dec" as="xs:integer">
     <xsl:param name="in" as="xs:string"/> <!-- e.g. 030C -->
-    <xsl:sequence select="
-    if (string-length($in) eq 1)
-       then tr-hex-private:hex-digit-to-integer($in)
-       else 16*tr:hex-to-dec(substring($in, 1, string-length($in)-1)) +
-              tr-hex-private:hex-digit-to-integer(substring($in, string-length($in)))"/>
+    <xsl:sequence select="if (string-length($in) eq 0)
+                          then 0
+                          else
+                            if (string-length($in) eq 1)
+                            then tr-hex-private:hex-digit-to-integer($in)
+                            else 16*tr:hex-to-dec(substring($in, 1, string-length($in)-1))
+                                 + tr-hex-private:hex-digit-to-integer(substring($in, string-length($in)))"/>
   </xsl:function>
   
   <xsl:function name="tr-hex-private:hex-digit-to-integer" as="xs:integer">
