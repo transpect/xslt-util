@@ -134,6 +134,7 @@
       </xsl:non-matching-substring>
     </xsl:analyze-string>
   </xsl:function>
+  
 
   <xsl:function name="tr:rgb-int-triple-to-rgb" as="xs:string">
     <xsl:param name="input" as="xs:double+"/>
@@ -234,6 +235,38 @@
     </xsl:choose>
   </xsl:function>
 
+  <xsl:function name="tr:normalize-color-to-rgb-int-triple" as="xs:double*">
+    <xsl:param name="css-color-val" as="xs:string"/>
+    <xsl:variable name="tokenized" select="tr:tokenize-css-color-value($css-color-val)" as="xs:string+" />
+    <xsl:variable name="type-in" select="$tokenized[1]" as="xs:string" />
+    <xsl:choose>
+      <xsl:when test="$type-in eq 'device-cmyk'">
+        <xsl:sequence select="tr:device-cmyk-to-rgb-int-triple($css-color-val)"/>
+      </xsl:when>
+      <xsl:when test="$type-in eq 'hex'">
+        <xsl:sequence select="tr:hex-rgb-color-to-ints(
+                                tr:hex-rgb-to-six-digits-hex-rgb(
+                                  concat('#', $tokenized[2])
+                                )
+                              )"/>
+      </xsl:when>
+      <xsl:when test="$type-in eq 'rgb'">
+        <xsl:sequence select="for $i in $tokenized[position() gt 1]
+                              return xs:double($i)"/>
+      </xsl:when>
+      <xsl:when test="$type-in = $known-keywords">
+        <xsl:sequence select="tr:hex-rgb-color-to-ints(
+                                tr:color-keyword-to-hex-rgb($type-in)
+                              )"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:message select="'colors/colors.xsl, tr:normalize-color-to-rgb-int-triple: unimplemented color type conversion:', $type-in"/>
+        <xsl:value-of select="$css-color-val"/>
+      </xsl:otherwise>
+    </xsl:choose>
+    
+  </xsl:function>
+  
   <!-- examples  in: #DD05AC          out: ('hex', 'DD05AC')
                  in: rgb (45, 70, 2)  out: ('rgb', '45', '50', '2') -->
   <xsl:function name="tr:tokenize-css-color-value" as="xs:string+">
