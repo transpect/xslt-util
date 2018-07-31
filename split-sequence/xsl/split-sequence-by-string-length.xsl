@@ -5,7 +5,7 @@
   exclude-result-prefixes="xs"
   version="2.0">  
   
-  <!--  tr:holzfaellen()
+  <!--  tr:holzfaellen($seq, $limit, $qname)
     
         This function is named after the famous book 'Holzfällen' of 
         the austrian author Thomas Bernhard. The entire book consists only 
