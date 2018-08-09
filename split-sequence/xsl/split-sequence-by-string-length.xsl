@@ -139,7 +139,7 @@
                 </xsl:element>
               </xsl:when>
               <xsl:otherwise>
-                <xsl:sequence select="node()"/>
+                <xsl:sequence select="."/>
               </xsl:otherwise>
             </xsl:choose>
           </xsl:element>
