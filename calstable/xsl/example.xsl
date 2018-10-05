@@ -9,13 +9,13 @@
   version="2.0">
   
   <!-- Documentation: in normalize.xsl -->
-  <xsl:import href="normalize.xsl"/>
+  <xsl:import href="normalize-colnames.xsl"/>
 
-  <xsl:output indent="yes"/>
+  <!--<xsl:output indent="yes"/>-->
 
-  <xsl:template match="node() | @*" >
+  <xsl:template match="node() | @*" mode="#default normalize-colnames">
     <xsl:copy copy-namespaces="no">
-      <xsl:apply-templates select="@*, node()"/>
+      <xsl:apply-templates select="@*, node()" mode="#current"/>
     </xsl:copy>
   </xsl:template>
 
@@ -24,6 +24,10 @@
                             calstable:normalize(.), 
                             'no'
                           )"/>
+  </xsl:template>
+
+  <xsl:template match="*:tgroup" mode="normalize-colnames" >
+    <xsl:sequence select="calstable:normalize-colnames(., 'col')"/>
   </xsl:template>
 
 </xsl:stylesheet>
