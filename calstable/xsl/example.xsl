@@ -10,6 +10,8 @@
   
   <!-- Documentation: in normalize.xsl -->
   <xsl:import href="normalize-colnames.xsl"/>
+  
+  <xsl:param name="colname-prefix" select="'col'" as="xs:string"/>
 
   <!--<xsl:output indent="yes"/>-->
 
@@ -27,7 +29,7 @@
   </xsl:template>
 
   <xsl:template match="*:tgroup" mode="normalize-colnames" >
-    <xsl:sequence select="calstable:normalize-colnames(., 'col')"/>
+    <xsl:sequence select="calstable:normalize-colnames(., $colname-prefix)"/>
   </xsl:template>
 
 </xsl:stylesheet>

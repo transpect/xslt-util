@@ -20,7 +20,7 @@
   
   <xsl:key name="by-colname" match="*:colspec" use="@colname"/>
   
-  <xsl:template match="@calstable:namest | @calstable:nameend" mode="calstable:colnames">
+  <xsl:template match="@*:namest | @*:nameend" mode="calstable:colnames">
     <xsl:variable name="colspec" as="element(*)" 
       select="key('by-colname', .)[ancestor::*:tgroup[1] is current()/ancestor::*:tgroup[1]]"/>
     <xsl:variable name="new-val" as="attribute(*)">
@@ -29,7 +29,9 @@
     <xsl:attribute name="{local-name()}" select="string($new-val)"/>
   </xsl:template>
   
-  <xsl:template match="@calstable:id | @calstable:colspan | *:entry[@calstable:rid]" mode="calstable:colnames"/>
+  <xsl:template match="@calstable:id | @calstable:colspan | *:entry[@calstable:rid] 
+                       | *:entry[@linkend]
+                       | *:entry/@xml:id[starts-with(., 'calstable_')]" mode="calstable:colnames"/>
   
   <xsl:template match="@calstable:morerows" mode="calstable:colnames">
     <xsl:attribute name="{local-name()}" select="string(.)"/>

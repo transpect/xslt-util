@@ -289,6 +289,12 @@
 
   <xsl:template match="@calstable:*[matches(namespace-uri(..), 'docbook')]" mode="calstable:final"/>
 
+  <xsl:template match="@calstable:*[local-name() = ('namest', 'nameend', 'morerows')]
+                                   [matches(namespace-uri(..), 'docbook')]" 
+                mode="calstable:final" priority="1">
+    <xsl:attribute name="{local-name()}" select="."/>
+  </xsl:template>
+
   <xsl:template match="*/@morerows" mode="calstable:final">
     <xsl:attribute name="calstable:morerows" select="."/>
   </xsl:template>
