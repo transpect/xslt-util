@@ -92,7 +92,9 @@
         <xsl:for-each select="$tbody">
           <!-- missing: XSLT 3.0’s xsl:copy/@select -->
           <xsl:copy copy-namespaces="no">
-            <xsl:apply-templates select="$table_with_no_rowspans" mode="calstable:final"/>
+            <xsl:apply-templates select="$table_with_no_rowspans" mode="calstable:final">
+              <xsl:with-param name="colspec-doc" as="document-node(element(calstable:colspecs))" select="$colspecs" tunnel="yes"/>
+            </xsl:apply-templates>
           </xsl:copy>
         </xsl:for-each>
       </xsl:when>
@@ -114,7 +116,11 @@
     <xsl:variable name="actual-col-lengths" as="xs:integer+"
       select="for $i in (1 to max($actual-row-lengths)) return count($normalized-tbody/*/*[position() = $i])"/>
     <xsl:variable name="actual-morerows"
-      select="for $r in $normalized-tbody/*:row return (for $m in $r//@calstable:morerows return (if (count($r/following-sibling::*:row)-xs:integer($m) lt 0) then concat('(', count($m/parent::*:entry/preceding-sibling::*:entry)+1,',',count($r/preceding-sibling::*:row)+1, ')') else ()))"
+      select="for $r in $normalized-tbody/*:row 
+              return (for $m in $r//@calstable:morerows 
+                      return (if (count($r/following-sibling::*:row)-xs:integer($m) lt 0) 
+                              then concat('(', count($m/parent::*:entry/preceding-sibling::*:entry)+1,',',count($r/preceding-sibling::*:row)+1, ')') 
+                              else ()))"
       as="xs:string*"/>
     <xsl:variable name="irregular-row-lengths"
       select="count(distinct-values($actual-row-lengths)) ne 1" as="xs:boolean"/>
@@ -287,9 +293,9 @@
     </xsl:apply-templates>
   </xsl:template>
 
-  <xsl:template match="@calstable:*[matches(namespace-uri(..), 'docbook')]" mode="calstable:final"/>
+  <xsl:template match="@calstable:*[matches(namespace-uri(..), 'docbook')]" mode="calstable:final_"/>
 
-  <xsl:template match="@calstable:*[local-name() = ('namest', 'nameend', 'morerows')]
+  <xsl:template match="@calstable:*[local-name() = ('namest', 'nameend', 'morerows', 'colname')]
                                    [matches(namespace-uri(..), 'docbook')]" 
                 mode="calstable:final" priority="1">
     <xsl:attribute name="{local-name()}" select="."/>
@@ -307,6 +313,15 @@
   <xsl:template match="@calstable:rid[matches(namespace-uri(..), 'docbook')]" mode="calstable:final"
     priority="2">
     <xsl:attribute name="linkend" select="."/>
+  </xsl:template>
+  
+  <xsl:template match="*:entry[empty(@*:colname | @*:namest | @*:nameend)]" mode="calstable:final">
+    <xsl:param name="colspec-doc" as="document-node(element(calstable:colspecs))" tunnel="yes"/>
+    <xsl:copy copy-namespaces="no">
+      <xsl:variable name="pos" select="index-of(../*/generate-id(), generate-id())"/>
+      <xsl:attribute name="colname" select="$colspec-doc/*/*:colspec[position() = $pos]/@*:colname"/>
+      <xsl:apply-templates select="@*, node()" mode="#current"/>
+    </xsl:copy>
   </xsl:template>
 
 
