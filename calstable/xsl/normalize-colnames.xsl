@@ -20,7 +20,7 @@
   
   <xsl:key name="by-colname" match="*:colspec" use="@colname"/>
   
-  <xsl:template match="@*:namest | @*:nameend" mode="calstable:colnames">
+  <xsl:template match="@*:namest | @*:nameend | *:entry/@*:colname" mode="calstable:colnames">
     <xsl:variable name="colspec" as="element(*)" 
       select="key('by-colname', .)[ancestor::*:tgroup[1] is current()/ancestor::*:tgroup[1]]"/>
     <xsl:variable name="new-val" as="attribute(*)">
