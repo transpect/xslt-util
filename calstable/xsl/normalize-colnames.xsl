@@ -54,5 +54,13 @@
   <xsl:template match="*[*:row]" mode="calstable:colnames-entry">
     <xsl:sequence select="calstable:normalize(.)"/>
   </xsl:template>
+  
+  <xsl:template match="*:tgroup" mode="calstable:colnames-entry">
+    <xsl:copy copy-namespaces="no">
+      <xsl:copy-of select="@*"/>
+      <xsl:apply-templates select="*:colspec[last()]" mode="calstable:colspec"/>
+      <xsl:apply-templates select="node()[empty(following-sibling::*:colspec)] except *:colspec" mode="#current"/>
+    </xsl:copy>
+  </xsl:template>
 
 </xsl:stylesheet>

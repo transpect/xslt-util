@@ -25,6 +25,12 @@
         
         Sample invocation:
         saxon -s:test/table.xml -xsl:example.xsl
+        
+        Please note that the colspecs won’t be modified by this function. It might
+        be necessary though to add colnum attributes if they are missing. Currently,
+        the function calstable:normalize-colnames() that build on this function
+        does this colnum normalisation by itself. We should alter calstable:normalize()
+        that it equally accepts a tgroup and then includes normalized colspecs.
 
         As a sample application, we’ve included calstable:check-normalized().
         It takes a normalized table as first and 'yes' or 'no' as second argument.
@@ -151,10 +157,11 @@
     <xsl:variable name="preceding" select="preceding-sibling::*[1]/self::*:colspec" as="element(*)?"/>
     <xsl:choose>
       <xsl:when test="exists($preceding)">
-        <xsl:variable name="preceding-with-colnum" as="element(*)+">
+        <xsl:variable name="preceding-with-colnum" as="node()+">
           <xsl:apply-templates select="$preceding" mode="#current"/>
         </xsl:variable>
         <xsl:sequence select="$preceding-with-colnum"/>
+        <xsl:sequence select="preceding-sibling::node()[. >> $preceding]"/><!-- retain text nodes, comments, PIs -->
         <xsl:copy>
           <xsl:attribute name="colnum"
             select="xs:integer($preceding-with-colnum[last()]/@colnum) + 1"/>
@@ -162,6 +169,7 @@
         </xsl:copy>
       </xsl:when>
       <xsl:otherwise>
+        <xsl:sequence select="preceding-sibling::node()"/><!-- note that there may be no other elements than colspec here -->
         <xsl:copy>
           <xsl:attribute name="colnum" select="1"/>
           <xsl:copy-of select="@*"/>
@@ -293,7 +301,7 @@
     </xsl:apply-templates>
   </xsl:template>
 
-  <xsl:template match="@calstable:*[matches(namespace-uri(..), 'docbook')]" mode="calstable:final_"/>
+  <xsl:template match="@calstable:*[matches(namespace-uri(..), 'docbook')]" mode="calstable:final"/>
 
   <xsl:template match="@calstable:*[local-name() = ('namest', 'nameend', 'morerows', 'colname')]
                                    [matches(namespace-uri(..), 'docbook')]" 
