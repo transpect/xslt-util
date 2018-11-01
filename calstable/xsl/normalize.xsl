@@ -73,44 +73,68 @@
   -->
 
   <xsl:function name="calstable:normalize" as="element(*)">
-    <!-- tbody in a namespace or in no namespace -->
-    <xsl:param name="tbody" as="element()"/>
+    <!-- tbody or tgroup in a namespace or in no namespace. We accept tbody for backwards compatibility -->
+    <xsl:param name="tbody-or-tgroup" as="element()"/>
+    <xsl:variable name="tgroup" as="element(*)" select="$tbody-or-tgroup/(. | ..)/self::*:tgroup"/>
     <xsl:choose>
-      <xsl:when test="exists($tbody/../*:colspec)">
+      <xsl:when test="exists($tgroup/*:colspec)">
         <xsl:variable name="colspecs" as="document-node(element(calstable:colspecs))">
           <xsl:document>
             <calstable:colspecs>
-              <xsl:apply-templates select="$tbody/../*:colspec[last()]" mode="calstable:colspec"/>
+              <xsl:apply-templates select="$tgroup/*:colspec[last()]" mode="calstable:colspec"/>
             </calstable:colspecs>
           </xsl:document>
         </xsl:variable>
-        <xsl:variable name="table_with_no_colspans" as="element(*)*">
-          <!-- rows, in a namespace or not -->
-          <xsl:apply-templates select="$tbody" mode="calstable:colspan">
-            <xsl:with-param name="colspecs" select="$colspecs" tunnel="yes"/>
-            <xsl:with-param name="spanspecs" select="$tbody/../*:spanspec" tunnel="yes"/>
-          </xsl:apply-templates>
-        </xsl:variable>
-        <xsl:variable name="table_with_no_rowspans" as="element(*)*">
-          <!-- rows, in a namespace or not -->
-          <xsl:apply-templates select="$table_with_no_colspans" mode="calstable:rowspan"/>
-        </xsl:variable>
-        <xsl:for-each select="$tbody">
-          <!-- missing: XSLT 3.0’s xsl:copy/@select -->
-          <xsl:copy copy-namespaces="no">
-            <xsl:apply-templates select="$table_with_no_rowspans" mode="calstable:final">
-              <xsl:with-param name="colspec-doc" as="document-node(element(calstable:colspecs))" select="$colspecs" tunnel="yes"/>
-            </xsl:apply-templates>
-          </xsl:copy>
-        </xsl:for-each>
+        <xsl:choose>
+          <xsl:when test="$tbody-or-tgroup/self::*:tgroup">
+            <xsl:for-each select="$tgroup">
+              <xsl:copy>
+                <xsl:copy-of select="@*, node() except (*:colspec | *:spanspec | *[*:row])"/>
+                <xsl:apply-templates select="$colspecs/calstable:colspecs/*, *:spanspec" mode="calstable:initial" />
+                <xsl:apply-templates select="*[*:row]" mode="calstable:initial">
+                  <xsl:with-param name="colspecs" select="$colspecs" tunnel="yes"/>
+                  <xsl:with-param name="spanspecs" select="$tgroup/*:spanspec" tunnel="yes"/>
+                </xsl:apply-templates>
+              </xsl:copy>
+            </xsl:for-each>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:apply-templates select="$tbody-or-tgroup" mode="calstable:initial">
+                <xsl:with-param name="colspecs" select="$colspecs" tunnel="yes"/>
+                <xsl:with-param name="spanspecs" select="$tgroup/*:spanspec" tunnel="yes"/>
+              </xsl:apply-templates>
+          </xsl:otherwise>
+        </xsl:choose>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:message select="'calstable/xsl/normalize.xsl: No colspec in table with ', ($tbody/ancestor::*[@srcpath][1]/@srcpath, $tbody/*:row/*[1])[1],
-          '&#xa;Returning the argument to calstable:normalize() unchanged.'"/>
-        <xsl:sequence select="$tbody"/>
+        <xsl:message select="'calstable/xsl/normalize.xsl: No colspec in table with srcpath, id or first entry text ''', 
+          (
+            $tbody-or-tgroup/ancestor::*[@srcpath][1]/@srcpath/string(),
+            $tbody-or-tgroup/(. | ..)/self::*:tgroup/../@*:id/string(),
+            ($tbody-or-tgroup//*:row)[1]/*[1]/string()
+          )[1],
+          '''&#xa;Returning the argument to calstable:normalize() unchanged.'"/>
+        <xsl:sequence select="$tbody-or-tgroup"/>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:function>
+
+  <xsl:template match="*[*:row]" mode="calstable:initial">
+    <xsl:param name="colspecs" as="document-node(element(calstable:colspecs))" tunnel="yes"/>
+    <xsl:variable name="table_with_no_colspans" as="element(*)*">
+      <!-- rows, in a namespace or not -->
+      <xsl:apply-templates select="." mode="calstable:colspan"/>
+    </xsl:variable>
+    <xsl:variable name="table_with_no_rowspans" as="element(*)*">
+      <!-- rows, in a namespace or not -->
+      <xsl:apply-templates select="$table_with_no_colspans" mode="calstable:rowspan"/>
+    </xsl:variable>
+    <xsl:copy copy-namespaces="no">
+      <xsl:apply-templates select="$table_with_no_rowspans" mode="calstable:final">
+        <xsl:with-param name="colspec-doc" as="document-node(element(calstable:colspecs))" select="$colspecs" tunnel="yes"/>
+      </xsl:apply-templates>
+    </xsl:copy>
+  </xsl:template>
 
   <xsl:function name="calstable:check-normalized" as="element(*)">
     <!-- tbody or thead in a namespace or in no namespace -->
@@ -147,7 +171,7 @@
     <xsl:sequence select="$normalized-tbody"/>
   </xsl:function>
 
-  <xsl:template match="@*|node()" mode="calstable:colspan calstable:rowspan calstable:final">
+  <xsl:template match="@*|node()" mode="calstable:colspan calstable:rowspan calstable:final calstable:initial">
     <xsl:copy copy-namespaces="no">
       <xsl:apply-templates select="@*|node()" mode="#current"/>
     </xsl:copy>
@@ -163,15 +187,18 @@
         <xsl:sequence select="$preceding-with-colnum"/>
         <xsl:sequence select="preceding-sibling::node()[. >> $preceding]"/><!-- retain text nodes, comments, PIs -->
         <xsl:copy>
-          <xsl:attribute name="colnum"
+          <xsl:variable name="colnum" as="xs:integer"
             select="xs:integer($preceding-with-colnum[last()]/@colnum) + 1"/>
+          <xsl:attribute name="colnum" select="$colnum"/>
+          <xsl:attribute name="colname" select="concat('__generated__', $colnum)"/>
           <xsl:copy-of select="@*"/>
         </xsl:copy>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:sequence select="preceding-sibling::node()"/><!-- note that there may be no other elements than colspec here -->
+        <xsl:sequence select="preceding-sibling::node()"/><!-- note that there may be no other *elements* than colspec here -->
         <xsl:copy>
           <xsl:attribute name="colnum" select="1"/>
+          <xsl:attribute name="colname" select="'__generated__1'"/>
           <xsl:copy-of select="@*"/>
         </xsl:copy>
       </xsl:otherwise>
@@ -197,7 +224,7 @@
   <xsl:key name="calstable:colspec-by-colname" match="*:colspec" use="@colname"/>
 
   <xsl:template match="*:entry[not(ancestor::*:entry)] | *:entrytbl[not(ancestor::*:entry)]" mode="calstable:colspan">
-    <xsl:param name="colspecs" as="document-node(element(calstable:colspecs))" tunnel="yes"/>
+    <xsl:param name="colspecs" as="document-node(element(calstable:colspecs))?" tunnel="yes"/>
     <xsl:param name="spanspecs" as="element(*)*" tunnel="yes"/>
     <xsl:variable name="namest" as="xs:string?"
       select="if (@spanname) then $spanspecs[@spanname = current()/@spanname]/@namest else @namest"/>
@@ -309,7 +336,7 @@
     <xsl:attribute name="{local-name()}" select="."/>
   </xsl:template>
 
-  <xsl:template match="*/@morerows" mode="calstable:final">
+  <xsl:template match="*[not(matches(namespace-uri(), 'docbook'))]/@morerows" mode="calstable:final">
     <xsl:attribute name="calstable:morerows" select="."/>
   </xsl:template>
 

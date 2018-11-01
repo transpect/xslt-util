@@ -15,13 +15,13 @@
 
   <!--<xsl:output indent="yes"/>-->
 
-  <xsl:template match="node() | @*" mode="#default normalize-colnames">
+  <xsl:template match="node() | @*" mode="#default check-normalized normalize-colnames">
     <xsl:copy copy-namespaces="no">
       <xsl:apply-templates select="@*, node()" mode="#current"/>
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="*[*:row]">
+  <xsl:template match="*[*:row]" mode="check-normalized">
     <xsl:sequence select="calstable:check-normalized(
                             calstable:normalize(.), 
                             'no'
@@ -31,5 +31,11 @@
   <xsl:template match="*:tgroup" mode="normalize-colnames" >
     <xsl:sequence select="calstable:normalize-colnames(., $colname-prefix)"/>
   </xsl:template>
+
+  <xsl:template match="*:tgroup" mode="#default" >
+    <xsl:sequence select="calstable:normalize(.)"/>
+  </xsl:template>
+
+  
 
 </xsl:stylesheet>

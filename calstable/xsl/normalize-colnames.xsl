@@ -30,7 +30,7 @@
   </xsl:template>
   
   <xsl:template match="@calstable:id | @calstable:colspan | *:entry[@calstable:rid] 
-                       | *:entry[@linkend]
+                       | *:entry[@linkend[starts-with(., 'calstable_')]]
                        | *:entry/@xml:id[starts-with(., 'calstable_')]" mode="calstable:colnames"/>
   
   <xsl:template match="@calstable:morerows" mode="calstable:colnames">
