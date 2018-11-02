@@ -5,7 +5,7 @@
   exclude-result-prefixes="xs"
   version="2.0">  
   
-  <!--  tr:holzfaellen($seq, $limit, $qname)
+  <!--  tr:holzfaellen( node()*, xs:integer, xs:QName )
     
         This function is named after the famous book 'Holzfällen' of 
         the austrian author Thomas Bernhard. The entire book consists only 
@@ -38,7 +38,7 @@
     <xsl:sequence select="tr:split-sequence-by-string-length($seq, $limit, $qname)"/>
   </xsl:function>
   
-  <!--  tr:split-sequence-by-string-length()
+  <!--  tr:split-sequence-by-string-length( node()*, xs:integer, xs:QName )
     
         Calls tr:tokenize-sequence-by-string-length() to split elements when their
         string length exceeds the limit. To minimize the number of chunks, 
@@ -56,7 +56,7 @@
                           )"/>
   </xsl:function>
   
-  <!--  tr:group-sequence-by-string-length() 
+  <!--  tr:group-sequence-by-string-length( node()*, xs:integer ) 
         
         Groups a sequence of nodes until the maximum string length is reached. The 
         nodes are grouped as pairs. The function calls itself recursively until the 
@@ -65,8 +65,8 @@
   -->
   
   <xsl:function name="tr:group-sequence-by-string-length" as="node()*">
-    <xsl:param name="seq" as="node()*"/>    <!-- sequence of nodes -->
-    <xsl:param name="limit" as="xs:integer"/> <!-- maximum string length  -->
+    <xsl:param name="seq" as="node()*"/>     <!-- sequence of nodes -->
+    <xsl:param name="limit" as="xs:integer"/><!-- maximum string length  -->
     <!-- group adjacent nodes in pairs and group them -->
     <xsl:variable name="join" as="node()*">
       <xsl:for-each select="$seq[position() mod 2 = 1]">
@@ -99,7 +99,7 @@
     </xsl:choose>
   </xsl:function>
   
-  <!--  tr:tokenize-sequence-per-string-length()
+  <!--  tr:tokenize-sequence-per-string-length( node()*, xs:integer, xs:QName, element()? )
     
         Splits a sequence of nodes into XML tokens by a specified string length limit.
         Each token is wrapped within an element. In contrast to a simple text splitting,
@@ -107,9 +107,9 @@
   -->
   
   <xsl:function name="tr:tokenize-sequence-by-string-length" as="node()*">
-    <xsl:param name="seq" as="node()*"/><!-- sequence of nodes -->
-    <xsl:param name="limit" as="xs:integer"/><!-- maximum string length -->
-    <xsl:param name="qname" as="xs:QName"/><!-- QName for wrapper element -->
+    <xsl:param name="seq" as="node()*"/>       <!-- sequence of nodes -->
+    <xsl:param name="limit" as="xs:integer"/>  <!-- maximum string length -->
+    <xsl:param name="qname" as="xs:QName"/>    <!-- QName for wrapper element -->
     <xsl:param name="current" as="element()?"/><!-- should be left empty, parameter is set when the function calls itself -->
     <xsl:for-each select="$seq/node()">
       <xsl:choose>
