@@ -32,9 +32,9 @@
   -->
   
   <xsl:function name="tr:holzfaellen">
-    <xsl:param name="seq"/>   <!-- sequence of nodes -->
-    <xsl:param name="limit"/> <!-- maximum string-length -->
-    <xsl:param name="qname"/> <!-- QName for wrapper element -->
+    <xsl:param name="seq"   as="node()*"/>   <!-- sequence of nodes -->
+    <xsl:param name="limit" as="xs:integer"/><!-- maximum string-length -->
+    <xsl:param name="qname" as="xs:QName"/>  <!-- QName for wrapper element -->
     <xsl:sequence select="tr:split-sequence-by-string-length($seq, $limit, $qname)"/>
   </xsl:function>
   
@@ -46,9 +46,9 @@
   -->
   
   <xsl:function name="tr:split-sequence-by-string-length">
-    <xsl:param name="seq"/>   <!-- sequence of nodes -->
-    <xsl:param name="limit"/> <!-- maximum string-length -->
-    <xsl:param name="qname"/> <!-- QName for wrapper element -->
+    <xsl:param name="seq"   as="node()*"/>   <!-- sequence of nodes -->
+    <xsl:param name="limit" as="xs:integer"/><!-- maximum string-length -->
+    <xsl:param name="qname" as="xs:QName"/>  <!-- QName for wrapper element -->
     <xsl:sequence select="tr:group-sequence-by-string-length(
                             tr:tokenize-sequence-by-string-length(
                               $seq, $limit, $qname, ()
@@ -66,7 +66,7 @@
   
   <xsl:function name="tr:group-sequence-by-string-length" as="node()*">
     <xsl:param name="seq" as="node()*"/>    <!-- sequence of nodes -->
-    <xsl:param name="limit" as="xs:float"/> <!-- maximum string length  -->
+    <xsl:param name="limit" as="xs:integer"/> <!-- maximum string length  -->
     <!-- group adjacent nodes in pairs and group them -->
     <xsl:variable name="join" as="node()*">
       <xsl:for-each select="$seq[position() mod 2 = 1]">
