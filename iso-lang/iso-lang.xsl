@@ -13,7 +13,24 @@
       <xsl:param name="context" as="xs:string"/>
       <xsl:sequence select="some $i in document('')//tr:langs/tr:lang satisfies $i/@code eq $context"/>
   </xsl:function>
-    
+  
+  <xsl:function name="tr:lang-is-ltr" as="xs:boolean">
+    <xsl:param name="lang" as="xs:string"/>
+    <xsl:sequence select="boolean($lang = $ltr-lang-codes)"/>
+  </xsl:function>
+  
+  <xsl:function name="tr:lang-is-rtl" as="xs:boolean">
+    <xsl:param name="lang" as="xs:string"/>
+    <xsl:sequence select="boolean($lang = $rtl-lang-codes)"/>
+  </xsl:function>
+  
+  <xsl:function name="tr:lang-dir" as="xs:string">
+    <xsl:param name="lang" as="xs:string"/>
+    <xsl:sequence select="if($lang = $rtl-lang-codes) 
+                          then 'rtl' 
+                          else 'ltr'"/>
+  </xsl:function>
+  
   <tr:langs>
     <tr:lang code="alpha2" value="English"/>
     <tr:lang code="aa" value="Afar"/>
