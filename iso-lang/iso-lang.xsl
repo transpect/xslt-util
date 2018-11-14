@@ -26,7 +26,7 @@
   
   <xsl:function name="tr:lang-dir" as="xs:string">
     <xsl:param name="lang" as="xs:string"/>
-    <xsl:sequence select="document('')//tr:langs/tr:lang[$lang eq @code]/@dir'"/>
+    <xsl:sequence select="document('')//tr:langs/tr:lang[$lang eq @code]/@dir"/>
   </xsl:function>
   
   <tr:langs>
