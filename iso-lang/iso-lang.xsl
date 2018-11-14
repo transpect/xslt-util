@@ -10,8 +10,8 @@
     -->
     
   <xsl:function name="tr:is-valid-iso-lang-code" as="xs:boolean">
-      <xsl:param name="lang" as="xs:string"/>
-      <xsl:sequence select="some $i in document('')//tr:langs/tr:lang satisfies $i/@code eq $lang"/>
+    <xsl:param name="lang" as="xs:string"/>
+    <xsl:sequence select="some $i in document('')//tr:langs/tr:lang satisfies $i/@code eq $lang"/>
   </xsl:function>
   
   <xsl:function name="tr:lang-is-ltr" as="xs:boolean">
