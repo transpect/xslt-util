@@ -16,12 +16,12 @@
   
   <xsl:function name="tr:lang-is-ltr" as="xs:boolean">
     <xsl:param name="lang" as="xs:string"/>
-    <xsl:sequence select="$lang = document('')//tr:langs/tr:lang[$lang eq @code][@dir eq 'ltr']"/>
+    <xsl:sequence select="$lang = document('')//tr:langs/tr:lang[@dir eq 'ltr']/@code"/>
   </xsl:function>
   
   <xsl:function name="tr:lang-is-rtl" as="xs:boolean">
     <xsl:param name="lang" as="xs:string"/>
-    <xsl:sequence select="$lang = document('')//tr:langs/tr:lang[$lang eq @code][@dir eq 'rtl']"/>
+    <xsl:sequence select="$lang = document('')//tr:langs/tr:lang[@dir eq 'rtl']/@code"/>
   </xsl:function>
   
   <xsl:function name="tr:lang-dir" as="xs:string">
