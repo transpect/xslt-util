@@ -27,46 +27,17 @@
     
   </p:documentation>
   
-  <p:choose>
-      
-    <p:when test="//*:informaltable[.//*:informaltable[.//*:entry[@morerows or @namest]] or .//*:table[.//*:entry[@morerows or @namest]]]
-                 |//*:table[.//*:informaltable[.//*:entry[@morerows or @namest]] or .//*:table[.//*:entry[@morerows or @namest]]]">
-      
-      <!-- resolve 1st tables without nested tables -->
-      
-      <p:viewport match="//*:informaltable[ancestor::*:informaltable and not(.//*:informaltable)][.//*:entry[@morerows or @namest]]
-                        |//*:table[(ancestor::*:informaltable|ancestor::*:table) and not(.//*:informaltable|.//*:table)][.//*:entry[@morerows or @namest]]">
-        
-        <p:xslt name="normalize-calstables-xslt">
-          <p:input port="stylesheet">
-            <p:document href="../xsl/call-normalize.xsl"/>
-          </p:input>
-          <p:input port="parameters">
-            <p:empty/>
-          </p:input>
-        </p:xslt>
-        
-      </p:viewport>
-      
-      <tr:normalize-calstables/>
-      
-    </p:when>
-    <p:otherwise>
-                
-      <p:viewport match="//*:informaltable|//*:table">
-        
-        <p:xslt name="normalize-calstables-xslt">
-          <p:input port="stylesheet">
-            <p:document href="../xsl/call-normalize.xsl"/>
-          </p:input>
-          <p:input port="parameters">
-            <p:empty/>
-          </p:input>
-        </p:xslt>
-        
-      </p:viewport>
-      
-    </p:otherwise>
-  </p:choose>
+  <p:viewport match="//*:tgroup[empty(ancestor::*:tgroup)]">
+    
+    <p:xslt name="normalize-calstables-xslt">
+      <p:input port="stylesheet">
+        <p:document href="../xsl/call-normalize.xsl"/>
+      </p:input>
+      <p:input port="parameters">
+        <p:empty/>
+      </p:input>
+    </p:xslt>
+    
+  </p:viewport>
             
 </p:declare-step>

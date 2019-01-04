@@ -135,19 +135,25 @@
       </xsl:apply-templates>
     </xsl:copy>
   </xsl:template>
+  
+  <!-- process embedded tables -->
+  <xsl:template match="*:tgroup" mode="calstable:final" >
+    <xsl:sequence select="calstable:normalize(.)"/>
+  </xsl:template>
 
   <xsl:function name="calstable:check-normalized" as="element(*)">
     <!-- tbody or thead in a namespace or in no namespace -->
-    <xsl:param name="normalized-tbody" as="element(*)"/>
+    <xsl:param name="normalized-tgroup-or-tbody" as="element(*)"/>
     <xsl:param name="terminate" as="xs:string"/>
     <!-- 'yes', 'no' -->
     <xsl:variable name="actual-row-lengths" as="xs:integer+"
-      select="for $r in $normalized-tbody/* return count($r/*)"/>
+      select="for $r in $normalized-tgroup-or-tbody/(*/*:row | *:row) return count($r/*)"/>
     <xsl:variable name="actual-col-lengths" as="xs:integer+"
-      select="for $i in (1 to max($actual-row-lengths)) return count($normalized-tbody/*/*[position() = $i])"/>
+      select="for $i in (1 to max($actual-row-lengths)) 
+      return count($normalized-tgroup-or-tbody/(*/*:row | *:row)/*[position() = $i])"/>
     <xsl:variable name="actual-morerows"
-      select="for $r in $normalized-tbody/*:row 
-              return (for $m in $r//@calstable:morerows 
+      select="for $r in $normalized-tgroup-or-tbody/(*/*:row | *:row) 
+              return (for $m in $r/*/@calstable:morerows 
                       return (if (count($r/following-sibling::*:row)-xs:integer($m) lt 0) 
                               then concat('(', count($m/parent::*:entry/preceding-sibling::*:entry)+1,',',count($r/preceding-sibling::*:row)+1, ')') 
                               else ()))"
@@ -168,7 +174,7 @@
       <xsl:message terminate="{$terminate}">Too few rows (@morerows): <xsl:value-of
           select="$actual-morerows"/></xsl:message>
     </xsl:if>
-    <xsl:sequence select="$normalized-tbody"/>
+    <xsl:sequence select="$normalized-tgroup-or-tbody"/>
   </xsl:function>
 
   <xsl:template match="@*|node()" mode="calstable:colspan calstable:rowspan calstable:final calstable:initial">
@@ -223,7 +229,7 @@
 
   <xsl:key name="calstable:colspec-by-colname" match="*:colspec" use="@colname"/>
 
-  <xsl:template match="*:entry[not(ancestor::*:entry)] | *:entrytbl[not(ancestor::*:entry)]" mode="calstable:colspan">
+  <xsl:template match="*:entry | *:entrytbl[not(ancestor::*:entry)]" mode="calstable:colspan">
     <xsl:param name="colspecs" as="document-node(element(calstable:colspecs))?" tunnel="yes"/>
     <xsl:param name="spanspecs" as="element(*)*" tunnel="yes"/>
     <xsl:variable name="namest" as="xs:string?"

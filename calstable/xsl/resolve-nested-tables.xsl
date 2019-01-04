@@ -8,7 +8,14 @@
   version="2.0">
   
   <!-- This stylesheet resolves tables that are nested within tables cells. It depends on 
-       a table normalization which creates virtual cells for each cell with rowspan and colspan. -->
+       a table normalization which creates virtual cells for each cell with rowspan and colspan.
+
+      Nesting means: *:/informaltables inside *:entry. 
+      *:entrytbl are not supported yet, despite their occasional appearance in expressions/matching patterns.
+
+      Nesting can only be resolved under this condition:
+      – Nested informaltables fill up an entry entirely. No other paras or other informaltables next to them. 
+  -->
   
   <xsl:function name="calstable:resolve-nested-tables">
     <xsl:param name="table" as="element()"/>
@@ -19,8 +26,8 @@
   
   <xsl:template match="*:row[calstable:nested-table-exists(.)]" mode="calstable:resolve-nested-tables">
     <xsl:variable name="row" select="." as="element()"/>
-    <xsl:variable name="nested-table" select="(*:entry//*:informaltable, *:entry//*:table)" as="element()+"/>
-    <xsl:variable name="nested-table-rows" select="max(for $i in $nested-table return count($i//*:row))" as="xs:integer"/>
+    <xsl:variable name="nested-table" select="*//(*:tgroup[calstable:same-scope(., current())] | self::*:entrytbl)" as="element()+"/>
+    <xsl:variable name="nested-table-rows" select="max(for $i in $nested-table return count($i/*/*:row))" as="xs:integer"/>
     <xsl:copy>
       <xsl:apply-templates select="@*, node()" mode="calstable:create-virtual-entries">
         <xsl:with-param name="row-index" select="1" tunnel="yes"/>
@@ -87,7 +94,7 @@
   <!-- fill with empty cells when a nested table exists in this column -->
   
   <xsl:template match="*:entry[calstable:nested-table-exists-in-column(., position())]" mode="calstable:resolve-nested-tables">
-    <xsl:variable name="index" select="functx:index-of-node(parent::*:row/*:entry, .)" as="xs:integer"/>
+    <xsl:variable name="index" select="calstable:index-of(parent::*:row/*:entry, .)" as="xs:integer"/>
     <xsl:variable name="max-cell-count"
                   select="max(
                               for $i in (parent::*:row/preceding-sibling::*:row/*:entry[$index]//*:row,
@@ -123,15 +130,22 @@
       <xsl:apply-templates select="@*" mode="#current"/>
       <xsl:for-each select="*:colspec">
         <xsl:variable name="index" select="position()" as="xs:integer"/>
-        <xsl:variable name="additional-cols" 
-                      select="for $i in $tgroup//*:row/*:entry[$index] 
-                              return max(for $j in $i//*:row 
-                                         return count($j/*:entry))" as="xs:integer?"/>
+        <xsl:variable name="additional-cols"
+                      select="distinct-values(
+                                for $i in $tgroup/*/*:row/*:entry[$index] 
+                                return max(
+                                  for $j in $i//*:row 
+                                  return count($j/*:entry)
+                                )
+                              )" as="xs:integer*"/>
+        <xsl:if test="count($additional-cols) gt 1">
+          <xsl:message select="'Unequal number of nested table columns below ', ."/>
+        </xsl:if>
         <xsl:variable name="colwidth" select="@colwidth" as="attribute(colwidth)?"/>
         <xsl:copy>
           <xsl:apply-templates select="@*, node()" mode="#current"/>
         </xsl:copy>
-        <xsl:for-each select="2 to $additional-cols">
+        <xsl:for-each select="2 to max($additional-cols)">
           <colspec calstable:type="nested-table">
             <xsl:attribute name="colname" select="concat('col-', ($index + position()))"/>
             <xsl:if test="exists($colwidth)">
@@ -159,11 +173,11 @@
   <!-- function to check whether a nested table exists in the current column -->
   
   <xsl:function name="calstable:nested-table-exists-in-column" as="xs:boolean">
-    <xsl:param name="element" as="element()"/>
+    <xsl:param name="element" as="element(*)"/><!-- entry or entrytbl in any namespace -->
     <xsl:param name="index" as="xs:integer"/>
     <xsl:variable name="adjacent-cells-in-column" 
-                  select="($element/parent::*:row/preceding-sibling::*:row/*:entry[$index],
-                          $element/parent::*:row/following-sibling::*:row/*:entry[$index])" as="element()*"/>
+                  select="($element/parent::*:row/preceding-sibling::*:row/*[$index],
+                          $element/parent::*:row/following-sibling::*:row/*[$index])" as="element()*"/><!-- entry or entrytbl in any namespace -->
     <xsl:variable name="nested-table-exists-in-column" 
                   select="some $i in $adjacent-cells-in-column satisfies calstable:nested-table-exists($i)" as="xs:boolean"/>
     <xsl:value-of select="$nested-table-exists-in-column"/>
@@ -172,17 +186,32 @@
   <!-- check whether the element contains a nested table on the descendant axis -->
   
   <xsl:function name="calstable:nested-table-exists" as="xs:boolean">
-    <xsl:param name="element" as="element()+"/>
-    <xsl:variable name="nested-table-exists" select="exists($element//*:informaltable)" as="xs:boolean"/>
-    <xsl:value-of select="$nested-table-exists"/> 
+    <xsl:param name="element" as="element()+"/><!-- entry or entrytbl in any namespace -->
+    <xsl:sequence select="exists($element//*:tgroup[calstable:same-scope(., $element)] | $element/self::*:entrytbl)"/>
   </xsl:function>
   
-  <xsl:function name="functx:index-of-node" as="xs:integer*">
+  <xsl:function name="calstable:index-of" as="xs:integer*">
     <xsl:param name="nodes" as="node()*"/>
-    <xsl:param name="nodeToFind" as="node()"/>
-    <xsl:sequence select="for $seq in (1 to count($nodes))
-                          return $seq[$nodes[$seq] is $nodeToFind]"/>
-    
+    <xsl:param name="nodeToFind" as="node()*"/>
+    <xsl:sequence select="index-of($nodes/generate-id(), $nodeToFind/generate-id())"/>
+  </xsl:function>
+
+  <xsl:function name="calstable:same-scope" as="xs:boolean">
+    <xsl:param name="node" as="node()" />
+    <xsl:param name="ancestor-elt" as="element(*)*" />
+    <xsl:sequence 
+      select="not(
+                $node/ancestor::*[
+                  local-name() = $calstable:scope-establishing-elements]
+                  [
+                    some $a in ancestor::* 
+                    satisfies (
+                      some $b in $ancestor-elt 
+                      satisfies ($a is $b))
+                  ]
+                )" />
   </xsl:function>
   
+  <xsl:variable name="calstable:scope-establishing-elements" as="xs:string*"
+    select="('tgroup', 'entrytbl')"/>
 </xsl:stylesheet>

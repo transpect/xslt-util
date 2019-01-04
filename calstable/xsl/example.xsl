@@ -13,7 +13,7 @@
   
   <xsl:param name="colname-prefix" select="'col'" as="xs:string"/>
 
-  <!--<xsl:output indent="yes"/>-->
+  <xsl:output indent="yes"/>
 
   <xsl:template match="node() | @*" mode="#default check-normalized normalize-colnames">
     <xsl:copy copy-namespaces="no">
@@ -33,7 +33,8 @@
   </xsl:template>
 
   <xsl:template match="*:tgroup" mode="#default" >
-    <xsl:sequence select="calstable:normalize(.)"/>
+<!--    <xsl:sequence select="calstable:normalize(.)"/>-->
+    <xsl:sequence select="calstable:check-normalized(calstable:normalize(.),'no')"/>
   </xsl:template>
 
   

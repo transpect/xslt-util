@@ -3,12 +3,12 @@
   xmlns:calstable="http://docs.oasis-open.org/ns/oasis-exchange/table"
   version="2.0">
   
-  <xsl:import href="normalize.xsl"/>
+  <xsl:import href="normalize-colnames.xsl"/>
   
   <xsl:param name="debug" select="'no'"/>
   <xsl:param name="debug-dir-uri" select="'debug'"/>
   
-  <xsl:template match="*[*:row]">
+  <xsl:template match="*:tgroup">
     <xsl:sequence select="calstable:check-normalized(
                                                      calstable:normalize(.), 
                                                      'no'

@@ -19,7 +19,7 @@
   
   <tr:normalize-calstables name="normalize"/>
 
-  <p:viewport match="*:informaltable|*:table">
+  <p:viewport match="*:tgroup[empty(ancestor::*:tgroup)]">
     
     <p:xslt initial-mode="calstable:resolve-nested-tables">
       <p:input port="stylesheet">
