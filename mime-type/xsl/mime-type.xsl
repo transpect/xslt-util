@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+11;rgb:0000/0000/0000<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:tr="http://transpect.io"
   version="2.0">
@@ -24,7 +24,7 @@
                      else if(contains($file-extension, 'tif'))  then 'image/tiff'
                      else if($file-extension eq 'eps')          then 'image/x-eps'
                      else if($file-extension eq 'ncx')          then 'application/x-dtbncx+xml' 
-                     else if($file-extension eq 'otf')          then 'font/otf'
+                     else if($file-extension eq 'otf')          then 'application/vnd.ms-opentype'
                      else if($file-extension eq 'eot')          then 'application/vnd.ms-fontobject'
                      else if($file-extension eq 'ttf')          then 'font/ttf'
                      else if($file-extension eq 'woff')         then 'font/woff'
