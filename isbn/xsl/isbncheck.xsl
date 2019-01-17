@@ -11,7 +11,27 @@
     <xsl:sequence select="if ($length = 10) then tr:check-isbn10($isbn) else tr:check-isbn13($isbn)"/>
   </xsl:function>
   
-  <xsl:function name="tr:check-isbn10">
+  <xsl:param name="input" as="xs:string"><!-- for testing --></xsl:param>
+  
+  <xsl:template name="test" as="element(tr:result)">
+    <xsl:variable name="check-digit" as="xs:string" select="substring($input, string-length($input))"/>
+    <tr:result>
+      <xsl:choose>
+        <xsl:when test="matches(replace($input, '[^\dX]', ''), '^\d{9}[\dX]$')">
+          <xsl:sequence select="tr:check-isbn10($input) = $check-digit"/>
+        </xsl:when>
+        <xsl:when test="matches(replace($input, '\D', ''), '^\d{13}$')">
+          <xsl:sequence select="tr:check-isbn13($input) = $check-digit"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:sequence select="false()"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </tr:result>
+    <xsl:sequence></xsl:sequence>
+  </xsl:template>
+  
+  <xsl:function name="tr:check-isbn10" as="xs:string">
     <xsl:param name="isbn"/>
       <xsl:variable name="isbn_9"/>
       <xsl:variable name="sum" select="(
@@ -38,7 +58,7 @@
     <xsl:sequence select="string(11 - ($sum - (floor($sum div 11) * 11)))"/>
   </xsl:function>
  
-  <xsl:function name="tr:check-isbn13">
+  <xsl:function name="tr:check-isbn13" as="xs:string">
     <xsl:param name="isbn"/>
     <xsl:variable name="isbn_12" select="substring($isbn,1,12)"/>
     <xsl:variable name="sum" select="(sum(
