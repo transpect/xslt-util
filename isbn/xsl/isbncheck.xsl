@@ -13,7 +13,7 @@
   
   <xsl:param name="input" as="xs:string"><!-- for testing --></xsl:param>
   
-  <xsl:template name="test" as="element(tr:result)">
+  <!--<xsl:template name="test" as="element(tr:result)">
     <xsl:variable name="check-digit" as="xs:string" select="substring($input, string-length($input))"/>
     <tr:result>
       <xsl:choose>
@@ -29,7 +29,7 @@
       </xsl:choose>
     </tr:result>
     <xsl:sequence></xsl:sequence>
-  </xsl:template>
+  </xsl:template>-->
   
   <xsl:function name="tr:check-isbn10" as="xs:string">
     <xsl:param name="isbn"/>
