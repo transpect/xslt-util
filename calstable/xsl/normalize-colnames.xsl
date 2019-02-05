@@ -21,12 +21,22 @@
   <xsl:key name="by-colname" match="*:colspec" use="@colname"/>
   
   <xsl:template match="@*:namest | @*:nameend | *:entry/@*:colname" mode="calstable:colnames">
-    <xsl:variable name="colspec" as="element(*)" 
+    <xsl:variable name="colspec" as="element(*)?" 
       select="key('by-colname', .)[ancestor::*:tgroup[1] is current()/ancestor::*:tgroup[1]]"/>
     <xsl:variable name="new-val" as="attribute(*)">
-      <xsl:apply-templates select="$colspec/@colname" mode="#current"/>
+      <xsl:choose>
+        <xsl:when test="exists($colspec/@colname)">
+          <xsl:apply-templates select="$colspec/@colname" mode="#current"/>    
+        </xsl:when>
+        <xsl:when test="exists($colspec)">
+          <xsl:attribute name="error" select="'colname missing'"/>    
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:attribute name="error" select="'colspec missing'"/>    
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:variable>
-    <xsl:attribute name="{local-name()}" select="string($new-val)"/>
+    <xsl:attribute name="{local-name(($new-val[name() = 'error'], .)[1])}" select="string($new-val)"/>
   </xsl:template>
   
   <xsl:template match="@calstable:id | @calstable:colspan | *:entry[@calstable:rid] 
