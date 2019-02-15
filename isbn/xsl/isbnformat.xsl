@@ -30,7 +30,7 @@
       <xsl:variable name="publisher-regex" select="concat('(\d{',$matching-rule/Length,'})')"/>
       <xsl:variable name="formatted" select="if ($length= 10) 
                                             then replace($isbn, concat($country-regex,$publisher-regex,'(\d*)(\d{1})$'),'$1-$2-$3-$4')
-                                            else replace($isbn, concat('^(978-?)?',$country-regex,$publisher-regex,'(\d*)(\d{1})$'),'$1-$2-$3-$4-$5')"/>
+                                            else replace($isbn, concat('^(978)?[-]?',$country-regex,$publisher-regex,'(\d*)(\d{1})$'),'$1-$2-$3-$4-$5')"/>
       <xsl:sequence select="$formatted"/>
   </xsl:function>
    
