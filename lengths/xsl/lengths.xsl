@@ -5,28 +5,28 @@
   xmlns:tr="http://transpect.io"
   version="2.0">
 
-  <xsl:function name="tr:length-to-unitless-twip" as="xs:double?">
+  <xsl:function name="tr:length-to-unitless-twip" as="xs:integer?">
     <xsl:param name="in" as="xs:string?"/>
     <xsl:choose>
       <xsl:when test="not($in)"/>
       <xsl:when test="matches($in, '^-?[\d.]+mm$')">
-        <xsl:sequence select="number(replace($in, 'mm$', '')) * 56.6929"/>
+        <xsl:sequence select="xs:integer(round(number(replace($in, 'mm$', '')) * 56.6929))"/>
       </xsl:when>
       <xsl:when test="matches($in, '^-?[\d.]+pt$')">
-        <xsl:sequence select="number(replace($in, 'pt$', '')) * 20"/>
+        <xsl:sequence select="xs:integer(round(number(replace($in, 'pt$', '')) * 20))"/>
       </xsl:when>
       <xsl:when test="matches($in, '^-?[\d.]+px$')">
-        <xsl:sequence select="number(replace($in, 'px$', '')) * 15"/>
+        <xsl:sequence select="xs:integer(round(number(replace($in, 'px$', '')) * 15))"/>
       </xsl:when>
       <xsl:when test="matches($in, '^-?[\d.]+in$')">
-        <xsl:sequence select="number(replace($in, 'in$', '')) * 1440"/>
+        <xsl:sequence select="xs:integer(round(number(replace($in, 'in$', '')) * 1440))"/>
       </xsl:when>
       <xsl:when test="matches($in, '^-?[\d.]+cm$')">
-        <xsl:sequence select="number(replace($in, 'cm$', '')) * 566.929"/>
+        <xsl:sequence select="xs:integer(round(number(replace($in, 'cm$', '')) * 566.929))"/>
       </xsl:when>
       <xsl:when test="matches($in,  '^-?[\d.]+%$')">
         <!-- * 50 – why is that?? -->
-        <xsl:sequence select="number(replace($in, '%$', '')) * 50"/>
+        <xsl:sequence select="xs:integer(round(number(replace($in, '%$', '')) * 50))"/>
       </xsl:when>
       <xsl:when test="$in eq 'auto'"/>
       <xsl:otherwise>
