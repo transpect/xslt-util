@@ -24,9 +24,10 @@
      
       <xsl:variable name="country" select="replace($isbn-after-978,concat($country-regex,'.*'),'$1')"/>
       <xsl:variable name="possible-ranges" select="key('ranges-by-country',concat('978-',$country),$ranges)/Rules/Rule"/>
+      <xsl:variable name="isbn-body-range" select="replace($isbn-body, concat('^', $country, '(\d{7})\d*$'), '$1')"/>
       <xsl:variable name="matching-rule" as="element(Rule)?"
-                    select="$possible-ranges[xs:integer(replace($isbn-body,$country,'')) &gt; xs:integer((substring-before(Range,'-'))) 
-                                             and xs:integer(replace($isbn-body,$country,'')) &lt; xs:integer((substring-after(Range,'-')))]"/>
+                  select="$possible-ranges[xs:integer($isbn-body-range) &gt; xs:integer((substring-before(Range,'-'))) 
+                                           and xs:integer($isbn-body-range) &lt; xs:integer((substring-after(Range,'-')))]"/>
       <xsl:variable name="publisher-regex" select="concat('(\d{',$matching-rule/Length,'})')"/>
       <xsl:variable name="formatted" select="if ($length= 10) 
                                             then replace($isbn, concat($country-regex,$publisher-regex,'(\d*)(\d{1}|X)$'),'$1-$2-$3-$4')
