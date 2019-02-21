@@ -4,9 +4,11 @@
   xmlns:tr="http://transpect.io"
   xmlns:sequence-align="http://transpect.io/sequence-align"
   xmlns:math="http://www.w3.org/2005/xpath-functions/math"
+  xmlns:dbk="http://docbook.org/ns/docbook"
   exclude-result-prefixes="xs math tr sequence-align"
   version="3.0">
-  
+
+  <xsl:param name="terminate-on-error" as="xs:boolean" select="true()"/>
   
   <xsl:function name="sequence-align:wrap" as="element(sequence-align:wrap)">
     <xsl:param name="seq" as="node()*"/>
@@ -57,9 +59,12 @@
         <xsl:variable name="m1next" as="node()?" select="$matching1[position() = $m1pos + 1]"/>
         <xsl:variable name="m2" select="$is2[@key = current()/@key]" as="node()*"/>
         <xsl:if test="count($m2) gt 1">
-          <xsl:message terminate="yes">Duplicates: <xsl:sequence select="$m2"/></xsl:message>
+          <xsl:message terminate="{$terminate-on-error}">Duplicates: <xsl:sequence select="$m2"/></xsl:message>
         </xsl:if>
-        <xsl:variable name="m2pos" as="xs:integer" select="sequence-align:index-of($matching2, $m2)"/>
+        <xsl:variable name="m2pos" as="xs:integer+" select="sequence-align:index-of($matching2, $m2)"/>
+        <xsl:if test="count($m2pos) gt 1">
+          <xsl:message select="'MATCHING2 ', $matching2/@key, '&#xa;M2 ',$m2/@key"/>
+        </xsl:if>
         <xsl:variable name="m2next" as="node()?" select="$matching2[position() = $m2pos + 1]"/>
         <!--<xsl:if test="position() = 1">
           <xsl:variable name="seq2-before-m2" as="node()*" select="$is2[not(. &gt;&gt; $m2)] except $m2"/>
@@ -87,7 +92,7 @@
   <xsl:function name="sequence-align:index-of" as="xs:integer*">
     <xsl:param name="set" as="node()*"/>
     <xsl:param name="srch" as="node()*"/>
-    <xsl:sequence select="index-of($set/generate-id(), $srch/generate-id())"/>
+    <xsl:sequence select="for $gi in $srch/generate-id() return index-of($set/generate-id(), $gi)"/>
   </xsl:function>
   
   <xsl:function name="sequence-align:align" as="element(sequence-align:wrap)">
@@ -119,5 +124,17 @@
   <xsl:template match="sequence-align:item[parent::sequence-align:item][sequence-align:item]" mode="sequence-align:flatten">
     <xsl:apply-templates mode="#current"/>
   </xsl:template>
+  
+  <xsl:mode name="sequence-align:ignore-indexterms-and-footnotes" on-no-match="shallow-copy"/>
+  
+  <xsl:function name="sequence-align:normalize-for-key" as="xs:string" visibility="public">
+    <xsl:param name="context" as="element(*)"/>
+    <xsl:variable name="prelim" as="element(*)">
+      <xsl:apply-templates select="$context" mode="sequence-align:ignore-indexterms-and-footnotes"/>
+    </xsl:variable>
+    <xsl:sequence select="normalize-space($prelim)"/>
+  </xsl:function>
+  
+  <xsl:template match="dbk:indexterm | dbk:footnote" mode="sequence-align:ignore-indexterms-and-footnotes"/>
   
 </xsl:stylesheet>
