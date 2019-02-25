@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:tr="http://transpect.io"
+  xmlns:functx="http://www.functx.com"
+  exclude-result-prefixes="xs"  
+  version="2.0">
+  
+  <!--  *
+        * functions to analyze file paths.
+        * -->
+  
+  <xsl:function name="tr:basename" as="xs:string+">
+    <xsl:param name="paths" as="xs:string+"/>
+    <xsl:for-each select="$paths">
+      <xsl:sequence select="tokenize(., '/')[last()]"/>
+    </xsl:for-each>
+  </xsl:function>
+  
+  <xsl:function name="tr:ext" as="xs:string+">
+    <xsl:param name="paths" as="xs:string+"/>
+    <xsl:for-each select="$paths">
+      <xsl:sequence select="tokenize(., '/')[position() ne last()]"/>
+    </xsl:for-each>
+  </xsl:function>
+  
+  <xsl:function name="tr:path" as="xs:string+">
+    <xsl:param name="paths" as="xs:string+"/>
+    <xsl:for-each select="$paths">
+      <xsl:sequence select="tokenize(., '.')[last()]"/>  
+    </xsl:for-each>
+  </xsl:function>
+  
+</xsl:stylesheet>
