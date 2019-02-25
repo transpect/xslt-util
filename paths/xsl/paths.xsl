@@ -10,10 +10,17 @@
         * functions to analyze file paths.
         * -->
   
-  <xsl:function name="tr:basename" as="xs:string+">
+  <xsl:function name="tr:notdir" as="xs:string+">
     <xsl:param name="paths" as="xs:string+"/>
     <xsl:for-each select="$paths">
       <xsl:sequence select="tokenize(., '/')[last()]"/>
+    </xsl:for-each>
+  </xsl:function>
+  
+  <xsl:function name="tr:basename" as="xs:string+">
+    <xsl:param name="paths" as="xs:string+"/>
+    <xsl:for-each select="$paths">
+      <xsl:sequence select="tokenize(tr:notdir(.), '\.')[1]"/>
     </xsl:for-each>
   </xsl:function>
   
@@ -27,7 +34,7 @@
   <xsl:function name="tr:path" as="xs:string+">
     <xsl:param name="paths" as="xs:string+"/>
     <xsl:for-each select="$paths">
-      <xsl:sequence select="tokenize(., '/')[position() ne last()]"/>  
+      <xsl:sequence select="string-join(tokenize(., '/')[position() ne last()], '/')"/>  
     </xsl:for-each>
   </xsl:function>
   
