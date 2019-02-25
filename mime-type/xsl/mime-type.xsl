@@ -46,7 +46,7 @@
     <mime type="image/x-eps" ext="eps"/>
     <mime type="text/css" ext="css"/>
     <mime type="text/csv" ext="csv"/>
-    <mime type="text/xml" ext="text/xml"/>
+    <mime type="text/xml" ext="xml"/>
     <mime type="text/plain" ext="txt"/>
     <mime type="video/mp4" ext="mp4 mpg"/>
     <mime type="video/webm" ext="webm"/>
