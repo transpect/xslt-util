@@ -4,78 +4,67 @@
   xmlns:tr="http://transpect.io"
   version="2.0">
   
+  <xsl:import href="http://transpect.io/xslt-util/paths/xsl/paths.xsl"/>
+  
   <!--  *
         * This function expects a file reference, cuts of the file extension and 
         * returns the mime-type. It's obvious that this method works only when 
         * the file extension corresponds to the real file type. 
         * -->
   
-  <xsl:function name="tr:fileext-to-mime-type" as="xs:string">
-    <xsl:param name="fileref" as="xs:string"/>
-    <xsl:variable name="file-extension" select="lower-case(replace($fileref, '.*\.(.*?)(#.+)?$', '$1'))"/>
-    <xsl:variable name="media-type" 
-                  select="if(contains($file-extension, 'html')) then 'application/xhtml+xml' 
-                     else if($file-extension eq 'gif')          then 'image/gif'
-                     else if($file-extension eq 'jpg')          then 'image/jpeg'
-                     else if($file-extension eq 'jpeg')         then 'image/jpeg'
-                     else if($file-extension eq 'js')           then 'application/javascript'
-                     else if($file-extension eq 'png')          then 'image/png'
-                     else if($file-extension eq 'svg')          then 'image/svg+xml'
-                     else if(contains($file-extension, 'tif'))  then 'image/tiff'
-                     else if($file-extension eq 'eps')          then 'image/x-eps'
-                     else if($file-extension eq 'ncx')          then 'application/x-dtbncx+xml' 
-                     else if($file-extension eq 'otf')          then 'application/vnd.ms-opentype'
-                     else if($file-extension eq 'eot')          then 'application/vnd.ms-fontobject'
-                     else if($file-extension eq 'ttf')          then 'font/ttf'
-                     else if($file-extension eq 'woff')         then 'font/woff'
-                     else if($file-extension eq 'woff2')        then 'font/woff2' 
-                     else if($file-extension eq 'smil')         then 'application/smil+xml' 
-                     else if($file-extension eq 'pls')          then 'application/pls+xml'
-                     else if($file-extension eq 'mp3')          then 'audio/mpeg'
-                     else if($file-extension eq 'm4a')          then 'audio/mp4'
-                     else if($file-extension eq 'css')          then 'text/css'
-                     else if($file-extension eq 'js')           then 'text/javascript'
-                     else if($file-extension eq 'xml')          then 'text/xml'
-                     else if($file-extension eq 'xpgt')         then 'application/vnd.adobe-page-template+xml'
-                     else if($file-extension = ('mpg','mp4'))   then 'video/mp4'
-                     else concat('UNKNOWN/', $file-extension)" as="xs:string"/>
-    <xsl:value-of select="$media-type"/>
+  <xsl:variable name="mime-types" as="element(mime)+">
+    <mime type="application/epub+zip" ext="epub"/>
+    <mime type="application/javascript" ext="js"/>
+    <mime type="application/json" ext="json"/>
+    <mime type="application/msword" ext="doc"/>
+    <mime type="application/oebps-package+xml" ext="opf"/>
+    <mime type="application/pdf" ext="pdf"/>
+    <mime type="application/pls+xml" ext="pls"/>
+    <mime type="application/smil+xml" ext="smil"/>
+    <mime type="application/vnd.adobe-page-template+xml" ext="xpgt"/>
+    <mime type="application/vnd.ms-excel" ext="xls"/>
+    <mime type="application/vnd.ms-fontobject" ext="eot"/>
+    <mime type="application/vnd.ms-opentype" ext="otf"/>
+    <mime type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ext="xlsx"/>
+    <mime type="application/vnd.openxmlformats-officedocument.wordprocessingml.document" ext="docx"/>
+    <mime type="application/x-dtbncx+xml" ext="ncx"/>
+    <mime type="application/xhtml+xml" ext="html xhtml"/>
+    <mime type="audio/aac" ext="aac"/>
+    <mime type="audio/mp4" ext="m4a"/>
+    <mime type="audio/mpeg" ext="mp3"/>
+    <mime type="audio/webm" ext="weba"/>
+    <mime type="audio/wav" ext="wav"/>
+    <mime type="font/ttf" ext="ttf"/>
+    <mime type="font/woff" ext="woff"/>
+    <mime type="font/woff" ext="woff2"/>
+    <mime type="image/bmp" ext="bmp"/>
+    <mime type="image/gif" ext="gif"/>
+    <mime type="image/jpeg" ext="jpg jpeg"/>
+    <mime type="image/png" ext="png"/>
+    <mime type="image/svg+xml" ext="svg"/>
+    <mime type="image/tiff" ext="tif tiff"/>
+    <mime type="image/x-eps" ext="eps"/>
+    <mime type="text/css" ext="css"/>
+    <mime type="text/csv" ext="csv"/>
+    <mime type="text/xml" ext="text/xml"/>
+    <mime type="text/plain" ext="txt"/>
+    <mime type="video/mp4" ext="mp4 mpg"/>
+    <mime type="video/webm" ext="webm"/>
+  </xsl:variable>
+  
+  <xsl:function name="tr:fileref-to-mime-type" as="xs:string">
+    <xsl:param name="path" as="xs:string"/>
+    <xsl:sequence select="tr:ext-to-mime-type(lower-case(tr:ext($path)))"/>
+  </xsl:function>
+  
+  <xsl:function name="tr:ext-to-mime-type" as="xs:string">
+    <xsl:param name="ext" as="xs:string"/>
+    <xsl:sequence select="$mime-types[tokenize(@ext, '\s') = lower-case($ext)]/@type"/>
   </xsl:function>
   
   <xsl:function name="tr:mime-type-to-fileext" as="xs:string?">
     <xsl:param name="media-type" as="xs:string?"/>
-<!--    <xsl:variable name="media-type" select="lower-case(replace($fileref, '.*\.(.*)$', '$1'))"/>-->
-<xsl:variable name="file-extension"
-              select="if($media-type eq 'application/xhtml+xml')         then 'html'
-                 else if($media-type eq 'text/html')                     then 'html'
-                 else if($media-type eq 'image/gif')                     then 'gif'
-                 else if($media-type eq 'image/jpeg')                    then 'jpg'
-                 else if($media-type eq 'image/png')                     then 'png'
-                 else if($media-type eq 'image/svg+xml')                 then 'svg'
-                 else if($media-type eq 'image/tiff')                    then 'tif'
-                 else if($media-type eq 'image/x-eps')                   then 'eps'
-                 else if($media-type eq 'application/x-dtbncx+xml')      then 'ncx' 
-                 else if($media-type eq 'application/vnd.ms-opentype', 
-                                        'application/x-font-opentype',
-                                        'font/otf')                      then 'otf'
-                 else if($media-type eq 'application/vnd.ms-fontobject') then 'eot'
-                 else if($media-type = ('application/x-font-truetype', 
-                                        'application/x-font-ttf', 
-                                        'font/ttf'))                     then 'ttf'
-                 else if($media-type eq 'application/font-woff',
-                                        'font/woff')                     then 'woff'
-                 else if($media-type eq 'application/font-woff2',
-                                        'font/woff2')                    then 'woff2'
-                 else if($media-type eq 'application/smil+xml')          then 'smil' 
-                 else if($media-type eq 'application/pls+xml')           then 'pls'
-                 else if($media-type eq 'audio/mpeg')                    then 'mp3'
-                 else if($media-type eq 'audio/mp4')                     then 'm4a'
-                 else if($media-type eq 'text/css')                      then 'css'
-                 else if($media-type eq 'text/js')                       then 'javascript'
-                 else if($media-type eq 'text/xml')                      then 'xml'
-                 else if($media-type eq 'video/mp4')                     then 'mp4'
-                 else ''" as="xs:string"/>
-    <xsl:value-of select="concat('.', $file-extension)"/>
+    <xsl:sequence select="tokenize($mime-types[@type eq $media-type]/@ext, '\s')[1]"/>
   </xsl:function>
   
 </xsl:stylesheet>
