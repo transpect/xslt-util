@@ -13,7 +13,7 @@
   <xsl:function name="tr:notdir" as="xs:string+">
     <xsl:param name="paths" as="xs:string+"/>
     <xsl:for-each select="$paths">
-      <xsl:sequence select="tokenize(., '/')[last()]"/>
+      <xsl:sequence select="tokenize(., '/')[normalize-space(.)][last()]"/>
     </xsl:for-each>
   </xsl:function>
   
@@ -27,14 +27,14 @@
   <xsl:function name="tr:ext" as="xs:string+">
     <xsl:param name="paths" as="xs:string+"/>
     <xsl:for-each select="$paths">
-      <xsl:sequence select="tokenize(., '\.')[last()]"/>
+      <xsl:sequence select="tokenize(., '\.')[normalize-space(.)][last()]"/>
     </xsl:for-each>
   </xsl:function>
   
   <xsl:function name="tr:path" as="xs:string+">
     <xsl:param name="paths" as="xs:string+"/>
     <xsl:for-each select="$paths">
-      <xsl:sequence select="string-join(tokenize(., '/')[position() ne last()], '/')"/>  
+      <xsl:sequence select="string-join(tokenize(., '/')[normalize-space(.)][position() ne last()], '/')"/>  
     </xsl:for-each>
   </xsl:function>
   
