@@ -27,7 +27,7 @@
   <xsl:function name="tr:ext" as="xs:string+">
     <xsl:param name="paths" as="xs:string+"/>
     <xsl:for-each select="$paths">
-      <xsl:sequence select="tokenize(., '\.')[normalize-space(.)][last()]"/>
+      <xsl:sequence select="tokenize(replace(., '#.+$', ''), '\.')[normalize-space(.)][last()]"/>
     </xsl:for-each>
   </xsl:function>
   
