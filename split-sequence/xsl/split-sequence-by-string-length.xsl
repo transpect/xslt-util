@@ -76,7 +76,7 @@
                               return string-length($i)) 
                           lt $limit">
             <xsl:copy>
-              <xsl:sequence select="(node(), $seq[$pos + 1]/node())"/>
+              <xsl:sequence select="$seq/@*, (node(), $seq[$pos + 1]/node())"/>
             </xsl:copy>
           </xsl:when>
           <xsl:otherwise>
