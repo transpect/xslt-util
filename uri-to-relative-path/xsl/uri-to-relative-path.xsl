@@ -17,6 +17,9 @@
     <xsl:param name="rel-uri" as="xs:string"/>      <!-- the URI to be converted to a relative path -->
     <xsl:variable name="tkn-base-uri" select="tokenize(tr:normalize-uri($base-uri), '/')" as="xs:string+"/>
     <xsl:variable name="tkn-rel-uri" select="tokenize(tr:normalize-uri($rel-uri), '/')" as="xs:string+"/>
+    <!-- It seems as if $base-uri needs to end in at least 2 slashes. Otherwise its parent directory will
+      be used for comparison. This is due to a flaw in tr:normalize-uri(). -->
+<!--<xsl:message select="'BBBBBBBBBB', $base-uri, ' norm:', tr:normalize-uri($base-uri),' tkn:', $tkn-base-uri,' count:', count($tkn-base-uri), ' ::&#xa; ', $rel-uri, ' norm:',tr:normalize-uri($rel-uri),' tkn:', $tkn-rel-uri,' count:', count($tkn-rel-uri)"></xsl:message>-->
     <xsl:variable name="uri-parts-max" select="max((count($tkn-base-uri), count($tkn-rel-uri)))" as="xs:integer"/>
     <!--  *
           * count equal URI parts with same index 
