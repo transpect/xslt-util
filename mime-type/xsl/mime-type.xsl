@@ -44,6 +44,7 @@
     <mime type="image/svg+xml" ext="svg"/>
     <mime type="image/tiff" ext="tif tiff"/>
     <mime type="image/x-eps" ext="eps"/>
+    <mime type="image/x-emf" ext="emf"/>
     <mime type="text/css" ext="css"/>
     <mime type="text/csv" ext="csv"/>
     <mime type="text/xml" ext="xml"/>
