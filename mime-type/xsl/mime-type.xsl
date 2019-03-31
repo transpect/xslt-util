@@ -64,9 +64,14 @@
     <xsl:sequence select="tr:fileref-to-mime-type(lower-case(tr:ext($path)))"/>
   </xsl:function>
   
-  <xsl:function name="tr:ext-to-mime-type" as="xs:string">
+  <xsl:function name="tr:ext-to-mime-type" as="xs:string?">
     <xsl:param name="ext" as="xs:string"/>
-    <xsl:sequence select="$mime-types[tokenize(@ext, '\s') = lower-case($ext)]/@type"/>
+    <xsl:variable name="temp" as="xs:string?"
+      select="$mime-types[tokenize(@ext, '\s') = lower-case($ext)]/@type"/>
+    <xsl:if test="empty($temp)">
+      <xsl:message select="'xslt-util/mime-type/xsl/mime-type.xsl, tr:ext-to-mime-type(): Empty type for ', $ext"/>
+    </xsl:if>
+    <xsl:sequence select="$temp"/>
   </xsl:function>
   
   <xsl:function name="tr:mime-type-to-fileext" as="xs:string?">

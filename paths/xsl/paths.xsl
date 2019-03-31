@@ -27,7 +27,12 @@
   <xsl:function name="tr:ext" as="xs:string+">
     <xsl:param name="paths" as="xs:string+"/>
     <xsl:for-each select="$paths">
-      <xsl:sequence select="tokenize(replace(., '#.+$', ''), '\.')[normalize-space(.)][last()]"/>
+      <xsl:variable name="temp" as="xs:string?" 
+        select="tokenize(replace(., '[?#].*$', ''), '\.')[normalize-space(.)][last()]"/>
+      <xsl:if test="empty($temp)">
+        <xsl:message select="'xslt-util/paths/xsl/paths.xsl, tr:ext(): Empty extension for ', ."/>
+      </xsl:if>
+      <xsl:sequence select="$temp"/>
     </xsl:for-each>
   </xsl:function>
   
