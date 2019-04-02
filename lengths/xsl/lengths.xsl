@@ -87,7 +87,7 @@
   
   <xsl:function name="tr:px-to-pt-as-double" as="xs:double">
     <xsl:param name="px" as="xs:double"/>
-    <xsl:param name="dpi" as="xs:int"/>
+    <xsl:param name="dpi" as="xs:integer"/>
     <xsl:sequence select="72 * $px div $dpi"/>
   </xsl:function>
   
