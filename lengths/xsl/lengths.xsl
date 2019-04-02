@@ -82,7 +82,7 @@
   <xsl:function name="tr:px-to-pt" as="xs:string">
     <xsl:param name="px" as="xs:string"/>
     <xsl:param name="dpi" as="xs:string"/>
-    <xsl:sequence select="concat(tr:px-to-pt-as-double(xs:double(replace($px, 'px$', '')), xs:int(replace($dpi, 'dpi$', ''))), 'pt')"/>
+    <xsl:sequence select="concat(tr:px-to-pt-as-double(xs:double(replace($px, 'px$', '')), xs:integer(replace($dpi, 'dpi$', ''))), 'pt')"/>
   </xsl:function>
   
   <xsl:function name="tr:px-to-pt-as-double" as="xs:double">
