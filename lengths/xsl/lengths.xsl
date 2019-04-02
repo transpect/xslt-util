@@ -79,6 +79,18 @@
     <xsl:sequence select="concat(tr:round-with-precision($twips * 0.05, $round-precision), 'pt')" />
   </xsl:function>
   
+  <xsl:function name="tr:px-to-pt" as="xs:string">
+    <xsl:param name="px" as="xs:string"/>
+    <xsl:param name="dpi" as="xs:string"/>
+    <xsl:sequence select="concat(tr:px-to-pt-as-double(xs:double(replace($px, 'px$', '')), xs:int(replace($dpi, 'dpi$', ''))), 'pt')"/>
+  </xsl:function>
+  
+  <xsl:function name="tr:px-to-pt-as-double" as="xs:double">
+    <xsl:param name="px" as="xs:double"/>
+    <xsl:param name="dpi" as="xs:int"/>
+    <xsl:sequence select="72 * $px div $dpi"/>
+  </xsl:function>
+  
   <!-- function round-double:
        example call tr:round-double(113.39999, 2) output will be: 113.4 
        example call tr:round-double(5, 4) output will be: 5 -->
