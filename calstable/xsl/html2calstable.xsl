@@ -165,6 +165,7 @@
 	</xsl:function>
 
 	<xsl:template match="*:colgroup | *:td[@id=('rowspan', 'colspan')]" mode="html2cals"/>
+	
 
 	<xsl:template match="*[@colspan]" mode="preprocess">
 		<td>
@@ -178,7 +179,7 @@
 
 	<xsl:template match="*:td[preceding::*:td[count(preceding-sibling::*:td)=count(current()/preceding-sibling::*:td)+1 and current()/@rowspan]]" mode="expand-cells">
 		<xsl:variable name="rowDiff" select="count(parent::*:tr/preceding-sibling::*)+1 - (count(preceding::*:td[count(preceding-sibling::*:td)=count(current()/preceding-sibling::*:td)+1 and current()/@rowspan][1]/parent::*:tr/preceding-sibling::*)+1)" as="xs:integer"/>
-		<xsl:variable name="rowspan" select="preceding::*:td[count(preceding-sibling::*:td)=count(current()/preceding-sibling::*:td)+1 and current()/@rowspan][1]/@rowspan" as="xs:integer"/>
+		<xsl:variable name="rowspan" select="(preceding::*:td[count(preceding-sibling::*:td)=count(current()/preceding-sibling::*:td)+1 and current()/@rowspan][1]/@rowspan,1)[1]" as="xs:integer*"/>
 		<xsl:copy>
 			<xsl:copy-of select="@*"/>
 			<xsl:apply-templates mode="#current"/>
