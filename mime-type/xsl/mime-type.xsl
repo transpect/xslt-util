@@ -22,17 +22,43 @@
     <mime type="application/pls+xml" ext="pls"/>
     <mime type="application/smil+xml" ext="smil"/>
     <mime type="application/vnd.adobe-page-template+xml" ext="xpgt"/>
-    <mime type="application/vnd.ms-excel" ext="xls"/>
+    <mime type="application/vnd.cinderella" ext="cdy"/>
     <mime type="application/vnd.ms-fontobject" ext="eot"/>
     <mime type="application/vnd.ms-opentype" ext="otf"/>
-    <mime type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ext="xlsx"/>
     <mime type="application/vnd.openxmlformats-officedocument.wordprocessingml.document" ext="docx"/>
+    <mime type="application/vnd.openxmlformats-officedocument.wordprocessingml.template" ext="dotx"/>
+    <mime type="application/vnd.ms-word.document.macroEnabled.12" ext="docm"/>
+    <mime type="application/vnd.ms-word.template.macroEnabled.12" ext="dotm"/>
+    <mime type="application/vnd.ms-excel" ext="xls"/>
+    <mime type="application/vnd.ms-excel" ext="xlt"/>
+    <mime type="application/vnd.ms-excel" ext="xla"/>
+    <mime type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" ext="xlsx"/>
+    <mime type="application/vnd.openxmlformats-officedocument.spreadsheetml.template" ext="xltx"/>
+    <mime type="application/vnd.ms-excel.sheet.macroEnabled.12" ext="xlsm"/>
+    <mime type="application/vnd.ms-excel.template.macroEnabled.12" ext="xltm"/>
+    <mime type="application/vnd.ms-excel.addin.macroEnabled.12" ext="xlam"/>
+    <mime type="application/vnd.ms-excel.sheet.binary.macroEnabled.12" ext="xlsb"/>
+    <mime type="application/vnd.ms-powerpoint" ext="ppt"/>
+    <mime type="application/vnd.ms-powerpoint" ext="pot"/>
+    <mime type="application/vnd.ms-powerpoint" ext="pps"/>
+    <mime type="application/vnd.ms-powerpoint" ext="ppa"/>
+    <mime type="application/vnd.openxmlformats-officedocument.presentationml.presentation" ext="pptx"/>
+    <mime type="application/vnd.openxmlformats-officedocument.presentationml.template" ext="potx"/>
+    <mime type="application/vnd.openxmlformats-officedocument.presentationml.slideshow" ext="ppsx"/>
+    <mime type="application/vnd.ms-powerpoint.addin.macroEnabled.12" ext="ppam"/>
+    <mime type="application/vnd.ms-powerpoint.presentation.macroEnabled.12" ext="pptm"/>
+    <mime type="application/vnd.ms-powerpoint.template.macroEnabled.12" ext="potm"/>
+    <mime type="application/vnd.ms-powerpoint.slideshow.macroEnabled.12" ext="ppsm"/>
+    <mime type="application/vnd.ms-access" ext="mdb"/>
     <mime type="application/x-dtbncx+xml" ext="ncx"/>
     <mime type="application/xhtml+xml" ext="html xhtml"/>
+    <mime type="application/rtf" ext="rtf"/>
+    <mime type="application/zip" ext="zip"/>
     <mime type="audio/aac" ext="aac"/>
     <mime type="audio/mp4" ext="m4a"/>
     <mime type="audio/mpeg" ext="mp3"/>
     <mime type="audio/webm" ext="weba"/>
+    <mime type="audio/x-ms-wma" ext="wma"/>
     <mime type="audio/wav" ext="wav"/>
     <mime type="font/ttf" ext="ttf"/>
     <mime type="font/woff" ext="woff"/>
@@ -50,6 +76,11 @@
     <mime type="text/xml" ext="xml"/>
     <mime type="text/plain" ext="txt"/>
     <mime type="video/mp4" ext="mp4 mpg"/>
+    <mime type="video/mpeg" ext="mpeg"/>
+    <mime type="video/quicktime" ext="mov"/>
+    <mime type="video/x-m4v" ext="m4v"/>
+    <mime type="video/x-ms-wmv" ext="wmv"/>
+    <mime type="video/x-msvideo" ext="avi"/>
     <mime type="video/webm" ext="webm"/>
   </xsl:variable>
   
