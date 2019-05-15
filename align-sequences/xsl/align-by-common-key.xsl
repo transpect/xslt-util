@@ -59,7 +59,7 @@
         <xsl:variable name="m1next" as="node()?" select="$matching1[position() = $m1pos + 1]"/>
         <xsl:variable name="m2" select="$is2[@key = current()/@key]" as="node()*"/>
         <xsl:if test="count($m2) gt 1">
-          <xsl:message terminate="{$terminate-on-error}">Duplicates: <xsl:sequence select="$m2"/></xsl:message>
+          <xsl:message terminate="{$terminate-on-error}">Duplicates: <xsl:sequence select="$m2/@key"/></xsl:message>
         </xsl:if>
         <xsl:variable name="m2pos" as="xs:integer+" select="sequence-align:index-of($matching2, $m2)"/>
         <xsl:if test="count($m2pos) gt 1">
