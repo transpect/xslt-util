@@ -84,12 +84,12 @@
     <mime type="video/webm" ext="webm"/>
   </xsl:variable>
   
-  <xsl:function name="tr:fileref-to-mime-type" as="xs:string">
+  <xsl:function name="tr:fileref-to-mime-type" as="xs:string?">
     <xsl:param name="path" as="xs:string"/>
     <xsl:sequence select="tr:ext-to-mime-type(lower-case(tr:ext($path)))"/>
   </xsl:function>
   
-  <xsl:function name="tr:fileext-to-mime-type" as="xs:string">
+  <xsl:function name="tr:fileext-to-mime-type" as="xs:string?">
     <!-- keep this function for compatibility -->
     <xsl:param name="path" as="xs:string"/>
     <xsl:sequence select="tr:fileref-to-mime-type(lower-case(tr:ext($path)))"/>
