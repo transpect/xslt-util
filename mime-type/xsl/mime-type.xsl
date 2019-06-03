@@ -85,8 +85,10 @@
   </xsl:variable>
   
   <xsl:function name="tr:fileref-to-mime-type" as="xs:string?">
-    <xsl:param name="path" as="xs:string"/>
-    <xsl:sequence select="tr:ext-to-mime-type(lower-case(tr:ext($path)))"/>
+    <xsl:param name="path" as="xs:string?"/>
+    <xsl:if test="$path != ''">
+      <xsl:sequence select="tr:ext-to-mime-type(lower-case(tr:ext($path)))"/>
+    </xsl:if>
   </xsl:function>
   
   <xsl:function name="tr:fileext-to-mime-type" as="xs:string?">
