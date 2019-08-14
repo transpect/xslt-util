@@ -51,6 +51,7 @@
     <mime type="application/vnd.ms-powerpoint.slideshow.macroEnabled.12" ext="ppsm"/>
     <mime type="application/vnd.ms-access" ext="mdb"/>
     <mime type="application/x-dtbncx+xml" ext="ncx"/>
+    <mime type="application/xml" ext="xsl"/> 
     <mime type="application/xhtml+xml" ext="html xhtml"/>
     <mime type="application/rtf" ext="rtf"/>
     <mime type="application/zip" ext="zip"/>
