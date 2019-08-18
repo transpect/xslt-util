@@ -5,7 +5,7 @@
   exclude-result-prefixes="xs"
   version="2.0">
   
-  <xsl:import href="http://this.transpect.io/xslt-util/hex/xsl/hex.xsl"/>
+  <xsl:import href="http://transpect.io/xslt-util/num/xsl/num.xsl"/>
   
   <xsl:function name="tr:string-to-UPAD4" as="xs:string*">
     <xsl:param name="chars" as="xs:string"/>
