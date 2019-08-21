@@ -70,6 +70,7 @@
     <mime type="image/png" ext="png"/>
     <mime type="image/svg+xml" ext="svg"/>
     <mime type="image/tiff" ext="tif tiff"/>
+    <mime type="image/vnd.adobe.photoshop" ext="psd"/>
     <mime type="image/x-eps" ext="eps"/>
     <mime type="image/x-emf" ext="emf"/>
     <mime type="text/css" ext="css"/>
