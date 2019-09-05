@@ -19,6 +19,16 @@
   <xsl:function name="tr:uri-get-bad-chars" as="xs:string?">
     <xsl:param name="uri" as="xs:string"/>
     <xsl:value-of select="replace($uri, concat('[', $tr:uri-permitted-chars, ']'), '', 'i')"/>
-  </xsl:function>  
+  </xsl:function>
+  
+  <xsl:function name="tr:encode-for-url" as="xs:string?">
+    <xsl:param name="url" as="xs:string"/>
+    <xsl:value-of select="string-join(for $i in for $j in string-to-codepoints($url) 
+                                                return codepoints-to-string($j)
+                                      return if(matches($i, concat('[', $tr:uri-permitted-chars, ']'))) 
+                                             then $i 
+                                             else encode-for-uri($i), 
+                                      '')"/>
+  </xsl:function>
   
 </xsl:stylesheet>
