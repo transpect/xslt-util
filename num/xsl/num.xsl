@@ -7,7 +7,10 @@
   exclude-result-prefixes="xs tr"
   >
 
-  <xsl:output method="text"/><!-- only applies to the 'test_*' templates below -->
+<!--  <xsl:output method="text"/>-->
+  <!-- only applies to the 'test_*' templates below  
+    GI 2019-09-29: I had to comment this out because of a "Conflicting values for 
+  output property method" error when including this XSL in a Schematron schema. -->
 
 
   <!-- hex ================================================================================================================= -->
@@ -240,6 +243,18 @@
       </xsl:otherwise>
     </xsl:choose>
     
+  </xsl:function>
+  
+  <xsl:function name="tr:roman-or-int-to-int" as="xs:integer?">
+    <xsl:param name="number" as="item()?"/>
+    <xsl:choose>
+      <xsl:when test="$number castable as xs:integer">
+        <xsl:sequence select="xs:integer($number)"/>
+      </xsl:when>
+      <xsl:when test="matches($number, '^[IVXLCDM]+$', 'i')">
+        <xsl:sequence select="tr:roman-to-int($number)"/>
+      </xsl:when>
+    </xsl:choose>
   </xsl:function>
   
   <xsl:template name="test_roman-to-int">
