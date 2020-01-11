@@ -18,7 +18,8 @@
     <xsl:variable name="tkn-base-uri" select="tokenize(tr:normalize-uri($base-uri), '/')" as="xs:string+"/>
     <xsl:variable name="tkn-rel-uri" select="tokenize(tr:normalize-uri($rel-uri), '/')" as="xs:string+"/>
     <!-- It seems as if $base-uri needs to end in at least 2 slashes. Otherwise its parent directory will
-      be used for comparison. This is due to a flaw in tr:normalize-uri(). -->
+      be used for comparison. This is due to a flaw in tr:normalize-uri().
+    Furthermore, if the URI to be relativized is file:/ and the base URI is file:/C:/, the relative path will have too many ../ segments.-->
 <!--<xsl:message select="'BBBBBBBBBB', $base-uri, ' norm:', tr:normalize-uri($base-uri),' tkn:', $tkn-base-uri,' count:', count($tkn-base-uri), ' ::&#xa; ', $rel-uri, ' norm:',tr:normalize-uri($rel-uri),' tkn:', $tkn-rel-uri,' count:', count($tkn-rel-uri)"></xsl:message>-->
     <xsl:variable name="uri-parts-max" select="max((count($tkn-base-uri), count($tkn-rel-uri)))" as="xs:integer"/>
     <!--  *
@@ -49,7 +50,7 @@
           (:path:)          string-join(for $i in (1 to $delta-base-uri) return '../', ''),
           (:path parts :)   string-join(for $i in (($dir-count-common + 1) to count($tkn-rel-uri)) return $tkn-rel-uri[$i],'/'),
           if($delta-rel-uri gt 0) then '/' else '', 
-          (:filename:)      replace($rel-uri, '^.+/(.+)$', '$1')
+          (:filename:)      if ($rel-uri = 'file:/') then '' else replace($rel-uri, '^.+/(.+)$', '$1')
           )" as="xs:string"/>
         <xsl:value-of select="$relative-path"/>
       </xsl:when>
@@ -69,10 +70,13 @@
   <xsl:function name="tr:normalize-uri" as="xs:string">
     <xsl:param name="uri" as="xs:string"/>
     <xsl:variable name="normalized-uri" select="replace(
-      replace($uri, '^(.+)/.+$', '$1'),
-      '(\\|/)+', '/'
+      if (matches($uri, '^file:/(/{2,})?$')) then 'file:/' 
+      else replace(
+             $uri, 
+             '^(.+)/.+$', '$1'),
+             '(\\|/)+', '/'
       )" as="xs:string"/>
-    <xsl:value-of select="$normalized-uri"/>
+    <xsl:sequence select="$normalized-uri"/>
   </xsl:function>
   
 </xsl:stylesheet>
