@@ -121,7 +121,7 @@
 		</row>
 	</xsl:template>
 
-	<xsl:template match="*:td" mode="html2cals">
+	<xsl:template match="*:td|*:th" mode="html2cals">
 		<xsl:variable name="position" select="count(preceding-sibling::*) + 1"/>
 		<entry colname="col{$position}">
 			<xsl:if test="@colspan &gt; 1">
