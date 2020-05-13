@@ -2874,4 +2874,61 @@
     <css:color name="Black 7 U" rgb="108 104 100"/>
   </css:colors>
   
+  <xsl:function name="tr:highlight-color" as="xs:string?" >
+    <xsl:param name="val" as="xs:string"/>
+    <xsl:choose>
+      <xsl:when test="matches($val,'^(#?00FFFF|aqua|cyan)$','i')">
+        <xsl:sequence select="'cyan'" />
+      </xsl:when>
+      <xsl:when test="matches($val,'^(#?00008[0B]|navy|darkBlue)$','i')">
+        <xsl:sequence select="'darkBlue'" />
+      </xsl:when>
+      <xsl:when test="matches($val,'^(#?008[0B]8[0B]|teal|darkCyan)$','i')">
+        <xsl:sequence select="'darkCyan'" />
+      </xsl:when>
+      <xsl:when test="matches($val,'^(#?(808080|A9A9A9)|gray|darkGray)$','i')">
+        <xsl:sequence select="'darkGray'" />
+      </xsl:when>
+      <xsl:when test="matches($val,'^(#?00(80|64)00|green|darkGreen)$','i')">
+        <xsl:sequence select="'darkGreen'" />
+      </xsl:when>
+      <xsl:when test="matches($val,'^(#?800080|purple|darkMagenta)$','i')">
+        <xsl:sequence select="'darkMagenta'" />
+      </xsl:when>
+      <xsl:when test="matches($val,'^(#?8[0B]0000|maroon|darkRed)$','i')">
+        <xsl:sequence select="'darkRed'" />
+      </xsl:when>
+      <xsl:when test="matches($val,'^(#?808000|olive|darkYellow)$','i')">
+        <xsl:sequence select="'darkYellow'" />
+      </xsl:when>
+      <xsl:when test="matches($val,'^(#?00FF00|lime|green)$','i')">
+        <xsl:sequence select="'green'" />
+      </xsl:when>
+      <xsl:when test="matches($val,'^(#?(C0C0C0|D3D3D3)|silver|lightGray)$','i')">
+        <xsl:sequence select="'lightGray'" />
+      </xsl:when>
+      <xsl:when test="matches($val,'^(#?FF00FF|fuchsia|magenta)$','i')">
+        <xsl:sequence select="'magenta'" />
+      </xsl:when>
+      <xsl:when test="matches($val,'^(#?FFFF00|yellow)$','i')">
+        <xsl:sequence select="'yellow'" />
+      </xsl:when>
+      <xsl:when test="matches($val,'^(#?0000FF|blue)$','i')">
+        <xsl:sequence select="'blue'" />
+      </xsl:when>
+      <xsl:when test="matches($val,'^(#?FF0000|red)$','i')">
+        <xsl:sequence select="'red'" />
+      </xsl:when>
+      <xsl:when test="matches($val,'^(#?000000|black)$','i')">
+        <xsl:sequence select="'black'" />
+      </xsl:when>
+      <xsl:when test="matches($val,'^(#?FFFFFF|white)$','i')">
+        <xsl:sequence select="'white'" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:sequence select="'none'" />
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:function>
+  
 </xsl:stylesheet>
