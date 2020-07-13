@@ -12,8 +12,8 @@
   <let name="base-dir" value="/*/dbk:info/dbk:keywordset[@role eq 'hub']/dbk:keyword[@role eq 'source-dir-uri']"/>
 
  <pattern id="flat_tablestructure">
-    <rule context="dbk:informaltable | dbk:table">
-      <let name="cols" value="number(dbk:tgroup/@cols)" />
+    <rule context="dbk:informaltable/dbk:tgroup | dbk:table/dbk:tgroup">
+      <let name="cols" value="number(@cols)" />
       <assert id="Tabellenstruktur_fehlerhaft" role="error" 
               test="every $row in descendant::dbk:row satisfies count($row/descendant::dbk:entry) = $cols" >
         <span class="srcpath"><xsl:value-of select="concat($base-dir, @srcpath)"/></span>
