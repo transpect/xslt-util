@@ -10,7 +10,7 @@
   <xsl:import href="http://transpect.io/xslt-util/num/xsl/num.xsl"/>
   <xsl:import href="http://transpect.io/xslt-util/functx/xsl/functx.xsl"/>
   
-  <!-- tr:regex-from-string( xs:string )
+  <!-- tr:regex-from-string( xs:string* )
     
        creates a regex representation from a string,
        e.g. 'abcd01234' => '([0-4]|[a-d])+'
