@@ -10,10 +10,14 @@
   <xsl:import href="http://transpect.io/xslt-util/num/xsl/num.xsl"/>
   <xsl:import href="http://transpect.io/xslt-util/functx/xsl/functx.xsl"/>
   
+  <xsl:template name="test">
+    <xsl:message select="tr:regex-from-string('01234abcd()*+,-.!?')"></xsl:message>
+  </xsl:template>
+  
   <!-- tr:regex-from-string( xs:string* )
     
        creates a regex representation from a string,
-       e.g. 'abcd01234' => '([0-4]|[a-d])+'
+       e.g. 'abcd01234' => '[0-4a-d]+'
   -->
   
   <xsl:function name="tr:regex-from-string" as="xs:string">
@@ -26,19 +30,17 @@
                   select="for $i in (1 to map:size($range-map))
                           return let $seq := map:get($range-map, $i)
                                  return if(count($seq) gt 1)
-                                          then concat('[',
-                                                      functx:escape-for-regex(codepoints-to-string($seq[1])),
+                                          then concat(functx:escape-for-regex(codepoints-to-string($seq[1])),
                                                       '-',
-                                                      functx:escape-for-regex(codepoints-to-string($seq[last()])),
-                                                      ']')
+                                                      functx:escape-for-regex(codepoints-to-string($seq[last()])))
                                         else if(count($seq) eq 1)
-                                          then '[' || functx:escape-for-regex(codepoints-to-string($seq)) || ']'
+                                          then functx:escape-for-regex(codepoints-to-string($seq))
                                         else ()"/>
-    <xsl:sequence select="concat('(',
-                                 string-join($regexes-from-range-map, '|'), 
+    <xsl:sequence select="concat('[',
+                                 string-join($regexes-from-range-map, ''), 
                                  if(string-length($string) eq 1)
-                                 then ')'
-                                 else  ')+')"/>
+                                 then ']'
+                                 else  ']+')"/>
   </xsl:function>
   
 </xsl:stylesheet>
