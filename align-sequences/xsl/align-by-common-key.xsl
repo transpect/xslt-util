@@ -135,6 +135,7 @@
     <xsl:sequence select="normalize-space($prelim)"/>
   </xsl:function>
   
-  <xsl:template match="dbk:indexterm | dbk:footnote" mode="sequence-align:ignore-indexterms-and-footnotes"/>
+  <xsl:template match="dbk:indexterm | dbk:footnote | fn | fn-group | index-term | index-term-range-end" 
+    mode="sequence-align:ignore-indexterms-and-footnotes"/>
   
 </xsl:stylesheet>
