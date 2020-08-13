@@ -153,7 +153,7 @@
     <!-- Should return:
 À la Pêc,
 À la Pêche,
-💩, 
+&#x1f4a9;,
 A ö Ж € 𝄞,
 http://doi.org/10.1352/0895-8017(2008)113%5B32:ECICWD%5D%C3%A4%3E2.0.CO;2
 -->
