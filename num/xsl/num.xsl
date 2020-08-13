@@ -77,10 +77,10 @@
                 </xsl:matching-substring>
               </xsl:analyze-string>
             </xsl:variable>
-            <xsl:value-of select="codepoints-to-string( tr:utf8decode( $utf8-bytes))"/>
+            <xsl:sequence select="codepoints-to-string( tr:utf8decode( $utf8-bytes))"/>
           </xsl:matching-substring>
           <xsl:non-matching-substring>
-            <xsl:value-of select="."/>
+            <xsl:sequence select="."/>
           </xsl:non-matching-substring>
         </xsl:analyze-string>
       </xsl:if>
@@ -120,7 +120,7 @@
       <xsl:when test="$bytes[1] lt 248">
         <xsl:sequence
           select="
-      ((($bytes[1] - 224) * 262144) +
+      ((($bytes[1] - 240) * 262144) +
        (($bytes[2] - 128) *   4096) +
        (($bytes[3] - 128) *     64) +
         ($bytes[4] - 128)            ),
@@ -151,12 +151,21 @@
 
   <xsl:template name="test_hex">
     <!-- Should return:
-À la Pêche
- http://doi.org/10.1352/0895-8017(2008)113%5B32:ECICWD%5D%C3%A4%3E2.0.CO;2
+À la Pêc,
+À la Pêche,
+💩, 
+A ö Ж € 𝄞,
+http://doi.org/10.1352/0895-8017(2008)113%5B32:ECICWD%5D%C3%A4%3E2.0.CO;2
 -->
-    <xsl:sequence select="tr:unescape-uri('A%CC%80%20la%20Pe%CC%82che')"/>
-    <xsl:sequence select="'&#xa;'"/>
-    <xsl:sequence select="tr:escape-html-uri('http://doi.org/10.1352/0895-8017(2008)113[32:ECICWD]ä>2.0.CO;2')"/>
+    <doc>
+      <!-- contains combining accents U+300 and U+302. The result may not display properly in oXygen --><xsl:value-of 
+        select="tr:unescape-uri('A%CC%80%20la%20Pe%CC%82che')"/>,
+      <xsl:value-of select="tr:unescape-uri('%C3%80%20la%20P%C3%AAche')"/>,
+      <xsl:value-of select="tr:unescape-uri('%F0%9F%92%A9')"/>,
+      <!-- taken from https://rosettacode.org/wiki/UTF-8_encode_and_decode --><xsl:value-of 
+        select="tr:unescape-uri('%41 %C3%B6 %D0%96 %E2%82%AC %F0%9D%84%9E')"/>,
+      <xsl:value-of select="tr:escape-html-uri('http://doi.org/10.1352/0895-8017(2008)113[32:ECICWD]ä>2.0.CO;2')"/>
+    </doc>
   </xsl:template>
   
   <!-- /hex ================================================================================================================ -->
