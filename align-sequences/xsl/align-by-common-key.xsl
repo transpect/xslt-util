@@ -58,13 +58,13 @@
         <xsl:variable name="m1pos" as="xs:integer" select="sequence-align:index-of($matching1, .)"/>
         <xsl:variable name="m1next" as="node()?" select="$matching1[position() = $m1pos + 1]"/>
         <xsl:variable name="m2" select="$is2[@key = current()/@key]" as="node()*"/>
-        <xsl:if test="count($m2) gt 1">
-          <xsl:message terminate="{$terminate-on-error}">Duplicates: <xsl:sequence select="$m2/@key"/></xsl:message>
-        </xsl:if>
         <xsl:variable name="m2pos" as="xs:integer+" select="sequence-align:index-of($matching2, $m2)"/>
-        <xsl:if test="count($m2pos) gt 1">
-          <xsl:message select="'MATCHING2 ', $matching2/@key, '&#xa;M2 ',$m2/@key"/>
+        <xsl:if test="count($m2) gt 1">
+          <xsl:message terminate="{$terminate-on-error}">Duplicates: <xsl:sequence select="$m2/@key, $m2pos, '&#xa;', $m2"/></xsl:message>
         </xsl:if>
+        <!--<xsl:if test="count($m2pos) gt 1">
+          <xsl:message select="'MATCHING2 ', $matching2/@key, '&#xa;M2 ',$m2/@key"/>
+        </xsl:if>-->
         <xsl:variable name="m2next" as="node()?" select="$matching2[position() = $m2pos + 1]"/>
         <!--<xsl:if test="position() = 1">
           <xsl:variable name="seq2-before-m2" as="node()*" select="$is2[not(. &gt;&gt; $m2)] except $m2"/>
