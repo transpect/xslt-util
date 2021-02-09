@@ -85,6 +85,11 @@
     <xsl:sequence select="concat(tr:px-to-pt-as-double(xs:double(replace($px, 'px$', '')), xs:integer(replace($dpi, 'dpi$', ''))), 'pt')"/>
   </xsl:function>
   
+  <xsl:function name="tr:pt-to-mm" as="xs:string">
+    <xsl:param name="pt" as="xs:string"/>
+    <xsl:sequence select="concat(round-half-to-even(xs:decimal(replace($pt, 'pt$', '')) * (1 div 72 * 25.4), 2), 'mm')"/>
+  </xsl:function>
+  
   <xsl:function name="tr:px-to-pt-as-double" as="xs:double">
     <xsl:param name="px" as="xs:double"/>
     <xsl:param name="dpi" as="xs:integer"/>
