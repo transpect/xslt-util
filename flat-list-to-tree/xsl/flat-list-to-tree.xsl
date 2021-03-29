@@ -40,6 +40,11 @@
     <xsl:element name="{$wrapper-qname}" 
                  namespace="{namespace-uri-from-QName($wrapper-qname)}" 
                  exclude-result-prefixes="#all">
+      <xsl:for-each select="$list/@*[name() eq $level-att-name]
+                                    [not(replace(., $level-att-regex, '') castable as xs:integer)]">
+        <xsl:message select="'flat-list-to-tree: Attribute ', ., ' not castable as xs:integer after replacing $level-att-regex.&#xa;  Parent: ', ..,
+                             '&#xa;  $level-att-regex: ', $level-att-regex, '&#xa;  $level-att-name: ', $level-att-name"/>
+      </xsl:for-each>
       <xsl:for-each-group select="$list" 
                           group-adjacent="boolean(self::*[xs:integer(
                                                                      replace(@*[name() eq $level-att-name],
