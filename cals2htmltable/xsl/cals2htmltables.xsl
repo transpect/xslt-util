@@ -54,6 +54,12 @@
     </thead>
   </xsl:template>
 
+  <xsl:template match="*:tfoot" mode="cals2html-table">
+    <tfoot>
+      <xsl:apply-templates select="@*, node()" mode="#current"/>
+    </tfoot>
+  </xsl:template>
+
   <xsl:template match="*:entry" mode="cals2html-table">
     <xsl:element name="{if (ancestor::*:thead) then 'th' else 'td'}">
       <xsl:if test="@namest">
