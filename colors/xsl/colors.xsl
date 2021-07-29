@@ -347,6 +347,28 @@
     <xsl:sequence select="($h, $s * 100, $v * 100)"/>
   </xsl:function>
   
+  <!-- average method takes the average value of R, G, and B as the grayscale value
+       in: 255, 0, 0 => out: 85 85 85 -->
+  <xsl:function name="tr:rgb-to-greyscale-rgb-average" as="xs:double*">
+    <xsl:param name="rgb" as="xs:double*"/>
+    <xsl:variable name="r" select="$rgb[1]"  as="xs:double"/>
+    <xsl:variable name="g" select="$rgb[2]"  as="xs:double"/>
+    <xsl:variable name="b" select="$rgb[3]"  as="xs:double"/>
+    <xsl:variable name="greyscale" select="$r div 3 + $g div 3 + $b div 3" as="xs:double"/>
+    <xsl:sequence select="for $i in (1 to 3) return $greyscale"/>
+  </xsl:function>
+  
+  <!-- luminosity method weighs red, green and blue according to their wavelengths
+       in: 255, 0, 0 => out: 76.24499999999999 76.24499999999999 76.24499999999999 -->
+  <xsl:function name="tr:rgb-to-greyscale-rgb-luminosity" as="xs:double*">
+    <xsl:param name="rgb" as="xs:double*"/>
+    <xsl:variable name="r" select="$rgb[1]" as="xs:double"/>
+    <xsl:variable name="g" select="$rgb[2]" as="xs:double"/>
+    <xsl:variable name="b" select="$rgb[3]" as="xs:double"/>
+    <xsl:variable name="greyscale" select="$r * 0.299 + $g * 0.587 + $b * 0.114" as="xs:double"/>
+    <xsl:sequence select="for $i in (1 to 3) return $greyscale"/>
+  </xsl:function>
+  
   <xsl:function name="tr:hsv-to-rgb" as="xs:double*">
     <xsl:param name="hsv" as="xs:double*"/>
     
