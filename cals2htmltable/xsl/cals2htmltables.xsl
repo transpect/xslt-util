@@ -84,9 +84,5 @@
   <xsl:template match="@namest" mode="cals2html-table"/>
   <xsl:template match="@colname" mode="cals2html-table"/>
   <xsl:template match="@frame" mode="cals2html-table"/>
-  
-  <xsl:template match="*:informaltable/@role | *:table/@role | *:entry/@role" mode="cals2html-table">
-    <xsl:attribute name="class" select="."/>
-  </xsl:template>
 
 </xsl:stylesheet>
