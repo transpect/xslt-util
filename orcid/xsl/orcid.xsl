@@ -22,7 +22,7 @@
   
   <xsl:function name="tr:orcid-valid" as="xs:boolean">
     <xsl:param name="orcid" as="xs:string"/>
-    <xsl:variable name="base-orcid" select="replace($orcid, '[-a-z\.:/\s]+', '', 'i')" as="xs:string"/>
+    <xsl:variable name="base-orcid" select="replace(replace($orcid, $orcid-regex, '$1'), '-', '')" as="xs:string"/>
     <xsl:sequence select="    string-length($base-orcid) eq 16
                           and   tr:orcid-checksum($base-orcid) 
                               = substring($base-orcid, 16, 1)"/>
@@ -37,7 +37,7 @@
   
   <xsl:function name="tr:orcid-checksum" as="xs:string">
     <xsl:param name="orcid" as="xs:string"/>
-    <xsl:variable name="base-orcid" select="replace($orcid, '[-a-z\.:/\s]+', '', 'i')" as="xs:string"/>
+    <xsl:variable name="base-orcid" select="replace(replace($orcid, $orcid-regex, '$1'), '-', '')" as="xs:string"/>
     <xsl:value-of select="tr:orcid-checksum-eval((), (), $base-orcid)"/>
   </xsl:function>
   
@@ -68,7 +68,7 @@
         * check whether the argument conforms to the ORCID regex
         * -->
   
-  <xsl:variable name="orcid-regex" select="'https://orcid\.org/(\d{4}-){3}\d{4}'" as="xs:string"/>
+  <xsl:variable name="orcid-regex" select="'https://orcid\.org/((\d{4}-){3}\d{4})'" as="xs:string"/>
   
   <xsl:function name="tr:orcid-regex-valid" as="xs:boolean">
     <xsl:param name="orcid" as="xs:string"/>
