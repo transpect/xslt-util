@@ -24,20 +24,24 @@
     <xsl:param name="orcid" as="xs:string"/>
     <xsl:variable name="base-orcid" select="replace($orcid, '[-a-z\.:/\s]+', '', 'i')" as="xs:string"/>
     <xsl:sequence select="    string-length($base-orcid) eq 16
-                          and   tr:orcid-checksum((), (), $base-orcid) 
+                          and   tr:orcid-checksum($base-orcid) 
                               = substring($base-orcid, 16, 1)"/>
   </xsl:function>
   
   <!--  *
-        * tr:orcid-checksum($start-total, $start-pos, $orcid)
+        * tr:orcid-checksum($orcid)
         * 
-        * Generates a checksum for a given ORCID iD. Permitted
-        * value for $orcid are the base digits of the ORCID iD, e.g. 
+        * Generates a checksum for a given ORCID iD.
         * 
-        * 0000000236946012
         * -->
   
   <xsl:function name="tr:orcid-checksum" as="xs:string">
+    <xsl:param name="orcid" as="xs:string"/>
+    <xsl:variable name="base-orcid" select="replace($orcid, '[-a-z\.:/\s]+', '', 'i')" as="xs:string"/>
+    <xsl:value-of select="tr:orcid-checksum-eval((), (), $base-orcid)"/>
+  </xsl:function>
+  
+  <xsl:function name="tr:orcid-checksum-eval" as="xs:string">
     <xsl:param name="start-total" as="xs:integer?"/>
     <xsl:param name="start-pos" as="xs:integer?"/>
     <xsl:param name="orcid" as="xs:string"/>
@@ -48,7 +52,7 @@
                   select="($total + (if($digit eq 'X') then 10 else xs:integer($digit))) * 2"/>
     <xsl:choose>
       <xsl:when test="$pos &lt; 15">
-        <xsl:sequence select="tr:orcid-checksum($new-total, $pos + 1, $orcid)"/>
+        <xsl:sequence select="tr:orcid-checksum-eval($new-total, $pos + 1, $orcid)"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:variable name="remainder" select="$new-total mod 11" as="xs:integer"/>
@@ -58,10 +62,17 @@
     </xsl:choose>
   </xsl:function>
   
-  <!-- for testing -->
+  <!--  *
+        * tr:orcid-regex-valid($orcid)
+        * 
+        * check whether the argument conforms to the ORCID regex
+        * -->
   
-  <xsl:template name="main">
-    <xsl:sequence select="tr:orcid-valid('0000-0002-3694-6012')"/>
-  </xsl:template>
+  <xsl:variable name="orcid-regex" select="'https://orcid\.org/(\d{4}-){3}\d{4}'" as="xs:string"/>
+  
+  <xsl:function name="tr:orcid-regex-valid" as="xs:boolean">
+    <xsl:param name="orcid" as="xs:string"/>
+    <xsl:sequence select="matches($orcid, $orcid-regex)"/>
+  </xsl:function>
   
 </xsl:stylesheet>
