@@ -22,8 +22,7 @@
   
   <xsl:function name="tr:orcid-valid" as="xs:boolean">
     <xsl:param name="orcid" as="xs:string"/>
-    <xsl:variable name="base-orcid" as="xs:string" 
-                  select="replace(replace($orcid, '^(https://orcid.org/)?(.+)$', '$2'), '-', '')"/>
+    <xsl:variable name="base-orcid" select="replace($orcid, '[-a-z\.:/\s]+', '', 'i')" as="xs:string"/>
     <xsl:sequence select="    string-length($base-orcid) eq 16
                           and   tr:orcid-checksum((), (), $base-orcid) 
                               = substring($base-orcid, 16, 1)"/>
