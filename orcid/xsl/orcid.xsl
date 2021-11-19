@@ -26,7 +26,9 @@
                   select="replace(replace($orcid, '^(https://orcid.org/)?(.+)$', '$2'), '-', '')"/>
     <xsl:variable name="total" select="0" as="xs:integer"/>
     <xsl:variable name="start-pos" select="1" as="xs:integer"/>
-    <xsl:sequence select="tr:orcid-checksum($total, $start-pos, $base-orcid) = substring($base-orcid, 16, 1)"/>
+    <xsl:sequence select="    string-length($base-orcid) eq 16
+                          and   tr:orcid-checksum($total, $start-pos, $base-orcid) 
+                              = substring($base-orcid, 16, 1)"/>
   </xsl:function>
   
   <!--  *
