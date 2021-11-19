@@ -32,7 +32,7 @@
   </xsl:function>
   
   <!--  *
-        * tr:orcid-checksum($orcid)
+        * tr:orcid-checksum($start-total, $start-pos, $orcid)
         * 
         * Generates a checksum for a given ORCID iD. Permitted
         * value for $orcid are the base digits of the ORCID iD, e.g. 
@@ -41,9 +41,11 @@
         * -->
   
   <xsl:function name="tr:orcid-checksum" as="xs:string">
-    <xsl:param name="total" as="xs:integer"/>
-    <xsl:param name="pos" as="xs:integer"/>
+    <xsl:param name="start-total" as="xs:integer?"/>
+    <xsl:param name="start-pos" as="xs:integer?"/>
     <xsl:param name="orcid" as="xs:string"/>
+    <xsl:variable name="total" select="($start-total, 0)[1]" as="xs:integer"/>
+    <xsl:variable name="pos" select="($start-pos, 1)[1]" as="xs:integer"/>
     <xsl:variable name="digit" select="substring($orcid, $pos, 1)" as="xs:string"/>
     <xsl:variable name="new-total" as="xs:integer"
                   select="($total + (if($digit eq 'X') then 10 else xs:integer($digit))) * 2"/>
