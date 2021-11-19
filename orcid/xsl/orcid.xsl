@@ -18,11 +18,7 @@
         * https://orcid.org/0000-0002-3694-6012 
         * 0000-0002-3694-6012
         * 0000000236946012
-        * -->
-  
-  <xsl:template name="main">
-    <xsl:sequence select="tr:orcid-valid('0000-0002-3694-6012')"/>
-  </xsl:template>  
+        * -->  
   
   <xsl:function name="tr:orcid-valid" as="xs:boolean">
     <xsl:param name="orcid" as="xs:string"/>
@@ -30,10 +26,19 @@
                   select="replace(replace($orcid, '^(https://orcid.org/)?(.+)$', '$2'), '-', '')"/>
     <xsl:variable name="total" select="0" as="xs:integer"/>
     <xsl:variable name="start-pos" select="1" as="xs:integer"/>
-    <xsl:sequence select="tr:checksum-from-orcid($total, $start-pos, $base-orcid) = substring($base-orcid, 16, 1)"/>
+    <xsl:sequence select="tr:orcid-checksum($total, $start-pos, $base-orcid) = substring($base-orcid, 16, 1)"/>
   </xsl:function>
   
-  <xsl:function name="tr:checksum-from-orcid" as="xs:string">
+  <!--  *
+        * tr:orcid-checksum($orcid)
+        * 
+        * Generates a checksum for a given ORCID iD. Permitted
+        * value for $orcid are the base digits of the ORCID iD, e.g. 
+        * 
+        * 0000000236946012
+        * -->
+  
+  <xsl:function name="tr:orcid-checksum" as="xs:string">
     <xsl:param name="total" as="xs:integer"/>
     <xsl:param name="pos" as="xs:integer"/>
     <xsl:param name="orcid" as="xs:string"/>
@@ -42,7 +47,7 @@
                   select="($total + (if($digit eq 'X') then 10 else xs:integer($digit))) * 2"/>
     <xsl:choose>
       <xsl:when test="$pos &lt; 15">
-        <xsl:sequence select="tr:checksum-from-orcid($new-total, $pos + 1, $orcid)"/>
+        <xsl:sequence select="tr:orcid-checksum($new-total, $pos + 1, $orcid)"/>
       </xsl:when>
       <xsl:otherwise>
         <xsl:variable name="remainder" select="$new-total mod 11" as="xs:integer"/>
@@ -51,5 +56,11 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:function>
+  
+  <!-- for testing -->
+  
+  <xsl:template name="main">
+    <xsl:sequence select="tr:orcid-valid('0000-0002-3694-6012')"/>
+  </xsl:template>
   
 </xsl:stylesheet>
