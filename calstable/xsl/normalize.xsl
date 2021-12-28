@@ -6,8 +6,8 @@
   exclude-result-prefixes="xs calstable">
 
   <!--  This stylesheet normalizes a CALS exchange model table using 
-        an adaption of Andrew Welchs table normalization algorithm,
-        http://andrewjwelch.com/code/xslt/table/table-normalization.html
+        an adaptation of Andrew Welchs table normalization algorithm,
+        https://andrewjwelch.com/code/xslt/table/table-normalization.html
         
         It provides the function calstable:normalize() that expects as 
         parameter an element with row childs (i.e., a tbody element).
