@@ -6,7 +6,7 @@
   exclude-result-prefixes="xs calstable">
 
   <!--  This stylesheet normalizes a CALS exchange model table using 
-        an adaptation of Andrew Welchs table normalization algorithm,
+        an adaptation of Andrew Welch’s table normalization algorithm,
         https://andrewjwelch.com/code/xslt/table/table-normalization.html
         
         It provides the function calstable:normalize() that expects as 
