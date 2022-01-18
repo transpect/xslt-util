@@ -20,7 +20,7 @@
     <xsl:param name="hex" as="xs:string" />
     <xsl:sequence select="if (exists(document('')//css:colors[@name eq 'keyword-hex-map']/css:color[@hex eq $hex][@name])) 
                           then document('')//css:colors[@name eq 'keyword-hex-map']/css:color[@hex eq $hex]/@name 
-                          else 'Not found'"/>
+                          else ()"/>
   </xsl:function>
 
   <!-- Keyword-Hex-Map
