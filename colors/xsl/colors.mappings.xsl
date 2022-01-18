@@ -16,7 +16,7 @@
                                 /@hex"/>
   </xsl:function>
   
-  <xsl:function name="tr:color-hex-rgb-to-keyword" as="xs:string+">
+  <xsl:function name="tr:color-hex-rgb-to-keyword" as="xs:string*">
     <xsl:param name="hex" as="xs:string" />
     <xsl:sequence select="if (exists(document('')//css:colors[@name eq 'keyword-hex-map']/css:color[@hex eq $hex][@name])) 
                           then document('')//css:colors[@name eq 'keyword-hex-map']/css:color[@hex eq $hex]/@name 
