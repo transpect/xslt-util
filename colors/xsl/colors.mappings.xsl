@@ -8,7 +8,7 @@
   <xsl:variable name="known-keywords" as="xs:string+"
     select="document('')//css:colors[@name eq 'keyword-hex-map']/css:color/@name"/>
 
-  <xsl:function name="tr:color-keyword-to-hex-rgb" as="xs:string">
+  <xsl:function name="tr:color-keyword-to-hex-rgb" as="xs:string?">
     <xsl:param name="keyword" as="xs:string" />
     <xsl:sequence select="document('')
                           //css:colors[@name eq 'keyword-hex-map']
