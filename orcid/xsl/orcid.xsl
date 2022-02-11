@@ -74,7 +74,7 @@
   
   <xsl:function name="tr:orcid-regex-valid" as="xs:boolean">
     <xsl:param name="orcid" as="xs:string"/>
-    <xsl:sequence select="matches($orcid, $orcid-regex)"/>
+    <xsl:sequence select="matches($orcid, concat('^', $orcid-regex, '$'))"/>
   </xsl:function>
   
 </xsl:stylesheet>
