@@ -202,6 +202,26 @@
                                     ')'
                                   )"/>
           </xsl:when>
+          <xsl:when test="$type-out eq 'cmyk'">
+            <xsl:variable name="rgb" select="concat(
+              'rgb(',
+              string-join(
+              for $double in tr:hex-rgb-color-to-ints(
+              tr:hex-rgb-to-six-digits-hex-rgb(
+              concat('#', $tokenized[2])
+              )
+              ) return xs:string($double),
+              ','
+              ),
+              ')'
+              )"/>
+            <xsl:variable name="rgb-tokens" select="tr:tokenize-css-color-value($rgb)"/>
+            <xsl:variable name="cmyk-double" select="tr:rgb-to-cmyk(
+              for $i in $rgb-tokens[position() gt 1]
+              return xs:double($i)
+              )"/>
+            <xsl:sequence select="concat('cmyk(', string-join(for $k in $cmyk-double return xs:string(xs:integer($k*100)), ','), ')')"></xsl:sequence>
+          </xsl:when>
           <xsl:otherwise>
             <xsl:message select="'colors/colors.xsl, tr:convert-css-color: unimplemented conversion from input hex to type-out', $type-out, 'Input color value:', $css-color"/>
             <xsl:value-of select="$css-color"/>
