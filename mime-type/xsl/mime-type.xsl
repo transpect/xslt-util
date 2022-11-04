@@ -104,7 +104,7 @@
     <xsl:variable name="temp" as="xs:string?"
       select="$mime-types[tokenize(@ext, '\s') = lower-case($ext)]/@type"/>
     <xsl:if test="empty($temp)">
-      <xsl:message select="'xslt-util/mime-type/xsl/mime-type.xsl, tr:ext-to-mime-type(): Empty type for ', $ext"/>
+      <xsl:message select="concat('xslt-util/mime-type/xsl/mime-type.xsl, tr:ext-to-mime-type(): Empty type for ''', $ext, '''')"/>
     </xsl:if>
     <xsl:sequence select="$temp"/>
   </xsl:function>
