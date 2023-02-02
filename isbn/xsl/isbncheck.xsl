@@ -5,11 +5,15 @@
   exclude-result-prefixes="xs"
   version="2.0">
   
-  <xsl:function name="tr:check-isbn">
+  <!-- evaluates the check digit from a ISBN-10 or ISBN-13 -->
+  
+  <xsl:function name="tr:check-isbn" as="xs:string">
     <xsl:param name="isbn" as="xs:string"/>
     <xsl:param name="length" as="xs:integer"/>
     <xsl:sequence select="if ($length = 10) then tr:check-isbn10($isbn) else tr:check-isbn13($isbn)"/>
   </xsl:function>
+  
+  <!-- compares the check digit with the evaluated check digit -->
   
   <xsl:function name="tr:is-isbn-valid" as="xs:boolean">
     <xsl:param name="isbn" as="xs:string"/>
