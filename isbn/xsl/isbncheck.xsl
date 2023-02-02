@@ -6,9 +6,15 @@
   version="2.0">
   
   <xsl:function name="tr:check-isbn">
-    <xsl:param name="isbn"/>
-    <xsl:param name="length"/>
+    <xsl:param name="isbn" as="xs:string"/>
+    <xsl:param name="length" as="xs:integer"/>
     <xsl:sequence select="if ($length = 10) then tr:check-isbn10($isbn) else tr:check-isbn13($isbn)"/>
+  </xsl:function>
+  
+  <xsl:function name="tr:is-isbn-valid" as="xs:boolean">
+    <xsl:param name="isbn" as="xs:string"/>
+    <xsl:param name="length" as="xs:integer"/>
+    <xsl:sequence select="tr:check-isbn($isbn, $length) eq substring($isbn, $length)"/>
   </xsl:function>
   
   <xsl:param name="input" as="xs:string"><!-- for testing --></xsl:param>
@@ -32,7 +38,7 @@
   </xsl:template>-->
   
   <xsl:function name="tr:check-isbn10" as="xs:string">
-    <xsl:param name="isbn"/>
+    <xsl:param name="isbn" as="xs:string"/>
       <xsl:variable name="isbn_9"/>
       <xsl:variable name="sum" select="(
                                        (for $d in string-to-codepoints(translate($isbn,' -','')) 
@@ -59,7 +65,7 @@
   </xsl:function>
  
   <xsl:function name="tr:check-isbn13" as="xs:string">
-    <xsl:param name="isbn"/>
+    <xsl:param name="isbn" as="xs:string"/>
     <xsl:variable name="isbn_12" select="substring($isbn,1,12)"/>
     <xsl:variable name="sum" select="(sum(
                                          (for $d in string-to-codepoints(translate($isbn_12,' -','')) 
