@@ -53,15 +53,15 @@
   </xsl:template>
 
 	<xsl:template match="@border" mode="html2cals">
-		<xsl:attribute name="frame">
-			<xsl:value-of select="if(starts-with(., '0')) then('none') else('all')"/>
-		</xsl:attribute>
-	</xsl:template>
+    <xsl:attribute name="frame">
+      <xsl:value-of select="if(matches(., '^[0\.]+$')) then('none') else('all')"/>
+    </xsl:attribute>
+  </xsl:template>
 
-	<xsl:template match="*:table/@width | *:table/@css:width" mode="html2cals">
-		<xsl:attribute name="pgwide">
-			<xsl:value-of select="if(.='100%') then('0') else('1')"/>
-		</xsl:attribute>
+  <xsl:template match="*:table/@width | *:table/@css:width" mode="html2cals">
+    <xsl:attribute name="pgwide">
+      <xsl:value-of select="if(.='100%') then('0') else('1')"/>
+    </xsl:attribute>
 	</xsl:template>
 
   <xsl:template name="generate-colspecs">
