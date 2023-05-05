@@ -39,7 +39,7 @@
         </xsl:for-each>
       </colgroup>
     </xsl:if>
-    <xsl:apply-templates select="node()" mode="#current"/>
+    <xsl:apply-templates select="*:thead, *:tbody, *:foot" mode="#current"/>
   </xsl:template>
 
   <xsl:template match="*:tbody" mode="cals2html-table">
