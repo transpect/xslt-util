@@ -1,3 +1,3 @@
 # xslt-util
 
-XSLT functions for Transpect
+XSLT functions for transpect
