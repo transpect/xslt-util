@@ -44,10 +44,10 @@
           <xsl:with-param name="max" select="tr:max-columns(.)" as="xs:double"/>
         </xsl:call-template>
         <xsl:apply-templates select="*:thead" mode="html2cals"/>
+        <xsl:apply-templates select="*:tfoot" mode="html2cals"/>
         <xsl:element name="tbody">
           <xsl:apply-templates select="*:tr | *:tbody/*:tr" mode="html2cals"/>
         </xsl:element>
-        <xsl:apply-templates select="*:tfoot" mode="html2cals"/>
       </xsl:element>
     </xsl:element>
   </xsl:template>
