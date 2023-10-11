@@ -148,4 +148,15 @@
     </xsl:for-each>
   </xsl:function>
   
+  <xsl:function name="tr:tokenize-strings-by-string-length" as="xs:string*">
+    <xsl:param name="strings" as="xs:string*"/><!-- sequence of strings -->
+    <xsl:param name="limit" as="xs:integer"/>  <!-- maximum string length -->
+    <xsl:for-each select="$strings">
+      <xsl:variable name="str" select="." as="xs:string"/>
+      <xsl:for-each select="0 to (string-length($str) - 1) idiv $limit">
+        <xsl:value-of select="substring($str, . * $limit + 1, $limit)"/>
+      </xsl:for-each>
+    </xsl:for-each>
+  </xsl:function>
+  
 </xsl:stylesheet>
