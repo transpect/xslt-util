@@ -65,12 +65,12 @@
     <tr:lang code="br" dir="ltr" alt="bre" value="Breton"/>
     <tr:lang code="bg" dir="ltr" alt="bul" value="Bulgarian"/>
     <tr:lang code="my" dir="ltr" alt="mya bur" value="Burmese"/>
-    <tr:lang code="ca" dir="ltr" alt="cat" value="Catalan, Valencian"/>
+    <tr:lang code="ca" dir="ltr" alt="cat" value="Catalan; Valencian"/>
     <tr:lang code="ch" dir="ltr" alt="cha" value="Chamorro"/>
     <tr:lang code="ce" dir="ltr" alt="che" value="Chechen"/>
-    <tr:lang code="ny" dir="ltr" alt="nya" value="Chichewa, Chewa, Nyanja"/>
+    <tr:lang code="ny" dir="ltr" alt="nya" value="Chichewa; Chewa; Nyanja"/>
     <tr:lang code="zh" dir="ltr" alt="zho chi" value="Chinese"/>
-    <tr:lang code="cu" dir="ltr" alt="chu" value="Church Slavonic, Old Slavonic, Old Church Slavonic"/>
+    <tr:lang code="cu" dir="ltr" alt="chu" value="Church Slavonic; Old Slavonic; Old Church Slavonic"/>
     <tr:lang code="cv" dir="ltr" alt="chv" value="Chuvash"/>
     <tr:lang code="kw" dir="ltr" alt="cor" value="Cornish"/>
     <tr:lang code="co" dir="ltr" alt="cos" value="Corsican"/>
@@ -78,8 +78,8 @@
     <tr:lang code="hr" dir="ltr" alt="hrv" value="Croatian"/>
     <tr:lang code="cs" dir="ltr" alt="ces cze" value="Czech"/>
     <tr:lang code="da" dir="ltr" alt="dan" value="Danish"/>
-    <tr:lang code="dv" dir="rtl" alt="div" value="Divehi, Dhivehi, Maldivian"/>
-    <tr:lang code="nl" dir="ltr" alt="nld dut" value="Dutch, Flemish"/>
+    <tr:lang code="dv" dir="rtl" alt="div" value="Divehi; Dhivehi; Maldivian"/>
+    <tr:lang code="nl" dir="ltr" alt="nld dut" value="Dutch; Flemish"/>
     <tr:lang code="dz" dir="ltr" alt="dzo" value="Dzongkha"/>
     <tr:lang code="en" dir="ltr" alt="eng" value="English"/>
     <tr:lang code="eo" dir="ltr" alt="epo" value="Esperanto"/>
@@ -91,16 +91,16 @@
     <tr:lang code="fr" dir="ltr" alt="fra fre" value="French"/>
     <tr:lang code="fy" dir="ltr" alt="fry" value="Western Frisian"/>
     <tr:lang code="ff" dir="ltr" alt="ful" value="Fulah"/>
-    <tr:lang code="gd" dir="ltr" alt="gla" value="Gaelic, Scottish Gaelic"/>
+    <tr:lang code="gd" dir="ltr" alt="gla" value="Gaelic; Scottish Gaelic"/>
     <tr:lang code="gl" dir="ltr" alt="glg" value="Galician"/>
     <tr:lang code="lg" dir="ltr" alt="lug" value="Ganda"/>
     <tr:lang code="ka" dir="ltr" alt="kat geo" value="Georgian"/>
     <tr:lang code="de" dir="ltr" alt="deu ger" value="German"/>
-    <tr:lang code="el" dir="ltr" alt="ell gre" value="Greek, Modern (1453–)"/>
-    <tr:lang code="kl" dir="ltr" alt="kal" value="Kalaallisut, Greenlandic"/>
+    <tr:lang code="el" dir="ltr" alt="ell gre" value="Greek; Modern (1453–)"/>
+    <tr:lang code="kl" dir="ltr" alt="kal" value="Kalaallisut; Greenlandic"/>
     <tr:lang code="gn" dir="ltr" alt="grn" value="Guarani"/>
     <tr:lang code="gu" dir="ltr" alt="guj" value="Gujarati"/>
-    <tr:lang code="ht" dir="ltr" alt="hat" value="Haitian, Haitian Creole"/>
+    <tr:lang code="ht" dir="ltr" alt="hat" value="Haitian; Haitian Creole"/>
     <tr:lang code="ha" dir="rtl" alt="hau" value="Hausa"/>
     <tr:lang code="he" dir="rtl" alt="heb" value="Hebrew"/>
     <tr:lang code="hz" dir="ltr" alt="her" value="Herero"/>
@@ -112,7 +112,7 @@
     <tr:lang code="ig" dir="ltr" alt="ibo" value="Igbo"/>
     <tr:lang code="id" dir="ltr" alt="ind" value="Indonesian"/>
     <tr:lang code="ia" dir="ltr" alt="ina" value="Interlingua (International Auxiliary Language Association)"/>
-    <tr:lang code="ie" dir="ltr" alt="ile" value="Interlingue, Occidental"/>
+    <tr:lang code="ie" dir="ltr" alt="ile" value="Interlingue; Occidental"/>
     <tr:lang code="iu" dir="ltr" alt="iku" value="Inuktitut"/>
     <tr:lang code="ik" dir="ltr" alt="ipk" value="Inupiaq"/>
     <tr:lang code="ga" dir="ltr" alt="gle" value="Irish"/>
@@ -124,22 +124,22 @@
     <tr:lang code="ks" dir="rtl" alt="kas" value="Kashmiri"/>
     <tr:lang code="kk" dir="ltr" alt="kaz" value="Kazakh"/>
     <tr:lang code="km" dir="ltr" alt="khm" value="Central Khmer"/>
-    <tr:lang code="ki" dir="ltr" alt="kik" value="Kikuyu, Gikuyu"/>
+    <tr:lang code="ki" dir="ltr" alt="kik" value="Kikuyu; Gikuyu"/>
     <tr:lang code="rw" dir="ltr" alt="kin" value="Kinyarwanda"/>
-    <tr:lang code="ky" dir="ltr" alt="kir" value="Kirghiz, Kyrgyz"/>
+    <tr:lang code="ky" dir="ltr" alt="kir" value="Kirghiz; Kyrgyz"/>
     <tr:lang code="kv" dir="ltr" alt="kom" value="Komi"/>
     <tr:lang code="kg" dir="ltr" alt="kon" value="Kongo"/>
     <tr:lang code="ko" dir="ltr" alt="kor" value="Korean"/>
-    <tr:lang code="kj" dir="ltr" alt="kua" value="Kuanyama, Kwanyama"/>
+    <tr:lang code="kj" dir="ltr" alt="kua" value="Kuanyama; Kwanyama"/>
     <tr:lang code="ku" dir="rtl" alt="kur" value="Kurdish"/>
     <tr:lang code="lo" dir="ltr" alt="lao" value="Lao"/>
     <tr:lang code="la" dir="ltr" alt="lat" value="Latin"/>
     <tr:lang code="lv" dir="ltr" alt="lav" value="Latvian"/>
-    <tr:lang code="li" dir="ltr" alt="lim" value="Limburgan, Limburger, Limburgish"/>
+    <tr:lang code="li" dir="ltr" alt="lim" value="Limburgan; Limburger; Limburgish"/>
     <tr:lang code="ln" dir="ltr" alt="lin" value="Lingala"/>
     <tr:lang code="lt" dir="ltr" alt="lit" value="Lithuanian"/>
     <tr:lang code="lu" dir="ltr" alt="lub" value="Luba-Katanga"/>
-    <tr:lang code="lb" dir="ltr" alt="ltz" value="Luxembourgish, Letzeburgesch"/>
+    <tr:lang code="lb" dir="ltr" alt="ltz" value="Luxembourgish; Letzeburgesch"/>
     <tr:lang code="mk" dir="ltr" alt="mkd mac" value="Macedonian"/>
     <tr:lang code="mg" dir="ltr" alt="mlg" value="Malagasy"/>
     <tr:lang code="ms" dir="ltr" alt="msa may" value="Malay"/>
@@ -151,7 +151,7 @@
     <tr:lang code="mh" dir="ltr" alt="mah" value="Marshallese"/>
     <tr:lang code="mn" dir="ltr" alt="mon" value="Mongolian"/>
     <tr:lang code="na" dir="ltr" alt="nau" value="Nauru"/>
-    <tr:lang code="nv" dir="ltr" alt="nav" value="Navajo, Navaho"/>
+    <tr:lang code="nv" dir="ltr" alt="nav" value="Navajo; Navaho"/>
     <tr:lang code="nd" dir="ltr" alt="nde" value="North Ndebele"/>
     <tr:lang code="nr" dir="ltr" alt="nbl" value="South Ndebele"/>
     <tr:lang code="ng" dir="ltr" alt="ndo" value="Ndonga"/>
@@ -159,20 +159,20 @@
     <tr:lang code="no" dir="ltr" alt="nor" value="Norwegian"/>
     <tr:lang code="nb" dir="ltr" alt="nob" value="Norwegian Bokmål"/>
     <tr:lang code="nn" dir="ltr" alt="nno" value="Norwegian Nynorsk"/>
-    <tr:lang code="ii" dir="ltr" alt="iii" value="Sichuan Yi, Nuosu"/>
+    <tr:lang code="ii" dir="ltr" alt="iii" value="Sichuan Yi; Nuosu"/>
     <tr:lang code="oc" dir="ltr" alt="oci" value="Occitan"/>
     <tr:lang code="oj" dir="ltr" alt="oji" value="Ojibwa"/>
     <tr:lang code="or" dir="ltr" alt="ori" value="Oriya"/>
     <tr:lang code="om" dir="ltr" alt="orm" value="Oromo"/>
-    <tr:lang code="os" dir="ltr" alt="oss" value="Ossetian, Ossetic"/>
+    <tr:lang code="os" dir="ltr" alt="oss" value="Ossetian; Ossetic"/>
     <tr:lang code="pi" dir="ltr" alt="pli" value="Pali"/>
-    <tr:lang code="ps" dir="rtl" alt="pus" value="Pashto, Pushto"/>
+    <tr:lang code="ps" dir="rtl" alt="pus" value="Pashto; Pushto"/>
     <tr:lang code="fa" dir="rtl" alt="fas per" value="Persian"/>
     <tr:lang code="pl" dir="ltr" alt="pol" value="Polish"/>
     <tr:lang code="pt" dir="ltr" alt="por" value="Portuguese"/>
-    <tr:lang code="pa" dir="ltr" alt="pan" value="Punjabi, Panjabi"/>
+    <tr:lang code="pa" dir="ltr" alt="pan" value="Punjabi; Panjabi"/>
     <tr:lang code="qu" dir="ltr" alt="que" value="Quechua"/>
-    <tr:lang code="ro" dir="ltr" alt="ron rum" value="Romanian, Moldavian, Moldovan"/>
+    <tr:lang code="ro" dir="ltr" alt="ron rum" value="Romanian; Moldavian; Moldovan"/>
     <tr:lang code="rm" dir="ltr" alt="roh" value="Romansh"/>
     <tr:lang code="rn" dir="ltr" alt="run" value="Rundi"/>
     <tr:lang code="ru" dir="ltr" alt="rus" value="Russian"/>
@@ -184,12 +184,12 @@
     <tr:lang code="sr" dir="ltr" alt="srp" value="Serbian"/>
     <tr:lang code="sn" dir="ltr" alt="sna" value="Shona"/>
     <tr:lang code="sd" dir="ltr" alt="snd" value="Sindhi"/>
-    <tr:lang code="si" dir="ltr" alt="sin" value="Sinhala, Sinhalese"/>
+    <tr:lang code="si" dir="ltr" alt="sin" value="Sinhala; Sinhalese"/>
     <tr:lang code="sk" dir="ltr" alt="slk slo" value="Slovak"/>
     <tr:lang code="sl" dir="ltr" alt="slv" value="Slovenian"/>
     <tr:lang code="so" dir="ltr" alt="som" value="Somali"/>
     <tr:lang code="st" dir="ltr" alt="sot" value="Southern Sotho"/>
-    <tr:lang code="es" dir="ltr" alt="spa" value="Spanish, Castilian"/>
+    <tr:lang code="es" dir="ltr" alt="spa" value="Spanish; Castilian"/>
     <tr:lang code="su" dir="ltr" alt="sun" value="Sundanese"/>
     <tr:lang code="sw" dir="ltr" alt="swa" value="Swahili"/>
     <tr:lang code="ss" dir="ltr" alt="ssw" value="Swati"/>
@@ -209,7 +209,7 @@
     <tr:lang code="tr" dir="ltr" alt="tur" value="Turkish"/>
     <tr:lang code="tk" dir="ltr" alt="tuk" value="Turkmen"/>
     <tr:lang code="tw" dir="ltr" alt="twi" value="Twi"/>
-    <tr:lang code="ug" dir="ltr" alt="uig" value="Uighur, Uyghur"/>
+    <tr:lang code="ug" dir="ltr" alt="uig" value="Uighur; Uyghur"/>
     <tr:lang code="uk" dir="ltr" alt="ukr" value="Ukrainian"/>
     <tr:lang code="ur" dir="rtl" alt="urd" value="Urdu"/>
     <tr:lang code="uz" dir="ltr" alt="uzb" value="Uzbek"/>
@@ -222,7 +222,7 @@
     <tr:lang code="xh" dir="ltr" alt="xho" value="Xhosa"/>
     <tr:lang code="yi" dir="rtl" alt="yid" value="Yiddish"/>
     <tr:lang code="yo" dir="ltr" alt="yor" value="Yoruba"/>
-    <tr:lang code="za" dir="ltr" alt="zha" value="Zhuang, Chuang"/>
+    <tr:lang code="za" dir="ltr" alt="zha" value="Zhuang; Chuang"/>
     <tr:lang code="zu" dir="ltr" alt="zul" value="Zulu"/>
   </tr:langs>
   
