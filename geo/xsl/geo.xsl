@@ -5,7 +5,7 @@
   exclude-result-prefixes="xs"
   version="2.0">
   
-  <tr:countries>
+  <tr:countries xmlns:tr="http://transpect.io">
    <tr:country tld=".aw"
                cca2="AW"
                ccn3="533"
@@ -20,8 +20,8 @@
          <tr:native>
             <tr:official lang="nl">Aruba</tr:official>
             <tr:common lang="nl">Aruba</tr:common>
-            <tr:official lang="">Aruba</tr:official>
-            <tr:common lang="">Aruba</tr:common>
+            <tr:official lang="pap">Aruba</tr:official>
+            <tr:common lang="pap">Aruba</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -96,8 +96,8 @@
          <tr:common>Afghanistan</tr:common>
          <tr:official>Islamic Republic of Afghanistan</tr:official>
          <tr:native>
-            <tr:official lang="">جمهوری اسلامی افغانستان</tr:official>
-            <tr:common lang="">افغانستان</tr:common>
+            <tr:official lang="prs">جمهوری اسلامی افغانستان</tr:official>
+            <tr:common lang="prs">افغانستان</tr:common>
             <tr:official lang="ps">د افغانستان اسلامي جمهوریت</tr:official>
             <tr:common lang="ps">افغانستان</tr:common>
             <tr:official lang="tk">Owganystan Yslam Respublikasy</tr:official>
@@ -1152,8 +1152,8 @@
          <tr:common>Austria</tr:common>
          <tr:official>Republic of Austria</tr:official>
          <tr:native>
-            <tr:official lang="">Republik Österreich</tr:official>
-            <tr:common lang="">Österreich</tr:common>
+            <tr:official lang="bar">Republik Österreich</tr:official>
+            <tr:common lang="bar">Österreich</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -2232,8 +2232,8 @@
          <tr:common>Belize</tr:common>
          <tr:official>Belize</tr:official>
          <tr:native>
-            <tr:official lang="">Belize</tr:official>
-            <tr:common lang="">Belize</tr:common>
+            <tr:official lang="bjz">Belize</tr:official>
+            <tr:common lang="bjz">Belize</tr:common>
             <tr:official lang="en">Belize</tr:official>
             <tr:common lang="en">Belize</tr:common>
             <tr:official lang="es">Belice</tr:official>
@@ -2474,8 +2474,8 @@
          <tr:native>
             <tr:official lang="nl">Bonaire, Sint Eustatius en Saba</tr:official>
             <tr:common lang="nl">Caribisch Nederland</tr:common>
-            <tr:official lang="">Boneiru, Sint Eustatius y Saba</tr:official>
-            <tr:common lang="">Boneiru, Sint Eustatius y Saba</tr:common>
+            <tr:official lang="pap">Boneiru, Sint Eustatius y Saba</tr:official>
+            <tr:common lang="pap">Boneiru, Sint Eustatius y Saba</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -3310,8 +3310,8 @@
          <tr:native>
             <tr:official lang="fr">Confédération suisse</tr:official>
             <tr:common lang="fr">Suisse</tr:common>
-            <tr:official lang="">Schweizerische Eidgenossenschaft</tr:official>
-            <tr:common lang="">Schweiz</tr:common>
+            <tr:official lang="gsw">Schweizerische Eidgenossenschaft</tr:official>
+            <tr:common lang="gsw">Schweiz</tr:common>
             <tr:official lang="it">Confederazione Svizzera</tr:official>
             <tr:common lang="it">Svizzera</tr:common>
             <tr:official lang="rm">Confederaziun svizra</tr:official>
@@ -3701,8 +3701,8 @@
             <tr:common lang="kg">Repubilika ya Kongo Demokratiki</tr:common>
             <tr:official lang="ln">Republiki ya Kongó Demokratiki</tr:official>
             <tr:common lang="ln">Republiki ya Kongó Demokratiki</tr:common>
-            <tr:official lang="">Ditunga dia Kongu wa Mungalaata</tr:official>
-            <tr:common lang="">Ditunga dia Kongu wa Mungalaata</tr:common>
+            <tr:official lang="lua">Ditunga dia Kongu wa Mungalaata</tr:official>
+            <tr:common lang="lua">Ditunga dia Kongu wa Mungalaata</tr:common>
             <tr:official lang="sw">Jamhuri ya Kidemokrasia ya Kongo</tr:official>
             <tr:common lang="sw">Jamhuri ya Kidemokrasia ya Kongo</tr:common>
          </tr:native>
@@ -3865,8 +3865,8 @@
          <tr:native>
             <tr:official lang="en">Cook Islands</tr:official>
             <tr:common lang="en">Cook Islands</tr:common>
-            <tr:official lang="">Kūki 'Āirani</tr:official>
-            <tr:common lang="">Kūki 'Āirani</tr:common>
+            <tr:official lang="rar">Kūki 'Āirani</tr:official>
+            <tr:common lang="rar">Kūki 'Āirani</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -4024,8 +4024,8 @@
             <tr:common lang="ar">القمر‎</tr:common>
             <tr:official lang="fr">Union des Comores</tr:official>
             <tr:common lang="fr">Comores</tr:common>
-            <tr:official lang="">Udzima wa Komori</tr:official>
-            <tr:common lang="">Komori</tr:common>
+            <tr:official lang="zdj">Udzima wa Komori</tr:official>
+            <tr:common lang="zdj">Komori</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -4334,8 +4334,8 @@
             <tr:common lang="en">Curaçao</tr:common>
             <tr:official lang="nl">Land Curaçao</tr:official>
             <tr:common lang="nl">Curaçao</tr:common>
-            <tr:official lang="">Pais Kòrsou</tr:official>
-            <tr:common lang="">Pais Kòrsou</tr:common>
+            <tr:official lang="pap">Pais Kòrsou</tr:official>
+            <tr:common lang="pap">Pais Kòrsou</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -5403,10 +5403,10 @@
          <tr:common>Western Sahara</tr:common>
          <tr:official>Sahrawi Arab Democratic Republic</tr:official>
          <tr:native>
-            <tr:official lang="">Sahrawi Arab Democratic Republic</tr:official>
-            <tr:common lang="">Western Sahara</tr:common>
-            <tr:official lang="">الجمهورية العربية الصحراوية الديمقراطية</tr:official>
-            <tr:common lang="">الصحراء الغربية</tr:common>
+            <tr:official lang="ber">Sahrawi Arab Democratic Republic</tr:official>
+            <tr:common lang="ber">Western Sahara</tr:common>
+            <tr:official lang="mey">الجمهورية العربية الصحراوية الديمقراطية</tr:official>
+            <tr:common lang="mey">الصحراء الغربية</tr:common>
             <tr:official lang="es">República Árabe Saharaui Democrática</tr:official>
             <tr:common lang="es">Sahara Occidental</tr:common>
          </tr:native>
@@ -5800,8 +5800,8 @@
             <tr:common lang="en">Fiji</tr:common>
             <tr:official lang="fj">Matanitu Tugalala o Viti</tr:official>
             <tr:common lang="fj">Viti</tr:common>
-            <tr:official lang="">रिपब्लिक ऑफ फीजी</tr:official>
-            <tr:common lang="">फिजी</tr:common>
+            <tr:official lang="hif">रिपब्लिक ऑफ फीजी</tr:official>
+            <tr:common lang="hif">फिजी</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -6413,8 +6413,8 @@
             <tr:common lang="en">Guernsey</tr:common>
             <tr:official lang="fr">Bailliage de Guernesey</tr:official>
             <tr:common lang="fr">Guernesey</tr:common>
-            <tr:official lang="">Dgèrnésiais</tr:official>
-            <tr:common lang="">Dgèrnésiais</tr:common>
+            <tr:official lang="nfr">Dgèrnésiais</tr:official>
+            <tr:common lang="nfr">Dgèrnésiais</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -6871,8 +6871,8 @@
          <tr:native>
             <tr:official lang="pt">República da Guiné-Bissau</tr:official>
             <tr:common lang="pt">Guiné-Bissau</tr:common>
-            <tr:official lang="">República da Guiné-Bissau</tr:official>
-            <tr:common lang="">Guiné-Bissau</tr:common>
+            <tr:official lang="pov">República da Guiné-Bissau</tr:official>
+            <tr:common lang="pov">Guiné-Bissau</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -8481,10 +8481,10 @@
          <tr:native>
             <tr:official lang="ar">جمهورية العراق</tr:official>
             <tr:common lang="ar">العراق</tr:common>
-            <tr:official lang="">ܩܘܼܛܢܵܐ ܐܝܼܪܲܩ</tr:official>
-            <tr:common lang="">ܩܘܼܛܢܵܐ</tr:common>
-            <tr:official lang="">کۆماری عێراق</tr:official>
-            <tr:common lang="">کۆماری</tr:common>
+            <tr:official lang="arc">ܩܘܼܛܢܵܐ ܐܝܼܪܲܩ</tr:official>
+            <tr:common lang="arc">ܩܘܼܛܢܵܐ</tr:common>
+            <tr:official lang="ckb">کۆماری عێراق</tr:official>
+            <tr:common lang="ckb">کۆماری</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -8790,8 +8790,8 @@
          <tr:native>
             <tr:official lang="en">Jamaica</tr:official>
             <tr:common lang="en">Jamaica</tr:common>
-            <tr:official lang="">Jamaica</tr:official>
-            <tr:common lang="">Jamaica</tr:common>
+            <tr:official lang="jam">Jamaica</tr:official>
+            <tr:common lang="jam">Jamaica</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -8870,8 +8870,8 @@
             <tr:common lang="en">Jersey</tr:common>
             <tr:official lang="fr">Bailliage de Jersey</tr:official>
             <tr:common lang="fr">Jersey</tr:common>
-            <tr:official lang="">Bailliage dé Jèrri</tr:official>
-            <tr:common lang="">Jèrri</tr:common>
+            <tr:official lang="nrf">Bailliage dé Jèrri</tr:official>
+            <tr:common lang="nrf">Jèrri</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -9417,8 +9417,8 @@
          <tr:native>
             <tr:official lang="en">Independent and Sovereign Republic of Kiribati</tr:official>
             <tr:common lang="en">Kiribati</tr:common>
-            <tr:official lang="">Ribaberiki Kiribati</tr:official>
-            <tr:common lang="">Kiribati</tr:common>
+            <tr:official lang="gil">Ribaberiki Kiribati</tr:official>
+            <tr:common lang="gil">Kiribati</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -10799,8 +10799,8 @@
          <tr:native>
             <tr:official lang="ar">المملكة المغربية</tr:official>
             <tr:common lang="ar">المغرب</tr:common>
-            <tr:official lang="">ⵜⴰⴳⵍⴷⵉⵜ ⵏ ⵍⵎⵖⵔⵉⴱ</tr:official>
-            <tr:common lang="">ⵍⵎⴰⵖⵔⵉⴱ</tr:common>
+            <tr:official lang="ber">ⵜⴰⴳⵍⴷⵉⵜ ⵏ ⵍⵎⵖⵔⵉⴱ</tr:official>
+            <tr:common lang="ber">ⵍⵎⴰⵖⵔⵉⴱ</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -11634,8 +11634,8 @@
          <tr:common>Montenegro</tr:common>
          <tr:official>Montenegro</tr:official>
          <tr:native>
-            <tr:official lang="">Црна Гора</tr:official>
-            <tr:common lang="">Црна Гора</tr:common>
+            <tr:official lang="cnr">Црна Гора</tr:official>
+            <tr:common lang="cnr">Црна Гора</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -11784,8 +11784,8 @@
          <tr:common>Northern Mariana Islands</tr:common>
          <tr:official>Commonwealth of the Northern Mariana Islands</tr:official>
          <tr:native>
-            <tr:official lang="">Commonwealth of the Northern Mariana Islands</tr:official>
-            <tr:common lang="">Northern Mariana Islands</tr:common>
+            <tr:official lang="cal">Commonwealth of the Northern Mariana Islands</tr:official>
+            <tr:common lang="cal">Northern Mariana Islands</tr:common>
             <tr:official lang="ch">Sankattan Siha Na Islas Mariånas</tr:official>
             <tr:common lang="ch">Na Islas Mariånas</tr:common>
             <tr:official lang="en">Commonwealth of the Northern Mariana Islands</tr:official>
@@ -12169,8 +12169,8 @@
             <tr:common lang="en">Mauritius</tr:common>
             <tr:official lang="fr">République de Maurice</tr:official>
             <tr:common lang="fr">Maurice</tr:common>
-            <tr:official lang="">Republik Moris</tr:official>
-            <tr:common lang="">Moris</tr:common>
+            <tr:official lang="mfe">Republik Moris</tr:official>
+            <tr:common lang="mfe">Moris</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -12485,12 +12485,12 @@
             <tr:common lang="en">Namibia</tr:common>
             <tr:official lang="hz">Republic of Namibia</tr:official>
             <tr:common lang="hz">Namibia</tr:common>
-            <tr:official lang="">Republic of Namibia</tr:official>
-            <tr:common lang="">Namibia</tr:common>
-            <tr:official lang="">Republic of Namibia</tr:official>
-            <tr:common lang="">Namibia</tr:common>
-            <tr:official lang="">Republic of Namibia</tr:official>
-            <tr:common lang="">Namibia</tr:common>
+            <tr:official lang="hgm">Republic of Namibia</tr:official>
+            <tr:common lang="hgm">Namibia</tr:common>
+            <tr:official lang="kwn">Republic of Namibia</tr:official>
+            <tr:common lang="kwn">Namibia</tr:common>
+            <tr:official lang="loz">Republic of Namibia</tr:official>
+            <tr:common lang="loz">Namibia</tr:common>
             <tr:official lang="ng">Republic of Namibia</tr:official>
             <tr:common lang="ng">Namibia</tr:common>
             <tr:official lang="tn">Lefatshe la Namibia</tr:official>
@@ -12732,8 +12732,8 @@
          <tr:native>
             <tr:official lang="en">Territory of Norfolk Island</tr:official>
             <tr:common lang="en">Norfolk Island</tr:common>
-            <tr:official lang="">Teratri of Norf'k Ailen</tr:official>
-            <tr:common lang="">Norf'k Ailen</tr:common>
+            <tr:official lang="pih">Teratri of Norf'k Ailen</tr:official>
+            <tr:common lang="pih">Norf'k Ailen</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -12960,8 +12960,8 @@
          <tr:native>
             <tr:official lang="en">Niue</tr:official>
             <tr:common lang="en">Niue</tr:common>
-            <tr:official lang="">Niuē</tr:official>
-            <tr:common lang="">Niuē</tr:common>
+            <tr:official lang="niu">Niuē</tr:official>
+            <tr:common lang="niu">Niuē</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -13115,8 +13115,8 @@
             <tr:common lang="nn">Noreg</tr:common>
             <tr:official lang="nb">Kongeriket Norge</tr:official>
             <tr:common lang="nb">Norge</tr:common>
-            <tr:official lang="">Norgga gonagasriika</tr:official>
-            <tr:common lang="">Norgga</tr:common>
+            <tr:official lang="smi">Norgga gonagasriika</tr:official>
+            <tr:common lang="smi">Norgga</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -13349,8 +13349,8 @@
             <tr:common lang="en">New Zealand</tr:common>
             <tr:official lang="mi">Aotearoa</tr:official>
             <tr:common lang="mi">Aotearoa</tr:common>
-            <tr:official lang="">New Zealand</tr:official>
-            <tr:common lang="">New Zealand</tr:common>
+            <tr:official lang="nzs">New Zealand</tr:official>
+            <tr:common lang="nzs">New Zealand</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -13816,8 +13816,8 @@
          <tr:native>
             <tr:official lang="en">Republic of the Philippines</tr:official>
             <tr:common lang="en">Philippines</tr:common>
-            <tr:official lang="">Republic of the Philippines</tr:official>
-            <tr:common lang="">Pilipinas</tr:common>
+            <tr:official lang="fil">Republic of the Philippines</tr:official>
+            <tr:common lang="fil">Pilipinas</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -13894,8 +13894,8 @@
          <tr:native>
             <tr:official lang="en">Republic of Palau</tr:official>
             <tr:common lang="en">Palau</tr:common>
-            <tr:official lang="">Beluu er a Belau</tr:official>
-            <tr:common lang="">Belau</tr:common>
+            <tr:official lang="pau">Beluu er a Belau</tr:official>
+            <tr:common lang="pau">Belau</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -13974,8 +13974,8 @@
             <tr:common lang="en">Papua New Guinea</tr:common>
             <tr:official lang="ho">Independen Stet bilong Papua Niugini</tr:official>
             <tr:common lang="ho">Papua Niu Gini</tr:common>
-            <tr:official lang="">Independen Stet bilong Papua Niugini</tr:official>
-            <tr:common lang="">Papua Niugini</tr:common>
+            <tr:official lang="tpi">Independen Stet bilong Papua Niugini</tr:official>
+            <tr:common lang="tpi">Papua Niugini</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -16579,8 +16579,8 @@
          <tr:common>Seychelles</tr:common>
          <tr:official>Republic of Seychelles</tr:official>
          <tr:native>
-            <tr:official lang="">Repiblik Sesel</tr:official>
-            <tr:common lang="">Sesel</tr:common>
+            <tr:official lang="crs">Repiblik Sesel</tr:official>
+            <tr:common lang="crs">Sesel</tr:common>
             <tr:official lang="en">Republic of Seychelles</tr:official>
             <tr:common lang="en">Seychelles</tr:common>
             <tr:official lang="fr">République des Seychelles</tr:official>
@@ -17120,8 +17120,8 @@
             <tr:common lang="en">Tokelau</tr:common>
             <tr:official lang="sm">Tokelau</tr:official>
             <tr:common lang="sm">Tokelau</tr:common>
-            <tr:official lang="">Tokelau</tr:official>
-            <tr:common lang="">Tokelau</tr:common>
+            <tr:official lang="tkl">Tokelau</tr:official>
+            <tr:common lang="tkl">Tokelau</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -17277,8 +17277,8 @@
          <tr:native>
             <tr:official lang="pt">República Democrática de Timor-Leste</tr:official>
             <tr:common lang="pt">Timor-Leste</tr:common>
-            <tr:official lang="">Repúblika Demokrátika Timór-Leste</tr:official>
-            <tr:common lang="">Timór-Leste</tr:common>
+            <tr:official lang="tet">Repúblika Demokrátika Timór-Leste</tr:official>
+            <tr:common lang="tet">Timór-Leste</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -17658,8 +17658,8 @@
          <tr:native>
             <tr:official lang="en">Tuvalu</tr:official>
             <tr:common lang="en">Tuvalu</tr:common>
-            <tr:official lang="">Tuvalu</tr:official>
-            <tr:common lang="">Tuvalu</tr:common>
+            <tr:official lang="tvl">Tuvalu</tr:official>
+            <tr:common lang="tvl">Tuvalu</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
@@ -19495,8 +19495,8 @@
             <tr:common lang="en">South Africa</tr:common>
             <tr:official lang="nr">IRiphabliki yeSewula Afrika</tr:official>
             <tr:common lang="nr">Sewula Afrika</tr:common>
-            <tr:official lang="">Rephaboliki ya Afrika-Borwa </tr:official>
-            <tr:common lang="">Afrika-Borwa</tr:common>
+            <tr:official lang="nso">Rephaboliki ya Afrika-Borwa </tr:official>
+            <tr:common lang="nso">Afrika-Borwa</tr:common>
             <tr:official lang="st">Rephaboliki ya Afrika Borwa</tr:official>
             <tr:common lang="st">Afrika Borwa</tr:common>
             <tr:official lang="ss">IRiphabhulikhi yeNingizimu Afrika</tr:official>
@@ -19669,16 +19669,16 @@
          <tr:common>Zimbabwe</tr:common>
          <tr:official>Republic of Zimbabwe</tr:official>
          <tr:native>
-            <tr:official lang="">Republic of Zimbabwe</tr:official>
-            <tr:common lang="">Zimbabwe</tr:common>
+            <tr:official lang="bwg">Republic of Zimbabwe</tr:official>
+            <tr:common lang="bwg">Zimbabwe</tr:common>
             <tr:official lang="en">Republic of Zimbabwe</tr:official>
             <tr:common lang="en">Zimbabwe</tr:common>
-            <tr:official lang="">Republic of Zimbabwe</tr:official>
-            <tr:common lang="">Zimbabwe</tr:common>
-            <tr:official lang="">Republic of Zimbabwe</tr:official>
-            <tr:common lang="">Zimbabwe</tr:common>
-            <tr:official lang="">Republic of Zimbabwe</tr:official>
-            <tr:common lang="">Zimbabwe</tr:common>
+            <tr:official lang="kck">Republic of Zimbabwe</tr:official>
+            <tr:common lang="kck">Zimbabwe</tr:common>
+            <tr:official lang="khi">Republic of Zimbabwe</tr:official>
+            <tr:common lang="khi">Zimbabwe</tr:common>
+            <tr:official lang="ndc">Republic of Zimbabwe</tr:official>
+            <tr:common lang="ndc">Zimbabwe</tr:common>
             <tr:official lang="nd">Republic of Zimbabwe</tr:official>
             <tr:common lang="nd">Zimbabwe</tr:common>
             <tr:official lang="ny">Republic of Zimbabwe</tr:official>
@@ -19687,8 +19687,8 @@
             <tr:common lang="sn">Zimbabwe</tr:common>
             <tr:official lang="st">Republic of Zimbabwe</tr:official>
             <tr:common lang="st">Zimbabwe</tr:common>
-            <tr:official lang="">Republic of Zimbabwe</tr:official>
-            <tr:common lang="">Zimbabwe</tr:common>
+            <tr:official lang="toi">Republic of Zimbabwe</tr:official>
+            <tr:common lang="toi">Zimbabwe</tr:common>
             <tr:official lang="tn">Republic of Zimbabwe</tr:official>
             <tr:common lang="tn">Zimbabwe</tr:common>
             <tr:official lang="ts">Republic of Zimbabwe</tr:official>
@@ -19697,8 +19697,8 @@
             <tr:common lang="ve">Zimbabwe</tr:common>
             <tr:official lang="xh">Republic of Zimbabwe</tr:official>
             <tr:common lang="xh">Zimbabwe</tr:common>
-            <tr:official lang="">Republic of Zimbabwe</tr:official>
-            <tr:common lang="">Zimbabwe</tr:common>
+            <tr:official lang="zib">Republic of Zimbabwe</tr:official>
+            <tr:common lang="zib">Zimbabwe</tr:common>
          </tr:native>
       </tr:names>
       <tr:trans-names>
