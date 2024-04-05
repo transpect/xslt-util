@@ -4,7 +4,7 @@
   xmlns:tr="http://transpect.io"
   xmlns:map="http://www.w3.org/2005/xpath-functions/map"
   exclude-result-prefixes="xs"
-  version="2.0">
+  version="3.0">
   
   <xsl:import href="http://transpect.io/xslt-util/num/xsl/num.xsl"/>
   
