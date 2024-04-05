@@ -324,5 +324,25 @@ http://doi.org/10.1352/0895-8017(2008)113%5B32:ECICWD%5D%C3%A4%3E2.0.CO;2
     </xsl:for-each>
   </xsl:template>
   
+  <!-- tr:leading-chars(13, 4, '0') => '0013', fills up with zeros until max digit size is reached -->
+  
+  <xsl:function name="tr:leading-chars" as="xs:string">
+    <xsl:param name="number" as="xs:integer"/>
+    <xsl:param name="digits" as="xs:integer"/>
+    <xsl:param name="char" as="xs:string"/>
+    <xsl:variable name="string-length" as="xs:integer" 
+                  select="string-length(xs:string($number))"/>
+    <xsl:variable name="leading-zeros" select="for $zeros in ($string-length to ($digits - 1))
+                                               return '0'"/>
+    <xsl:sequence select="string-join(($leading-zeros, $number))"/>
+  </xsl:function>
+  
+  <!-- tr:leading-chars(13, 4) => '0013', shortcut for function above -->
+
+  <xsl:function name="tr:leading-zeros" as="xs:string">
+    <xsl:param name="number" as="xs:integer"/>
+    <xsl:param name="digits" as="xs:integer"/>
+    <xsl:sequence select="tr:leading-chars($number, $digits, '0')"/>
+  </xsl:function>
 
 </xsl:stylesheet>
