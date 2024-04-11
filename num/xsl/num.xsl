@@ -334,7 +334,7 @@ http://doi.org/10.1352/0895-8017(2008)113%5B32:ECICWD%5D%C3%A4%3E2.0.CO;2
                   select="string-length(xs:string($number))"/>
     <xsl:variable name="leading-zeros" select="for $zeros in ($string-length to ($digits - 1))
                                                return '0'"/>
-    <xsl:sequence select="concat($leading-zeros, $number)"/>
+    <xsl:sequence select="string-join(($leading-zeros, $number))"/>
   </xsl:function>
   
   <!-- tr:leading-chars(13, 4) => '0013', shortcut for function above -->
