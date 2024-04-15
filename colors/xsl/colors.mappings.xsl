@@ -6,7 +6,9 @@
   version="2.0">
 
   <xsl:variable name="known-keywords" as="xs:string+"
-    select="document('')//css:colors[@name eq 'keyword-hex-map']/css:color/@name"/>
+                select="document('')//css:colors[@name eq 'keyword-hex-map']/css:color/@name"/>
+  <xsl:variable name="css:known-color-keywords" as="xs:string+" 
+                select="$known-keywords"/>
 
   <xsl:function name="tr:color-keyword-to-hex-rgb" as="xs:string?">
     <xsl:param name="keyword" as="xs:string" />
