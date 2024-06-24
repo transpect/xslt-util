@@ -186,6 +186,14 @@
       /@rgb"/>
   </xsl:function>
   
+  <xsl:function name="tr:hks-to-rgb" as="xs:string?">
+    <xsl:param name="hks-name"  as="xs:string?"/>
+    <xsl:variable name="hks-color" select="replace($hks-name, '^HKS\s(\d+)\s([NKEZ])$', 'HKS $1', 'i')"/>
+    <xsl:sequence select="document('')//css:colors[@name eq 'hks-rgb-map']
+                                       /css:color[@name eq $hks-color]
+                                       /@rgb"/>
+  </xsl:function>
+  
   <css:colors name="pantone-c-rgb-map">
     <css:color name="Yellow C" rgb="254 221 0"/>
     <css:color name="Yellow 012 C" rgb="255 215 0"/>
@@ -2874,6 +2882,97 @@
     <css:color name="Black 5 U" rgb="104 90 92"/>
     <css:color name="Black 6 U" rgb="76 78 86"/>
     <css:color name="Black 7 U" rgb="108 104 100"/>
+  </css:colors>
+  
+  <css:colors name="hks-rgb-map">
+    <css:color name="HKS 1" rgb="255 226 99"/>
+    <css:color name="HKS 2" rgb="255 227 0"/>
+    <css:color name="HKS 3" rgb="255 219 0"/>
+    <css:color name="HKS 4" rgb="255 201 0"/>
+    <css:color name="HKS 5" rgb="255 184 0"/>
+    <css:color name="HKS 6" rgb="255 143 0"/>
+    <css:color name="HKS 7" rgb="255 113 0"/>
+    <css:color name="HKS 8" rgb="255 100 0"/>
+    <css:color name="HKS 10" rgb="255 76 2"/>
+    <css:color name="HKS 11" rgb="255 155 117"/>
+    <css:color name="HKS 12" rgb="243 59 29"/>
+    <css:color name="HKS 13" rgb="247 52 41"/>
+    <css:color name="HKS 14" rgb="226 56 42"/>
+    <css:color name="HKS 15" rgb="204 31 47"/>
+    <css:color name="HKS 16" rgb="165 47 51"/>
+    <css:color name="HKS 17" rgb="167 31 60"/>
+    <css:color name="HKS 18" rgb="120 34 53"/>
+    <css:color name="HKS 21" rgb="255 137 151"/>
+    <css:color name="HKS 22" rgb="254 68 58"/>
+    <css:color name="HKS 23" rgb="232 30 65"/>
+    <css:color name="HKS 24" rgb="202 47 86"/>
+    <css:color name="HKS 25" rgb="211 34 93"/>
+    <css:color name="HKS 26" rgb="192 16 111"/>
+    <css:color name="HKS 27" rgb="231 0 151"/>
+    <css:color name="HKS 28" rgb="178 32 82"/>
+    <css:color name="HKS 29" rgb="155 52 142"/>
+    <css:color name="HKS 31" rgb="202 15 134"/>
+    <css:color name="HKS 32" rgb="198 7 105"/>
+    <css:color name="HKS 33" rgb="176 40 182"/>
+    <css:color name="HKS 34" rgb="110 49 144"/>
+    <css:color name="HKS 35" rgb="79 71 142"/>
+    <css:color name="HKS 36" rgb="99 62 150"/>
+    <css:color name="HKS 37" rgb="84 52 120"/>
+    <css:color name="HKS 38" rgb="35 60 76"/>
+    <css:color name="HKS 39" rgb="17 122 203"/>
+    <css:color name="HKS 40" rgb="0 154 183"/>
+    <css:color name="HKS 41" rgb="40 65 86"/>
+    <css:color name="HKS 42" rgb="47 83 167"/>
+    <css:color name="HKS 43" rgb="44 87 210"/>
+    <css:color name="HKS 44" rgb="0 120 184"/>
+    <css:color name="HKS 45" rgb="85 192 164"/>
+    <css:color name="HKS 46" rgb="39 150 182"/>
+    <css:color name="HKS 47" rgb="0 172 211"/>
+    <css:color name="HKS 48" rgb="0 175 196"/>
+    <css:color name="HKS 49" rgb="0 149 177"/>
+    <css:color name="HKS 50" rgb="0 210 226"/>
+    <css:color name="HKS 51" rgb="0 170 160"/>
+    <css:color name="HKS 52" rgb="0 153 127"/>
+    <css:color name="HKS 53" rgb="0 206 157"/>
+    <css:color name="HKS 54" rgb="0 152 100"/>
+    <css:color name="HKS 55" rgb="0 119 85"/>
+    <css:color name="HKS 56" rgb="0 102 81"/>
+    <css:color name="HKS 57" rgb="0 138 78"/>
+    <css:color name="HKS 58" rgb="57 106 55"/>
+    <css:color name="HKS 59" rgb="0 138 125"/>
+    <css:color name="HKS 60" rgb="58 156 0"/>
+    <css:color name="HKS 61" rgb="42 83 73"/>
+    <css:color name="HKS 62" rgb="105 106 25"/>
+    <css:color name="HKS 63" rgb="70 122 64"/>
+    <css:color name="HKS 64" rgb="0 165 19"/>
+    <css:color name="HKS 65" rgb="70 187 0"/>
+    <css:color name="HKS 66" rgb="127 198 0"/>
+    <css:color name="HKS 67" rgb="140 208 0"/>
+    <css:color name="HKS 68" rgb="252 199 0"/>
+    <css:color name="HKS 69" rgb="234 224 0"/>
+    <css:color name="HKS 71" rgb="240 169 48"/>
+    <css:color name="HKS 72" rgb="226 146 0"/>
+    <css:color name="HKS 73" rgb="186 131 44"/>
+    <css:color name="HKS 74" rgb="146 106 36"/>
+    <css:color name="HKS 75" rgb="133 109 42"/>
+    <css:color name="HKS 76" rgb="88 98 0"/>
+    <css:color name="HKS 77" rgb="100 67 39"/>
+    <css:color name="HKS 78" rgb="122 66 40"/>
+    <css:color name="HKS 81" rgb="203 94 36"/>
+    <css:color name="HKS 82" rgb="165 69 31"/>
+    <css:color name="HKS 83" rgb="126 69 49"/>
+    <css:color name="HKS 84" rgb="102 60 46"/>
+    <css:color name="HKS 88" rgb="35 34 27"/>
+    <css:color name="HKS 89" rgb="183 173 141"/>
+    <css:color name="HKS 90" rgb="62 53 44"/>
+    <css:color name="HKS 91" rgb="173 185 166"/>
+    <css:color name="HKS 92" rgb="122 128 119"/>
+    <css:color name="HKS 93" rgb="80 90 89"/>
+    <css:color name="HKS 95" rgb="160 163 151"/>
+    <css:color name="HKS 96" rgb="131 134 120"/>
+    <css:color name="HKS 97" rgb="58 65 54"/>
+    <css:color name="HKS 98" rgb="134 105 67"/>
+    <css:color name="HKS 99" rgb="154 153 151"/>
   </css:colors>
   
   <xsl:function name="tr:highlight-color" as="xs:string?" >
