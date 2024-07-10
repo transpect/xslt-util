@@ -324,6 +324,25 @@ http://doi.org/10.1352/0895-8017(2008)113%5B32:ECICWD%5D%C3%A4%3E2.0.CO;2
     </xsl:for-each>
   </xsl:template>
   
+  <xsl:function name="tr:roman-numeral-to-letter" as="xs:string">
+    <xsl:param name="text" as="xs:string"/>
+    <!-- converts roman numerals to Letters-->
+    <xsl:variable name="all-numerals" as="xs:string+" select="('I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'L', 'C', 'D', 'M',
+                                                               'i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii', 'l', 'c', 'd', 'm')"/>
+    
+    <xsl:variable name="replaced-strings" as="xs:string+">
+      <xsl:analyze-string select="$text" regex="([&#8544;-&#85475;])">
+        <xsl:matching-substring>
+          <xsl:value-of select="$all-numerals[position() = string-to-codepoints(regex-group(1)) - 8544 + 1]"/>
+        </xsl:matching-substring>
+        <xsl:non-matching-substring>
+          <xsl:value-of select="."/>
+        </xsl:non-matching-substring>
+      </xsl:analyze-string>
+    </xsl:variable>
+    <xsl:sequence select="string-join($replaced-strings, '')"/>
+  </xsl:function>
+  
   <!-- tr:leading-chars(13, 4, '0') => '0013', fills up with zeros until max digit size is reached -->
   
   <xsl:function name="tr:leading-chars" as="xs:string">
