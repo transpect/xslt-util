@@ -331,7 +331,7 @@ http://doi.org/10.1352/0895-8017(2008)113%5B32:ECICWD%5D%C3%A4%3E2.0.CO;2
                                                                'i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii', 'l', 'c', 'd', 'm')"/>
     
     <xsl:variable name="replaced-strings" as="xs:string+">
-      <xsl:analyze-string select="$text" regex="([&#8544;-&#85475;])">
+      <xsl:analyze-string select="$text" regex="([&#8544;-&#8575;])">
         <xsl:matching-substring>
           <xsl:value-of select="$all-numerals[position() = string-to-codepoints(regex-group(1)) - 8544 + 1]"/>
         </xsl:matching-substring>
