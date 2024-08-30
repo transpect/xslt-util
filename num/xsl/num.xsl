@@ -257,9 +257,9 @@ http://doi.org/10.1352/0895-8017(2008)113%5B32:ECICWD%5D%C3%A4%3E2.0.CO;2
   
    <xsl:function name="tr:number-to-letters" as="xs:string?">
     <xsl:param name="num" as="xs:integer"/>
-    <xsl:variable name="mod" select="$num mod 26" as="xs:integer"/>
+    <xsl:variable name="mod" select="(26[$num gt 0][($num mod 26)=0],$num mod 26)[1]" as="xs:integer"/>
     <xsl:variable name="pos" 
-      select="xs:integer(floor($num div 26) + 1)"/>
+      select="xs:integer(floor($num div 26) + (1[not(floor($num div 26)=ceiling($num div 26))],0)[1])"/>
     <xsl:variable name="alphas" as="xs:string+"
       select="('a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z')"/>
     <xsl:value-of select="string-join((for $n in 1 to $pos return $alphas[$mod]), '')"/>
