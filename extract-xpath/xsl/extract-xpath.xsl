@@ -126,9 +126,6 @@
         <xsl:variable name="text-before" select="substring(., 0, $text-start)"/>
         <xsl:variable name="text-after" select="substring(., $text-start + $text-length, $length)"/>
         <xsl:variable name="text" select="substring(., $text-start, $text-length)"/>
-        <xsl:message select="$text-before"/>
-        <xsl:message select="$text"/>
-        <xsl:message select="$text-after"/>
         <xsl:value-of select="$text-before"/>
         <xsl:element name="{$highlight-name}">
           <xsl:attribute name="data-position" select="./parent::*/xs:integer(@data-position) + string-length($text-before)"/>
