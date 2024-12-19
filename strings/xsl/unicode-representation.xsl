@@ -37,7 +37,8 @@
   <xsl:function name="tr:decode-html-ent" as="xs:string*">
     <xsl:param name="string" as="xs:string"/>
     <xsl:variable name="replaced" select="map:get($tr:html-entity-map, $string)"/>
-    <xsl:value-of select="if ($replaced[normalize-space()]) then $replaced else concat('&amp;', $string, ';')"/>
+    <xsl:value-of select="if ($replaced[normalize-space()]) then $replaced else concat('&amp;amp;', $string, ';')"/>
+    <xsl:if test="empty($replaced)"><xsl:message select="'WARNING: Entity', concat('&amp;', $string, ';'), ' could not be replaced. Add it to tr:html-entity-map!'"/></xsl:if>
   </xsl:function>
   
   <xsl:variable name="tr:html-entity-map" as="map(xs:string, xs:string)"
