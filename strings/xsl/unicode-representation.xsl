@@ -36,13 +36,15 @@
   
   <xsl:function name="tr:decode-html-ent" as="xs:string*">
     <xsl:param name="string" as="xs:string"/>
-    <xsl:value-of select="map:get($tr:html-entity-map, $string)"/>
+    <xsl:variable name="replaced" select="map:get($tr:html-entity-map, $string)"/>
+    <xsl:value-of select="if ($replaced[normalize-space()]) then $replaced else concat('&amp;', $string, ';')"/>
   </xsl:function>
   
   <xsl:variable name="tr:html-entity-map" as="map(xs:string, xs:string)"
               select="map{ 
                           'le': '&#8804;',
-                          'Yacute': '&#253;',
+                          'yacute': '&#253;',
+                          'Yacute': '&#221;',
                           'cup': '&#8746;',
                           'sim': '&#8764;',
                           'real': '&#8476;',
@@ -77,7 +79,7 @@
                           'permil': '&#8240;',
                           'hearts': '&#9829;',
                           'Icirc': '&#206;',
-                          'Icirc': '&#238;',
+                          'icirc': '&#238;',
                           'cent': '&#162;',
                           'aelig': '&#198;',
                           'AElig': '&#230;',
@@ -205,6 +207,7 @@
                           'weierp': '&#8472;',
                           'sup1': '&#185;',
                           'sup2': '&#178;',
+                          'uacute': '&#218;',
                           'Uacute': '&#250;',
                           'sdot': '&#8901;',
                           'Scaron': '&#353;',
