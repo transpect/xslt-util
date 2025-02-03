@@ -41,7 +41,7 @@
             <xsl:choose>
               <xsl:when test="$include-css">
                 <style>
-                  <xsl:sequence select="unparsed-text($css-url)"/>
+                  <xsl:sequence select="unparsed-text(resolve-uri($css-url, static-base-uri()))"/>
                 </style>
               </xsl:when>
               <xsl:when test="normalize-space($css-url)">
@@ -147,7 +147,7 @@
   </xsl:template>
   
   <xsl:template match="@*" mode="serialize" priority="1">
-    <xsl:text>  </xsl:text>
+    <xsl:text> </xsl:text>
     <span>
       <span class="name att">
         <xsl:value-of select="name()"/>
