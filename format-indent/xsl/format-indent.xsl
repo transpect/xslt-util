@@ -10,14 +10,13 @@
 
   <!-- This stylesheet inserts line breaks and indentation spaces or tabs at places 
        where ignorable whitespace is permitted.
-       It is not a full serializer that also may insert line breaks between attributes
-       or namespace declarations.
-       The accumulator 'wrapping' is a map with they key 'col' and 'text'.
+       It is not a full serializer (that also may insert line breaks between attributes
+       or namespace declarations).
+       The accumulator 'wrapping' is a map with the keys 'col' and 'text'.
        'col' is an integer that holds the text column position before and 
        after processing text nodes in particular.
        'text' contains a possibly wrapped and indented version of the original
        text node content (and an empty string for other nodes).
-       anticipates character position changes
        The results of this stylesheet should be output with indent="no", otherwise
        additional whitespace in mixed-content contexts (for example, between an
        <italic> and a <bold> element) may be inserted. -->
@@ -102,7 +101,7 @@
             <xsl:variable name="token" as="xs:string" select="."/>
             <xsl:variable name="pos" as="xs:integer" select="position()"/>
             <xsl:variable name="token-follows" as="xs:boolean" select="exists($tokenized[position() = $pos + 1])"/>
-            <xsl:message select="'$indent in iteration', '+' || $indent || '+'"/>
+            <xsl:message select="'$indent in iteration', '+' || $indent || '+', $initial-col, $indent instance of xs:integer"/>
 <!--            <xsl:message select="'$indent in iteration', '+' || codepoints-to-string(string-to-codepoints($indent))"/>-->
             <xsl:variable name="new-string" as="xs:string"
               select="$string || (if($col + string-length($token) lt $target-line-length)
