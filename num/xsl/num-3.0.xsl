@@ -17,5 +17,23 @@
       </xsl:for-each-group>
     </xsl:map>
   </xsl:function>
-
+  
+ <xsl:function name="tr:int-to-roman" as="xs:string">
+    <xsl:param name="num" as="xs:integer"/>
+    <xsl:sequence select="
+         if($num  ge 1000) then 'M'  || tr:int-to-roman($num - 1000) else 
+         if($num  ge  900) then 'CM' || tr:int-to-roman($num -  900) else
+         if($num  ge  500) then 'D'  || tr:int-to-roman($num -  500) else
+         if($num  ge  400) then 'CD' || tr:int-to-roman($num -  400) else
+         if($num  ge  100) then 'C'  || tr:int-to-roman($num -  100) else
+         if($num  ge   90) then 'XC' || tr:int-to-roman($num -   90) else
+         if($num  ge   50) then 'L'  || tr:int-to-roman($num -   50) else
+         if($num  ge   40) then 'XL' || tr:int-to-roman($num -   40) else
+         if($num  ge   10) then 'X'  || tr:int-to-roman($num -   10) else
+         if($num  ge    9) then 'IX' || tr:int-to-roman($num -    9) else
+         if($num  ge    5) then 'V'  || tr:int-to-roman($num -    5) else
+         if($num  ge    4) then 'IV' || tr:int-to-roman($num -    4) else
+         if($num  ge    1) then 'I'  || tr:int-to-roman($num -    1) else ''"/>
+ </xsl:function>
+  
 </xsl:stylesheet>
