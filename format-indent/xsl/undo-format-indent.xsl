@@ -12,7 +12,7 @@
 
   <xsl:mode name="undo-format-indent" on-no-match="shallow-copy"/>
   
-  <xsl:template match="text()[ancestor::*[@xml:space][1]/@xml:space = 'preserve']" mode="undo-format-indent">
+  <xsl:template match="text()[ancestor::*[@xml:space][1]/@xml:space = 'preserve']" mode="undo-format-indent" priority="1">
     <xsl:copy-of select="."/>
   </xsl:template>
 
