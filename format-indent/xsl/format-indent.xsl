@@ -8,6 +8,8 @@
   exclude-result-prefixes="xs saxon tr map"
   version="3.0">
 
+  <xsl:import href="format-indent-common.xsl"/>
+
   <!-- This stylesheet inserts line breaks and indentation spaces or tabs at places 
        where ignorable whitespace is permitted.
        It is not a full serializer (that also may insert line breaks between attributes
@@ -21,16 +23,10 @@
        additional whitespace in mixed-content contexts (for example, between an
        <italic> and a <bold> element) may be inserted. -->
        
-  <xsl:output indent="no"/>
-
   <xsl:mode name="format-indent" on-no-match="shallow-copy" use-accumulators="#all"/>
   
   <xsl:param name="target-line-length" as="xs:integer" select="120"/>
   <xsl:param name="keep-ignorable-ws" select="false()" as="xs:boolean"/>
-  <xsl:param name="schema-docs" as="document-node(element(xs:schema))*" select="()"/>
-  <xsl:param name="schema-uris" as="xs:string*" select="()">
-    <!-- sequence of strings, but can also be a single string with WS-separated URIs -->
-  </xsl:param>
   <xsl:param name="indent-unit" as="xs:string" select="'  '">
     <!-- use '&#9;' for tabs -->
   </xsl:param>
@@ -38,15 +34,6 @@
     <!-- only relevant if tabs are contained in $indent-unit -->
   </xsl:param>
 
-  <!-- Currently only XSD schemas are supported, and the mixedness of an element 
-       must be declared like this:
-       <xs:element name="para">
-         <xs:complexType mixed="true">
-  -->
-
-  <xsl:variable name="schemas" as="document-node(element(xs:schema))+" 
-    select="if (exists($schema-docs)) then $schema-docs else $schema-uris ! tokenize(.) ! doc(.)"/>
-  
   <xsl:variable name="indent-unit-length" as="xs:integer">
     <xsl:variable name="spaces" as="xs:string+">
       <xsl:analyze-string select="$indent-unit" regex="&#9;">
@@ -172,8 +159,6 @@
     </xsl:accumulator-rule>
   </xsl:accumulator>
   
-  <xsl:key name="by-element" match="xs:element[xs:complexType]" use="@name"/>
-  
   <xsl:template match="*" mode="xmlns">
     <xsl:if test="not(namespace-uri(.) = namespace-uri(..))
                   and not(in-scope-prefixes(.) = prefix-from-QName(node-name(.)))">
@@ -205,23 +190,6 @@
     <!-- 4: a single space before, an equals sign and two quotation marks -->
     <xsl:param name="att" as="attribute(*)"/>
     <xsl:sequence select="4 + string-length(name($att)) + string-length($att)"/>
-  </xsl:function>
-  
-  <xsl:function name="tr:is-mixed" as="xs:boolean" cache="yes">
-    <xsl:param name="elt" as="element(*)?"/>
-    <xsl:choose>
-      <xsl:when test="exists($elt)">
-        <xsl:variable name="namespace-uri" select="namespace-uri($elt)"/>
-        <xsl:variable name="schema" as="document-node(element(xs:schema))" 
-          select="if ($namespace-uri = '') 
-                  then $schemas[not(normalize-space(*/@targetNamespace))]
-                  else $schemas[*/@targetNamespace = $namespace-uri]"/>
-        <xsl:sequence select="key('by-element', name($elt), $schema)/xs:complexType/@mixed = 'true'"/>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:sequence select="false()"/>
-      </xsl:otherwise>
-    </xsl:choose>
   </xsl:function>
   
   <xsl:function name="tr:indent-length" as="xs:integer" cache="yes">
