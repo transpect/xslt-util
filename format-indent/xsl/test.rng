@@ -1,0 +1,30 @@
+<grammar xmlns="http://relaxng.org/ns/structure/1.0">
+  <start>
+    <element name="letterBody">
+      <mixed>
+        <element name="salutation">
+          <mixed>
+            <element name="name">
+              <data type="string"/>
+            </element>
+          </mixed>
+        </element>
+
+        <element name="quantity">
+          <data type="positiveInteger"/>
+        </element>
+
+        <element name="productName">
+          <data type="string"/>
+        </element>
+
+        <optional>
+          <element name="shipDate">
+            <data type="date"/>
+          </element>
+        </optional>
+      </mixed>
+    </element>
+  </start>
+
+</grammar>
