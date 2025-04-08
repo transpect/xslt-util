@@ -11,22 +11,44 @@
 
   <xsl:output indent="no"/>
 
-  <xsl:param name="schema-docs" as="document-node(element())*" select="doc('test.rng')"/>
+  <xsl:param name="schema-docs" as="document-node(element())*" select="()"/>
   <xsl:param name="schema-uris" as="xs:string*" select="()">
     <!-- sequence of strings, but can also be a single string with WS-separated URIs -->
   </xsl:param>
 
-  <!-- Currently only XSD schemas are supported, and the mixedness of an element 
-       must be declared like this:
+  <!-- Currently only RNG and XSD schemas are supported.
+       The mixedness of an element must be declared like this in XSD:
        <xs:element name="para">
          <xs:complexType mixed="true">
   -->
 
-  <xsl:variable name="schemas" as="document-node(element())+" 
-    select="if (exists($schema-docs)) then $schema-docs else $schema-uris ! tokenize(.) ! doc(.)"/>
+  <xsl:variable name="schemas" as="document-node(element())+">
+    <xsl:variable name="schema-docs-by-uris" select="$schema-uris ! tokenize(.) ! doc(.)" as="document-node(element())+"/>
+    <xsl:if test="not(exists($schema-docs union $schema-docs-by-uris))">
+      <xsl:message terminate="yes" select="'Error: No schema documents given and/or absolute file paths in param ''schema-uris'' are unaccessible.'"/>
+    </xsl:if>
+    <xsl:document>
+      <xsl:for-each select="if (exists($schema-docs)) then $schema-docs else $schema-docs-by-uris">
+        <xsl:apply-templates select="." mode="resolve-includes"/>
+      </xsl:for-each>
+    </xsl:document>
+  </xsl:variable>
+  
+  <xsl:template match="rng:include[@href]" mode="resolve-includes">
+    <xsl:apply-templates select="doc(concat(replace(base-uri(.), '^(.+/)[^/]+$', '$1'), @href))/rng:grammar" mode="resolve-includes"/>
+  </xsl:template>
+  
+  <xsl:template match="* | @*" mode="resolve-includes">
+    <xsl:copy>
+      <xsl:apply-templates select="@*, node()" mode="#current"/>
+    </xsl:copy>
+  </xsl:template>
   
   <xsl:key name="by-xsd-element" match="xs:element" use="@name"/>
   <xsl:key name="by-rng-element" match="rng:element" use="@name"/>
+  
+  <xsl:variable name="rng-content-model-operator-elements" as="xs:string*" 
+    select="('group', 'interleave', 'choice', 'oneOrMore', 'zeroOrMore', 'optional')"/>
   
   <xsl:function name="tr:is-mixed" as="xs:boolean" cache="yes">
     <xsl:param name="elt" as="element(*)?"/>
@@ -45,12 +67,10 @@
       </xsl:when>
       <xsl:when test="exists($elt) and $schemas[rng:grammar]">
         <xsl:variable name="namespace-uri" select="namespace-uri($elt)"/>
-        <xsl:variable name="schema" as="document-node(element(rng:grammar))" 
-          select="$schemas[rng:*]"/>
         <xsl:sequence select="exists(
-                                key('by-rng-element', name($elt), $schema[rng:*])[rng:mixed
-                                                                                  or 
-                                                                                  rng:date/@type = ('string', 'xs:string')]
+                                key('by-rng-element', name($elt), $schemas)[
+                                  (., descendant::rng:*[not(local-name() = $rng-content-model-operator-elements)])[self::rng:text or rng:mixed or rng:date/@type = ('string', 'xs:string')]
+                                ]
                               )"/>
       </xsl:when>
       <xsl:otherwise>
