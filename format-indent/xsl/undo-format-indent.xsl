@@ -17,7 +17,7 @@
   </xsl:template>
 
   <xsl:template match="*[tr:is-mixed(.)]/text()" mode="undo-format-indent">
-    <xsl:value-of select="replace(replace(., '^&#xa;', ''), '\s+', ' ', 's')"/>
+    <xsl:value-of select="replace(replace(., '^\n\s+', ''), '\s+', ' ', 's')"/>
   </xsl:template>
   
   <xsl:template match="*[not(tr:is-mixed(.))]/text()[not(normalize-space())]" mode="undo-format-indent"/>
