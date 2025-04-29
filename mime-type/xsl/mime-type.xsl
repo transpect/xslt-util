@@ -86,11 +86,22 @@
     <mime type="video/webm" ext="webm"/>
   </xsl:variable>
   
+  <!-- see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2 -->
+  <xsl:variable name="mime-type-regex"
+    select="'[a-zA-Z0-9][-a-zA-Z0-9!#$&amp;^_.+]{0,63}/[a-zA-Z0-9][-a-zA-Z0-9!#$&amp;^_.+]{0,63}'"/>
+  
   <xsl:function name="tr:fileref-to-mime-type" as="xs:string?">
     <xsl:param name="path" as="xs:string?"/>
-    <xsl:if test="$path != ''">
-      <xsl:sequence select="tr:ext-to-mime-type(lower-case(tr:ext($path)))"/>
-    </xsl:if>
+    <xsl:choose>
+      <xsl:when test="$path = ''"/>
+      <!-- $path is for example an img/@src attribute value with base64 encoded content -->
+      <xsl:when test="matches($path, concat('^data:', $mime-type-regex, ';base64.+$'))">
+        <xsl:value-of select="replace($path, concat('^data:(', $mime-type-regex, ');base64.+$'), '$1')"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:sequence select="tr:ext-to-mime-type(lower-case(tr:ext($path)))"/>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:function>
   
   <xsl:function name="tr:fileext-to-mime-type" as="xs:string?">
