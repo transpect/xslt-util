@@ -93,7 +93,7 @@
   <xsl:function name="tr:fileref-to-mime-type" as="xs:string?">
     <xsl:param name="path" as="xs:string?"/>
     <xsl:choose>
-      <xsl:when test="$path = ''"/>
+      <xsl:when test="normalize-space($path) = ''"/>
       <!-- $path is for example an img/@src attribute value with base64 encoded content -->
       <xsl:when test="matches($path, concat('^data:', $mime-type-regex, ';base64.+$'))">
         <xsl:value-of select="replace($path, concat('^data:(', $mime-type-regex, ');base64.+$'), '$1')"/>
