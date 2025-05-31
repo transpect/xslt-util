@@ -12,12 +12,17 @@
 
   <xsl:mode name="undo-format-indent" on-no-match="shallow-copy"/>
   
-  <xsl:template match="text()[ancestor::*[@xml:space][1]/@xml:space = 'preserve']" mode="undo-format-indent" priority="1">
+  <xsl:template match="*[tr:preserves-space(.)]/text()" mode="undo-format-indent" priority="1">
     <xsl:sequence select="."/>
   </xsl:template>
 
   <xsl:template match="*[tr:is-mixed(.)]/text()" mode="undo-format-indent">
     <xsl:value-of select="replace(., '\s+', ' ', 's')"/>
+  </xsl:template>
+  
+  <xsl:template match="*[tr:is-mixed(.)]" mode="undo-format-indent">
+    <xsl:message select="'mixed: ', name()"></xsl:message>
+    <xsl:next-match></xsl:next-match>
   </xsl:template>
   
   <xsl:template match="*[not(tr:is-mixed(.))]/text()[not(normalize-space())]" mode="undo-format-indent"/>
