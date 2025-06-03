@@ -20,11 +20,6 @@
     <xsl:value-of select="replace(., '\s+', ' ', 's')"/>
   </xsl:template>
   
-  <xsl:template match="*[tr:is-mixed(.)]" mode="undo-format-indent">
-    <xsl:message select="'mixed: ', name()"></xsl:message>
-    <xsl:next-match></xsl:next-match>
-  </xsl:template>
-  
   <xsl:template match="*[not(tr:is-mixed(.))]/text()[not(normalize-space())]" mode="undo-format-indent"/>
   
 </xsl:stylesheet>

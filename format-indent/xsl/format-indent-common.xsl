@@ -29,16 +29,58 @@
     <xsl:if test="empty($schema-docs union $schema-docs-by-uris)">
       <xsl:message terminate="yes" select="'Error: No schema documents given and/or absolute file paths in param ''schema-uris'' are unaccessible.'"/>
     </xsl:if>
-    <xsl:document>
-      <xsl:for-each select="if (exists($schema-docs)) then $schema-docs else $schema-docs-by-uris">
-          <xsl:apply-templates select="." mode="resolve-includes"/>  
-      </xsl:for-each>
-    </xsl:document>
+    <xsl:for-each select="$schema-docs union $schema-docs-by-uris">
+      <xsl:apply-templates select="." mode="resolve-includes"/>  
+    </xsl:for-each>
   </xsl:variable>
   
+  <xsl:template match="document-node(element(rng:grammar))" mode="resolve-includes" as="document-node(element(rng:grammar))">
+<xsl:message select="'FFFFF'"></xsl:message>
+    <xsl:document>
+      <xsl:apply-templates mode="#current"/>  
+    </xsl:document>
+  </xsl:template>
   
   <xsl:template match="rng:include[@href]" mode="resolve-includes">
     <xsl:apply-templates select="doc(resolve-uri(@href, base-uri(.)))/rng:grammar/node()" mode="resolve-includes"/>
+  </xsl:template>
+  
+  <xsl:template match="document-node(element(xs:schema))" mode="resolve-includes" as="document-node(element(xs:schema))+">
+    <xsl:document>
+      <xsl:apply-templates mode="#current"/>  
+    </xsl:document>
+    <xsl:variable name="imports" as="document-node(element(xs:schema))+">
+      <xsl:call-template name="xs-imports"/>
+    </xsl:variable>
+    <xsl:for-each select="$imports">
+      <xsl:document>
+        <xsl:apply-templates mode="#current"/>
+      </xsl:document>
+    </xsl:for-each>
+  </xsl:template>
+  
+  <xsl:template name="xs-imports">
+    <xsl:for-each select="descendant::xs:import[@schemaLocation]">
+      <xsl:variable name="target-base-uri" as="xs:anyURI"
+        select="resolve-uri(@schemaLocation, base-uri(.))"/>
+      <xsl:variable name="target-doc" as="document-node(element(xs:schema))"
+        select="doc(resolve-uri(@schemaLocation, base-uri(.)))"/>
+      <xsl:for-each select="$target-doc/*">
+        <xsl:document>
+          <xsl:copy>
+            <xsl:attribute name="xml:base" select="$target-base-uri"/>
+            <xsl:apply-templates select="@*, node()" mode="#current"/>
+          </xsl:copy>
+        </xsl:document>
+      </xsl:for-each>
+      <xsl:for-each select="$target-doc">
+        <xsl:call-template name="xs-imports"/>
+      </xsl:for-each>
+    </xsl:for-each>
+  </xsl:template>
+  
+  <xsl:template match="xs:include[@schemaLocation]" mode="resolve-includes">
+    <xsl:apply-templates select="doc(resolve-uri(@schemaLocation, base-uri(.)))/xs:schema/node()" mode="resolve-includes"/>
   </xsl:template>
   
   <xsl:template match="* | @*" mode="resolve-includes">
@@ -56,9 +98,6 @@
   <xsl:key name="by-xsd-element" match="xs:element" use="@name"/>
   <xsl:key name="by-rng-element" match="rng:element" use="@name"/>
   
-  <xsl:variable name="rng-content-model-operator-elements" as="xs:string*" 
-    select="('group', 'interleave', 'choice', 'oneOrMore', 'zeroOrMore', 'optional')"/>
-  
   <xsl:function name="tr:is-mixed" as="xs:boolean" cache="yes">
     <xsl:param name="elt" as="element(*)?"/>
     <xsl:choose>
@@ -66,16 +105,15 @@
         <xsl:variable name="namespace-uri" select="namespace-uri($elt)"/>
         <xsl:variable name="schema" as="document-node(element(xs:schema))" 
           select="if ($namespace-uri = '') 
-                  then $schemas[xs:schema][not(normalize-space(*/@targetNamespace))]
-                  else $schemas[xs:schema][*/@targetNamespace = $namespace-uri]"/>
+                  then $schemas[xs:schema[not(normalize-space(@targetNamespace))]]
+                  else $schemas[xs:schema[@targetNamespace = $namespace-uri]]"/>
         <xsl:sequence select="exists(
-                                key('by-xsd-element', name($elt), $schema)[(xs:complexType/@mixed = 'true')
-                                                                       or 
-                                                                       (@type = 'xs:string')]
+                                key('by-xsd-element', local-name($elt), $schema)[(xs:complexType/@mixed = 'true')
+                                                                                 or 
+                                                                                 (@type = 'xs:string')]
                               )"/>
       </xsl:when>
       <xsl:when test="exists($elt) and $schemas[rng:grammar]">
-        <xsl:message select="sort($rng-mixed-elements/@name ! string(.))"></xsl:message>
         <xsl:sequence select="name($elt) = $rng-mixed-elements/@name"/>
       </xsl:when>
       <xsl:otherwise>
@@ -89,14 +127,16 @@
     <xsl:sequence  
       select="exists(
                ($elt/ancestor-or-self::*[@xml:space][1][@xml:space = 'preserve'],
-                $elt/ancestor-or-self::*[name() = $rng-preserved-space-elements/@name])[last()]
+                $elt/ancestor-or-self::*[name() = $preserved-space-elements/@name])[last()]
               )"/>
   </xsl:function>
 
-  <xsl:variable name="rng-preserved-space-elements" as="element(rng:element)*">
+  <xsl:variable name="preserved-space-elements" as="element(*)*">
     <xsl:variable name="atts" as="element(rng:attribute)*" 
       select="$schemas//rng:attribute[@name = 'xml:space'][@a:defaultValue = 'preserve']"/>
-    <xsl:sequence select="$atts ! rng:find-element-define(.)"/>
+    <xsl:sequence select="$atts ! rng:find-element-define(.)
+      union
+      $schemas//xs:element[xs:complexType/xs:attribute[@ref = 'xml:space'][@fixed = 'preserve']]"/>
   </xsl:variable>
   
   <xsl:variable name="rng-mixed-elements" as="element(rng:element)*">
@@ -105,7 +145,7 @@
               $schemas/descendant::rng:data[@type = ('string', 'xs:string')]"/>
     <xsl:sequence select="$text-schema-elts ! rng:find-element-define(.)"/>
   </xsl:variable>
-  
+
   <xsl:function name="rng:find-element-define" as="element(*)*" cache="yes">
     <xsl:param name="rng-elt" as="element(*)+"/>
     <xsl:for-each select="$rng-elt">
@@ -135,10 +175,8 @@
 
   <xsl:template name="test">
     <xsl:message select="'text ', string-join(sort($rng-mixed-elements/@name), ', ')"/>
-    <xsl:message select="'preserve ', string-join(sort($rng-preserved-space-elements/@name), ', ')"/>
+    <xsl:message select="'preserve ', string-join(sort($preserved-space-elements/@name), ', ')"/>
   </xsl:template>
-  
-  
   
   
 </xsl:stylesheet>
