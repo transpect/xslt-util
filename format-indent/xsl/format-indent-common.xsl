@@ -35,7 +35,6 @@
   </xsl:variable>
   
   <xsl:template match="document-node(element(rng:grammar))" mode="resolve-includes" as="document-node(element(rng:grammar))">
-<xsl:message select="'FFFFF'"></xsl:message>
     <xsl:document>
       <xsl:apply-templates mode="#current"/>  
     </xsl:document>
