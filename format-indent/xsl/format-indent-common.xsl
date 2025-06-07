@@ -29,7 +29,7 @@
     select="let $top-level-element := /*,
                 $rng-xml-models := /*/preceding-sibling::processing-instruction(xml-model)[matches(., 'schematypens=.http://relaxng.org/ns/structure/1\.0.')]
             return for $rng-model in $rng-xml-models 
-                   return replace($rng-model, '^.*\s*href=&quot;([^&quot;]+)+&quot;.*$', '$1', 's') ! resolve-uri(., base-uri($top-level-element))"/>
+                   return replace($rng-model, '^.*\s*href=.(\S+?)\S(\s+|$).*', '$1', 's') ! resolve-uri(., base-uri($top-level-element))"/>
 
   <xsl:variable name="schema-docs-by-uris" select="($rng-xml-model-uris, $schema-uris) ! tokenize(.) ! doc(.)" as="document-node(element())*"/>
   
