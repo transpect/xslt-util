@@ -6,15 +6,17 @@
   xmlns:saxon="http://saxon.sf.net/"
   xmlns:map = "http://www.w3.org/2005/xpath-functions/map"
   xmlns:tr="http://transpect.io"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   default-mode="format-indent"
-  exclude-result-prefixes="xs saxon tr map a rng"
+  exclude-result-prefixes="xs saxon tr map a rng xsi"
   version="3.0">
 
   <xsl:output indent="no"/>
 
   <xsl:param name="schema-docs" as="document-node(element())*" select="()"/>
-  <xsl:param name="schema-uris" as="xs:string*" select="()">
-    <!-- sequence of strings, but can also be a single string with WS-separated URIs -->
+  <xsl:param name="schema-uris" as="xs:string*" select="/*/@xsi:schemaLocation">
+    <!-- sequence of strings that are absolute URIs to RNG or XSD schemas, but can also 
+         be a single string with WS-separated URIs. -->
   </xsl:param>
 
   <!-- Currently only RNG and XSD schemas are supported.
@@ -23,7 +25,13 @@
          <xs:complexType mixed="true">
   -->
 
-  <xsl:variable name="schema-docs-by-uris" select="$schema-uris ! tokenize(.) ! doc(.)" as="document-node(element())*"/>
+  <xsl:variable name="rng-xml-model-uris" as="xs:string*" 
+    select="let $top-level-element := /*,
+                $rng-xml-models := /*/preceding-sibling::processing-instruction(xml-model)[matches(., 'schematypens=.http://relaxng.org/ns/structure/1\.0.')]
+            return for $rng-model in $rng-xml-models 
+                   return replace($rng-model, '^.*\s*href=&quot;([^&quot;]+)+&quot;.*$', '$1', 's') ! resolve-uri(., base-uri($top-level-element))"/>
+
+  <xsl:variable name="schema-docs-by-uris" select="($rng-xml-model-uris, $schema-uris) ! tokenize(.) ! doc(.)" as="document-node(element())*"/>
   
   <xsl:variable name="schemas" as="document-node(element())+">
     <xsl:if test="empty($schema-docs union $schema-docs-by-uris)">
@@ -173,6 +181,7 @@
   <xsl:key name="define-by-name" match="rng:define" use="@name"/>
 
   <xsl:template name="test">
+    <xsl:message select="'RNG xml-model URIs ', string-join($rng-xml-model-uris, '&#xa;  ')"/>
     <xsl:message select="'text ', string-join(sort($rng-mixed-elements/@name), ', ')"/>
     <xsl:message select="'preserve ', string-join(sort($preserved-space-elements/@name), ', ')"/>
   </xsl:template>
