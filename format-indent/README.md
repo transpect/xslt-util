@@ -4,9 +4,7 @@ Requires Saxon 12.6+ because of an [`xsl:accumulator` issue](https://saxonica.pl
 
 ## Invocation
 
-```
-saxon.sh -s:
-```
+There are examples on [format-indent-demo](https://github.com/gimsieke/format-indent-demo/). 
 
 ## Approach
 

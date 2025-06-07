@@ -56,7 +56,7 @@
     <xsl:document>
       <xsl:apply-templates mode="#current"/>  
     </xsl:document>
-    <xsl:variable name="imports" as="document-node(element(xs:schema))+">
+    <xsl:variable name="imports" as="document-node(element(xs:schema))*">
       <xsl:call-template name="xs-imports"/>
     </xsl:variable>
     <xsl:for-each select="$imports">
