@@ -18,6 +18,7 @@
     <!-- sequence of strings that are absolute URIs to RNG or XSD schemas, but can also 
          be a single string with WS-separated URIs. -->
   </xsl:param>
+  <xsl:param name="add-doctype" as="xs:boolean" select="false()"/>
 
   <!-- Currently only RNG and XSD schemas are supported.
        The mixedness of an element must be declared like this in XSD:
@@ -185,6 +186,35 @@
     <xsl:message select="'text ', string-join(sort($rng-mixed-elements/@name), ', ')"/>
     <xsl:message select="'preserve ', string-join(sort($preserved-space-elements/@name), ', ')"/>
   </xsl:template>
+
+  <xsl:function name="tr:as-string" as="xs:string" cache="yes">
+    <xsl:param name="doc" as="document-node(element(*))"/>
+    <xsl:sequence select="substring(unparsed-text(base-uri($doc)), 1, 200)"/>
+  </xsl:function>
+
+  <xsl:variable name="tr:doctype-regex" as="xs:string" select="'^.*&lt;!DOCTYPE\s+(\w+)\s+PUBLIC\s+&quot;([^&quot;]+)&quot;\s+&quot;([^&quot;]+)&quot;\s*[\[>].*'"/>
+
+  <xsl:function name="tr:doctype-public" as="xs:string" cache="yes">
+    <xsl:param name="doc" as="document-node(element(*))"/>
+    <xsl:sequence select="replace(tr:as-string($doc), $tr:doctype-regex, '$2', 's')"/>
+  </xsl:function>
   
+  <xsl:function name="tr:doctype-system" as="xs:string" cache="yes">
+    <xsl:param name="doc" as="document-node(element(*))"/>
+    <xsl:sequence select="replace(tr:as-string($doc), $tr:doctype-regex, '$3', 's')"/>
+  </xsl:function>
+  
+  <xsl:template match="/" mode="format-indent undo-format-indent">
+    <xsl:choose>
+      <xsl:when test="$add-doctype">
+        <xsl:result-document doctype-system="{tr:doctype-system(.)}" doctype-public="{tr:doctype-public(.)}">
+          <xsl:next-match/>
+        </xsl:result-document>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:next-match/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
   
 </xsl:stylesheet>
