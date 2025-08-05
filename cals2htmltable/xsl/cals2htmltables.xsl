@@ -35,7 +35,9 @@
     <xsl:if test="exists(*:colspec) and (every $col in *:colspec satisfies ($col[@colwidth]))">
       <colgroup>
         <xsl:for-each select="*:colspec">
-          <col css:width="{@colwidth}"/>
+          <col>
+            <xsl:if test="not(starts-with(@colwidth, 'NaN'))"><xsl:attribute name="css:width" select="@colwidth"></xsl:attribute></xsl:if>
+          </col>
         </xsl:for-each>
       </colgroup>
     </xsl:if>
