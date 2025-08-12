@@ -13,11 +13,15 @@
   <!-- 2. expand-cells -->
   <!-- 3. html2cals -->
 
-	<xsl:template match="node() | @*" mode="html2cals preprocess expand-cells" priority="-0.5">
-		<xsl:copy copy-namespaces="no">
-			<xsl:apply-templates select="@* | node()" mode="#current"/>
-		</xsl:copy>
-	</xsl:template>  
+  <xsl:template match="node() | @*" mode="html2cals preprocess expand-cells" priority="-0.5">
+    <xsl:copy copy-namespaces="no">
+      <xsl:apply-templates select="@* | node()" mode="#current"/>
+    </xsl:copy>
+  </xsl:template>
+  
+  <xsl:template match="node()[not(.//*:table)]" mode="html2cals preprocess expand-cells" priority="-0.35">
+    <xsl:copy-of select="."/>
+  </xsl:template>  
 
   <xsl:template match="*[*:table]" mode="html2cals">
     <xsl:variable name="preprocessed" as="element(*)">
