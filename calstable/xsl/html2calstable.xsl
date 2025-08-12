@@ -37,7 +37,8 @@
 
   <xsl:template match="*:table" mode="html2cals">
     <xsl:element name="table" namespace="">
-      <xsl:apply-templates select="(@xml:id, @id, @srcpath, @border, @width, @css:*, @rend, @role, @content-type), *[not(self::*:thead | self::*:tr | self::*:tbody | self::*:tfoot )]" mode="html2cals"/>
+      <xsl:apply-templates select="(@xml:id, @id, @class, @srcpath, @border, @width, @css:*, @rend, @role, @content-type), *[not(self::*:thead | self::*:tr | self::*:tbody | self::*:tfoot )]" mode="html2cals"/>
+      <xsl:copy-of select="@css:*"/>
       <xsl:element name="tgroup">
 <!--        <xsl:message select="concat('Max Columns: ', tr:max-columns(.))"/>-->
         <xsl:call-template name="generate-colspecs">
@@ -99,8 +100,8 @@
 
   <xsl:template match="*:thead | *:tfoot" mode="html2cals">
 		<xsl:element name="{local-name()}">
-			<xsl:copy-of select="@valign"/>
-			<xsl:apply-templates mode="#current"/>
+		  <xsl:copy-of select="@valign, @css:*"/>
+		  <xsl:apply-templates select="@class, node()" mode="#current"/>
 		</xsl:element>
 	</xsl:template>
 
@@ -116,14 +117,17 @@
                     ) 
                   then '0'
                   else '1'}">
-			<xsl:copy-of select="@valign"/>
-			<xsl:apply-templates mode="#current"/>
+			<xsl:copy-of select="@valign, @css:*"/>
+			<xsl:apply-templates select="@class, node()" mode="#current"/>
 		</row>
 	</xsl:template>
 
 	<xsl:template match="*:td|*:th" mode="html2cals">
 		<xsl:variable name="position" select="count(preceding-sibling::*) + 1"/>
 		<entry colname="col{$position}">
+		  <xsl:if test="self::*:th">
+		    <xsl:attribute name="condition" select="'header'"/>
+		  </xsl:if>
 			<xsl:if test="@colspan &gt; 1">
 				<xsl:attribute name="namest">
 					<xsl:value-of select="concat('col',$position)"/>
@@ -137,9 +141,9 @@
 					<xsl:value-of select="number(@rowspan) - 1"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:copy-of select="@align"/>
+		  <xsl:copy-of select="@align, @css:*"/>
 		  <xsl:attribute name="colsep" select="if (@border = 'none' or @css:border = ('none', 'transparent') or @css:border-right-style='none') then '0' else '1'"/>
-			<xsl:apply-templates mode="#current"/>
+		  <xsl:apply-templates select="@class, node()" mode="#current"/>
 		</entry>
 	</xsl:template>
 
@@ -190,5 +194,9 @@
 			</xsl:for-each>
 		</xsl:if>
 	</xsl:template>
+  
+  <xsl:template match="@class" mode="html2cals">
+    <xsl:attribute name="role" select="."/>
+  </xsl:template>
 
 </xsl:stylesheet>
