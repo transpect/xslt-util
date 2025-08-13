@@ -86,7 +86,6 @@
                       |@namest
                       |@colname
                       |@frame
-                      |@condition
-                      |@role" mode="cals2html-table"/>
+                      |@condition" mode="cals2html-table"/>
 
 </xsl:stylesheet>
