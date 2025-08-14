@@ -5,11 +5,19 @@
   xmlns="http://www.w3.org/1999/xhtml"
   version="2.0"
   exclude-result-prefixes="xs xsl">
+  
+  <!-- values: 'yes'|'no', if set to "yes", non-table nodes 
+       are just copied to decrease computing time -->
+  <xsl:param name="process-tables-only" as="xs:string" select="'no'"/>
 
-  <xsl:template match="@* | node()" mode="cals2html-table">
+  <xsl:template match="@* | node()" mode="cals2html-table" priority="-0.5">
     <xsl:copy copy-namespaces="yes">
       <xsl:apply-templates select="@*, node()" mode="#current"/>
     </xsl:copy>
+  </xsl:template>
+
+  <xsl:template match="node()[not(.//(*:informaltable | *:table))][$process-tables-only]" mode="cals2html-table" priority="-0.35">
+    <xsl:copy-of select="."/>
   </xsl:template>
 
   <xsl:template match="*:informaltable | *:table" mode="cals2html-table">
