@@ -2,6 +2,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
   xmlns:xhtml="http://www.w3.org/1999/xhtml"
+  xmlns:hub="http://docbook.org/ns/docbook"
   xmlns:css="http://www.w3.org/1996/css"
   xmlns:tr="http://transpect.io"
   xmlns="http://docbook.org/ns/docbook"
@@ -135,7 +136,7 @@
 		<xsl:variable name="position" select="count(preceding-sibling::*) + 1"/>
 		<entry colname="col{$position}">
 		  <xsl:if test="self::*:th">
-		    <xsl:attribute name="condition" select="'header'"/>
+		    <xsl:attribute name="hub:condition" select="'header'"/>
 		  </xsl:if>
 			<xsl:if test="@colspan &gt; 1">
 				<xsl:attribute name="namest">
@@ -150,7 +151,7 @@
 					<xsl:value-of select="number(@rowspan) - 1"/>
 				</xsl:attribute>
 			</xsl:if>
-		  <xsl:copy-of select="@align, @css:*, @content-type, @role, @style"/>
+		  <xsl:copy-of select="@align, @css:*, @content-type, @role, @style, @rend, @condition"/>
 		  <xsl:attribute name="colsep" select="if (@border = 'none' or @css:border = ('none', 'transparent') or @css:border-right-style='none') then '0' else '1'"/>
 		  <xsl:apply-templates select="@class, node()" mode="#current"/>
 		</entry>

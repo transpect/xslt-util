@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+  xmlns:hub="http://docbook.org/ns/docbook"
   xmlns:css="http://www.w3.org/1996/css"
   xmlns="http://www.w3.org/1999/xhtml"
   version="2.0"
@@ -71,7 +72,7 @@
   </xsl:template>
 
   <xsl:template match="*:entry" mode="cals2html-table">
-    <xsl:element name="{if (   @condition eq 'header' 
+    <xsl:element name="{if (   @hub:condition eq 'header' 
                             or parent::*:row/parent::*:thead) 
                         then 'th' 
                         else 'td'}">
@@ -97,6 +98,6 @@
                       |@namest
                       |@colname
                       |@frame
-                      |*:entry/@condition" mode="cals2html-table"/>
+                      |*:entry/@hub:condition" mode="cals2html-table"/>
 
 </xsl:stylesheet>
