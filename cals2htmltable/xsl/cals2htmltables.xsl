@@ -94,6 +94,6 @@
                       |@namest
                       |@colname
                       |@frame
-                      |@condition" mode="cals2html-table"/>
+                      |*:entry/@condition" mode="cals2html-table"/>
 
 </xsl:stylesheet>
