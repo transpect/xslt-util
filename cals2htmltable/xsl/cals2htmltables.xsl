@@ -71,7 +71,10 @@
   </xsl:template>
 
   <xsl:template match="*:entry" mode="cals2html-table">
-    <xsl:element name="{if (@condition eq 'header') then 'th' else 'td'}">
+    <xsl:element name="{if (   @condition eq 'header' 
+                            or parent::*:row/parent::*:thead) 
+                        then 'th' 
+                        else 'td'}">
       <xsl:if test="@namest">
         <!-- should be more robust than just relying on certain column name literals -->
         <xsl:attribute name="colspan"
