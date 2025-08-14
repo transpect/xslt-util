@@ -150,7 +150,7 @@
 					<xsl:value-of select="number(@rowspan) - 1"/>
 				</xsl:attribute>
 			</xsl:if>
-		  <xsl:copy-of select="@align, @css:*"/>
+		  <xsl:copy-of select="@align, @css:*, @content-type, @role, @style"/>
 		  <xsl:attribute name="colsep" select="if (@border = 'none' or @css:border = ('none', 'transparent') or @css:border-right-style='none') then '0' else '1'"/>
 		  <xsl:apply-templates select="@class, node()" mode="#current"/>
 		</entry>
