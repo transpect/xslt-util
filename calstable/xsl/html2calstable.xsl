@@ -47,7 +47,7 @@
 
   <xsl:template match="*:table" mode="html2cals">
     <xsl:element name="table" namespace="">
-      <xsl:apply-templates select="(@xml:id, @id, @class, @srcpath, @border, @width, @css:*, @rend, @role, @content-type), *[not(self::*:thead | self::*:tr | self::*:tbody | self::*:tfoot )]" mode="html2cals"/>
+      <xsl:apply-templates select="(@xml:id | @id | @class | @srcpath | @border | @*:lang | @width | @css:* | @rend | @role | @content-type), *[not(self::*:thead | self::*:tr | self::*:tbody | self::*:tfoot )]" mode="html2cals"/>
       <xsl:copy-of select="@css:*"/>
       <xsl:element name="tgroup">
 <!--        <xsl:message select="concat('Max Columns: ', tr:max-columns(.))"/>-->
