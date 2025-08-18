@@ -17,7 +17,7 @@
     </xsl:copy>
   </xsl:template>
 
-  <xsl:template match="node()[not(.//(*:informaltable | *:table))][$process-tables-only]" mode="cals2html-table" priority="-0.35">
+  <xsl:template match="node()[not(.//(*:informaltable | *:table))][$process-tables-only = 'yes']" mode="cals2html-table" priority="-0.35">
     <xsl:copy-of select="."/>
   </xsl:template>
 
