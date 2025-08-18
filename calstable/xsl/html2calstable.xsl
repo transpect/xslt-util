@@ -25,7 +25,7 @@
     </xsl:copy>
   </xsl:template>
   
-  <xsl:template match="node()[not(.//*:table)][$process-tables-only]" mode="html2cals preprocess expand-cells" priority="-0.35">
+  <xsl:template match="node()[not(.//*:table)][$process-tables-only = 'yes']" mode="html2cals preprocess expand-cells" priority="-0.35">
     <xsl:copy-of select="."/>
   </xsl:template>      
 
