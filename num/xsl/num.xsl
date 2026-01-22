@@ -190,7 +190,7 @@ http://doi.org/10.1352/0895-8017(2008)113%5B32:ECICWD%5D%C3%A4%3E2.0.CO;2
     
     <xsl:variable name="offset" as="xs:integer">
       <xsl:choose>
-        <xsl:when test="matches($string, '^[a-z][a-z]?$')">
+        <xsl:when test="matches($string, '^[a-z][a-z]?[a-z]?$')">
           <xsl:sequence select="96"/>
         </xsl:when>
         <xsl:when test="matches($string, '^[A-Z][A-Z]?$')">
