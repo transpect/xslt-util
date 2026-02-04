@@ -246,7 +246,8 @@
     <xsl:sequence select="count($pattern/rng:*[self::rng:element or self::rng:oneOrMore or 
                                                self::rng:ref[key('rng-element-by-name',@name,$used-schema)/rng:*[self::rng:element or 
                                                                                                                  self::rng:oneOrMore]]]
-                                              [not(exists(tr:rng-pattern-to-sequence($context,.,$schema,$desc,'unused')))])"/>
+                                              [not(exists(tr:rng-pattern-to-sequence($context,.,$schema,$desc,'unused')))]
+                                              [not(parent::rng:choice and (preceding-sibling::rng:*[tr:check-mandatory($context,.,$schema,$desc)=0] or following-sibling::rng:*[tr:check-mandatory($context,.,$schema,$desc)=0]))])"/>
   </xsl:function>
   
   <xsl:function name="tr:check-optional" as="xs:integer" cache="yes">

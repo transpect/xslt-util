@@ -5,8 +5,9 @@
   xmlns:hub="http://docbook.org/ns/docbook"
   xmlns:css="http://www.w3.org/1996/css"
   xmlns:tr="http://transpect.io"
+  xmlns:saxon="http://saxon.sf.net/"
   xmlns="http://docbook.org/ns/docbook"
-  exclude-result-prefixes="xs xhtml tr"
+  exclude-result-prefixes="xs xhtml tr saxon"
   version="2.0">
 
   <!-- Based on a stylesheet by Roman Huditsch, roman.huditsch@bkf.at -->
@@ -18,18 +19,25 @@
        are just copied to decrease computing time -->
   
   <xsl:param name="process-tables-only" as="xs:string" select="'no'"/>
+  <xsl:param name="exec-h2c-catch-all" as="xs:boolean" select="true()"/>
   
-  <xsl:template match="node() | @*" mode="html2cals preprocess expand-cells" priority="-0.5">
+  <xsl:template match="node() | @*" mode="preprocess expand-cells" priority="-.5">
     <xsl:copy copy-namespaces="no">
       <xsl:apply-templates select="@* | node()" mode="#current"/>
     </xsl:copy>
   </xsl:template>
   
-  <xsl:template match="node()[not(.//*:table)][$process-tables-only = 'yes']" mode="html2cals preprocess expand-cells" priority="-0.35">
+  <xsl:template match="node()[$exec-h2c-catch-all] | @*[$exec-h2c-catch-all]" mode="html2cals" priority="-.5">
+    <xsl:copy copy-namespaces="no">
+      <xsl:apply-templates select="@* | node()" mode="#current"/>
+    </xsl:copy>
+  </xsl:template>
+  
+  <xsl:template match="node()[not(.//*:table)][$process-tables-only = 'yes']" mode="html2cals preprocess expand-cells" priority="-.35">
     <xsl:copy-of select="."/>
   </xsl:template>      
 
-  <xsl:template match="*[*:table]" mode="html2cals">
+  <xsl:template match="*[*:table[not(ancestor::*:table)]]" mode="html2cals">
     <xsl:variable name="preprocessed" as="element(*)">
       <xsl:copy copy-namespaces="no">
         <xsl:apply-templates select="@*, node()"  mode="preprocess"/>
@@ -47,16 +55,16 @@
 
   <xsl:template match="*:table" mode="html2cals">
     <xsl:element name="table" namespace="">
-      <xsl:apply-templates select="(@xml:id | @id | @class | @srcpath | @border | @*:lang | @width | @css:* | @rend | @role | @content-type), *[not(self::*:thead | self::*:tr | self::*:tbody | self::*:tfoot )]" mode="html2cals"/>
+      <xsl:apply-templates select="(@xml:id | @id | @class | @srcpath | @border | @*:lang | @width | @css:* | @rend | @role | @content-type), *[not(self::*:thead | self::*:tr | self::*:tbody | self::*:tfoot | self::*:col | self::*:colgroup)]" mode="html2cals"/>
       <xsl:copy-of select="@css:*"/>
-      <xsl:element name="tgroup">
+      <xsl:element name="tgroup" namespace="">
 <!--        <xsl:message select="concat('Max Columns: ', tr:max-columns(.))"/>-->
         <xsl:call-template name="generate-colspecs">
           <xsl:with-param name="max" select="tr:max-columns(.)" as="xs:double"/>
         </xsl:call-template>
         <xsl:apply-templates select="*:thead" mode="html2cals"/>
         <xsl:apply-templates select="*:tfoot" mode="html2cals"/>
-        <xsl:element name="tbody">
+        <xsl:element name="tbody" namespace="">
           <xsl:apply-templates select="*:tr | *:tbody/*:tr" mode="html2cals"/>
         </xsl:element>
       </xsl:element>
@@ -82,10 +90,16 @@
     <xsl:choose>
       <xsl:when test="$count &gt; $max"/>
       <xsl:otherwise>
-        <colspec colnum="{$count}" colname="{concat('col', $count)}" colsep="{if($border) then('1') else('0')}">
+        <xsl:element name="colspec" namespace="">
+          <xsl:attribute name="colnum" select="$count"/> 
+          <xsl:attribute name="colname" select="concat('col', $count)"/>
+          <xsl:attribute name="colsep" select="if($border) then('1') else('0')"/>
           <xsl:choose>
             <xsl:when test="*:colgroup/*:col[$count]/@*[local-name() = 'width'][1]">
               <xsl:apply-templates select="*:colgroup/*:col[$count]/@*[local-name() = 'width'][1]" mode="html2cals"/>
+            </xsl:when>
+            <xsl:when test="*:col[$count]/@*[local-name() = 'width'][1]">
+              <xsl:apply-templates select="*:col[$count]/@*[local-name() = 'width'][1]" mode="html2cals"/>
             </xsl:when>
             <xsl:when test="( ./(*/* | *)/*:td[$count] | ./(*/* | *)/*:th[$count])/@*[local-name() = 'width'][1]">
               <xsl:attribute name="colwidth">
@@ -93,7 +107,7 @@
               </xsl:attribute>
             </xsl:when>
           </xsl:choose>
-        </colspec>
+        </xsl:element>
         <xsl:call-template name="generate-colspecs">
           <xsl:with-param name="max" select="$max"/>
           <xsl:with-param name="count" select="$count + 1"/>
@@ -109,8 +123,8 @@
 	</xsl:template>
 
   <xsl:template match="*:thead | *:tfoot" mode="html2cals">
-		<xsl:element name="{local-name()}">
-		  <xsl:copy-of select="@valign, @css:*"/>
+    <xsl:element name="{local-name()}" namespace="">
+		  <xsl:apply-templates select="@valign, @css:*" mode="#current"/>
 		  <xsl:apply-templates select="@class, node()" mode="#current"/>
 		</xsl:element>
 	</xsl:template>
@@ -118,23 +132,31 @@
 	<xsl:template match="*:tr" mode="html2cals">
 		<xsl:param name="border" tunnel="yes"/>
 <!--		<row rowsep="{if($border) then('1') else('0')}">-->
-		<row rowsep="{if (
-                      (every $b in *:td satisfies ($b/@border = ('0', 'none')))
-                      or
-                      (every $b in *:td satisfies ($b/@css:border = ('0', 'none')))
-                       or
-                      (every $b in *:td satisfies ($b/@css:border-bottom-style = ('0', 'none')))
-                    ) 
-                  then '0'
-                  else '1'}">
-			<xsl:copy-of select="@valign, @css:*"/>
+	  <xsl:element name="row" namespace="">
+	    <xsl:attribute name="rowsep" select="if (
+	               (every $b in *:td satisfies ($b/@border = ('0', 'none')))
+	               or
+	               (every $b in *:td satisfies ($b/@css:border = ('0', 'none')))
+	                or
+	               (every $b in *:td satisfies ($b/@css:border-bottom-style = ('0', 'none')))
+	             ) 
+	           then '0'
+	           else '1'"/> 
+			<xsl:apply-templates select="@valign, @css:*" mode="#current"/>
 			<xsl:apply-templates select="@class, node()" mode="#current"/>
-		</row>
+	  </xsl:element>
 	</xsl:template>
+  
+  <xsl:template match="*[self::*:tr or self::*:thead or self::*:tfoot]/@valign | 
+                       *[self::*:tr or self::*:thead or self::*:tfoot or self::*:td or self::*:th]/@css:* | 
+                       *[self::*:td or self::*:th]/@*[name()=('align','content-type','role','style','rend','condition')]" mode="html2cals">
+    <xsl:copy-of select="."/>
+  </xsl:template>
 
 	<xsl:template match="*:td|*:th" mode="html2cals">
 		<xsl:variable name="position" select="count(preceding-sibling::*) + 1"/>
-		<entry colname="col{$position}">
+		<xsl:element name="entry" namespace="">
+		  <xsl:attribute name="colname" select="concat('col',$position)"/>
 		  <xsl:if test="self::*:th">
 		    <xsl:attribute name="hub:condition" select="'header'"/>
 		  </xsl:if>
@@ -151,10 +173,10 @@
 					<xsl:value-of select="number(@rowspan) - 1"/>
 				</xsl:attribute>
 			</xsl:if>
-		  <xsl:copy-of select="@align, @css:*, @content-type, @role, @style, @rend, @condition"/>
+		  <xsl:apply-templates select="@align, @css:*, @content-type, @role, @style, @rend, @condition" mode="#current"/>
 		  <xsl:attribute name="colsep" select="if (@border = 'none' or @css:border = ('none', 'transparent') or @css:border-right-style='none') then '0' else '1'"/>
 		  <xsl:apply-templates select="@class, node()" mode="#current"/>
-		</entry>
+		</xsl:element>
 	</xsl:template>
 
 	<xsl:function name="tr:max-columns" as="xs:integer">
@@ -166,6 +188,9 @@
 			<xsl:when test="$context/*:colgroup[@span]">
 				<xsl:sequence select="$context/*:colgroup/@span"/>
 			</xsl:when>
+		  <xsl:when test="$context/*:col">
+		    <xsl:sequence select="count($context/*:col)"/>
+		  </xsl:when>
 			<xsl:otherwise>
 				<xsl:sequence select="max(for $x in ($context | $context/* )/*:tr  return count($x/*:td))"/>
 			</xsl:otherwise>
@@ -179,16 +204,19 @@
 	</xsl:function>
 
 	<xsl:template match="*:colgroup | *:td[@id=('rowspan', 'colspan')]" mode="html2cals"/>
-	
 
 	<xsl:template match="*[@colspan]" mode="preprocess">
-		<td>
-			<xsl:copy-of select="@*"/>
+		<xsl:element name="td" namespace="">
+			<xsl:apply-templates select="@*" mode="#current"/>
 			<xsl:apply-templates mode="#current"/>
-		</td>
-		<xsl:for-each select="1 to (xs:integer(@colspan)-1)">
-			<td id="colspan"/>
-		</xsl:for-each>
+		</xsl:element>
+	  <xsl:if test="@colspan castable as xs:integer">
+	    <xsl:for-each select="1 to (xs:integer(@colspan)-1)">
+	      <xsl:element name="td" namespace="">
+	        <xsl:attribute name="id" select="'colspan'"/>  
+	      </xsl:element>
+	    </xsl:for-each>
+	  </xsl:if>
 	</xsl:template>
 
 	<xsl:template match="*:td[preceding::*:td[count(preceding-sibling::*:td)=count(current()/preceding-sibling::*:td)+1 and current()/@rowspan]]" mode="expand-cells">
@@ -200,7 +228,9 @@
 		</xsl:copy>
 		<xsl:if test="$rowDiff &lt; $rowspan">
 			<xsl:for-each select="1 to ($rowspan - 1)">
-				<td id="rowspan"/>
+			  <xsl:element name="td" namespace="">
+			    <xsl:attribute name="id" select="'rowspan'"/>			    
+			  </xsl:element>
 			</xsl:for-each>
 		</xsl:if>
 	</xsl:template>
