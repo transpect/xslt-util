@@ -2007,6 +2007,7 @@
     <css:color name="240 U" rgb="193 85 152"/>
     <css:color name="241 U" rgb="175 84 139"/>
     <css:color name="242 U" rgb="141 89 119"/>
+    <css:color name="2304 U" rgb="158 168 100"/>
     <css:color name="2365 U" rgb="248 191 231"/>
     <css:color name="2375 U" rgb="234 136 210"/>
     <css:color name="2385 U" rgb="224 111 194"/>
