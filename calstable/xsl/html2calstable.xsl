@@ -21,6 +21,10 @@
   <xsl:param name="process-tables-only" as="xs:string" select="'no'"/>
   <xsl:param name="exec-h2c-catch-all" as="xs:boolean" select="true()"/>
   
+  <xsl:param name="use-hub-namespace" as="xs:boolean" select="false()"/>
+  
+  <xsl:variable name="namespace-switch" select="if ($use-hub-namespace) then 'http://docbook.org/ns/docbook' else ''" as="xs:string?"/>
+  
   <xsl:template match="node() | @*" mode="preprocess expand-cells" priority="-.5">
     <xsl:copy copy-namespaces="no">
       <xsl:apply-templates select="@* | node()" mode="#current"/>
@@ -54,17 +58,17 @@
   </xsl:template>
 
   <xsl:template match="*:table" mode="html2cals">
-    <xsl:element name="table" namespace="">
+    <xsl:element name="table" namespace="{$namespace-switch}">
       <xsl:apply-templates select="(@xml:id | @id | @class | @srcpath | @border | @*:lang | @width | @css:* | @rend | @role | @content-type), *[not(self::*:thead | self::*:tr | self::*:tbody | self::*:tfoot | self::*:col | self::*:colgroup)]" mode="html2cals"/>
       <xsl:copy-of select="@css:*"/>
-      <xsl:element name="tgroup" namespace="">
+      <xsl:element name="tgroup" namespace="{$namespace-switch}">
 <!--        <xsl:message select="concat('Max Columns: ', tr:max-columns(.))"/>-->
         <xsl:call-template name="generate-colspecs">
           <xsl:with-param name="max" select="tr:max-columns(.)" as="xs:double"/>
         </xsl:call-template>
         <xsl:apply-templates select="*:thead" mode="html2cals"/>
         <xsl:apply-templates select="*:tfoot" mode="html2cals"/>
-        <xsl:element name="tbody" namespace="">
+        <xsl:element name="tbody" namespace="{$namespace-switch}">
           <xsl:apply-templates select="*:tr | *:tbody/*:tr" mode="html2cals"/>
         </xsl:element>
       </xsl:element>
@@ -90,7 +94,7 @@
     <xsl:choose>
       <xsl:when test="$count &gt; $max"/>
       <xsl:otherwise>
-        <xsl:element name="colspec" namespace="">
+        <xsl:element name="colspec" namespace="{$namespace-switch}">
           <xsl:attribute name="colnum" select="$count"/> 
           <xsl:attribute name="colname" select="concat('col', $count)"/>
           <xsl:attribute name="colsep" select="if($border) then('1') else('0')"/>
@@ -123,7 +127,7 @@
 	</xsl:template>
 
   <xsl:template match="*:thead | *:tfoot" mode="html2cals">
-    <xsl:element name="{local-name()}" namespace="">
+    <xsl:element name="{local-name()}" namespace="{$namespace-switch}">
 		  <xsl:apply-templates select="@valign, @css:*" mode="#current"/>
 		  <xsl:apply-templates select="@class, node()" mode="#current"/>
 		</xsl:element>
@@ -132,7 +136,7 @@
 	<xsl:template match="*:tr" mode="html2cals">
 		<xsl:param name="border" tunnel="yes"/>
 <!--		<row rowsep="{if($border) then('1') else('0')}">-->
-	  <xsl:element name="row" namespace="">
+	  <xsl:element name="row" namespace="{$namespace-switch}">
 	    <xsl:attribute name="rowsep" select="if (
 	               (every $b in *:td satisfies ($b/@border = ('0', 'none')))
 	               or
@@ -155,7 +159,7 @@
 
 	<xsl:template match="*:td|*:th" mode="html2cals">
 		<xsl:variable name="position" select="count(preceding-sibling::*) + 1"/>
-		<xsl:element name="entry" namespace="">
+		<xsl:element name="entry" namespace="{$namespace-switch}">
 		  <xsl:attribute name="colname" select="concat('col',$position)"/>
 		  <xsl:if test="self::*:th">
 		    <xsl:attribute name="hub:condition" select="'header'"/>
@@ -206,13 +210,13 @@
 	<xsl:template match="*:colgroup | *:td[@id=('rowspan', 'colspan')]" mode="html2cals"/>
 
 	<xsl:template match="*[@colspan]" mode="preprocess">
-		<xsl:element name="td" namespace="">
+		<xsl:element name="td" namespace="{$namespace-switch}">
 			<xsl:apply-templates select="@*" mode="#current"/>
 			<xsl:apply-templates mode="#current"/>
 		</xsl:element>
 	  <xsl:if test="@colspan castable as xs:integer">
 	    <xsl:for-each select="1 to (xs:integer(@colspan)-1)">
-	      <xsl:element name="td" namespace="">
+	      <xsl:element name="td" namespace="{$namespace-switch}">
 	        <xsl:attribute name="id" select="'colspan'"/>  
 	      </xsl:element>
 	    </xsl:for-each>
@@ -228,7 +232,7 @@
 		</xsl:copy>
 		<xsl:if test="$rowDiff &lt; $rowspan">
 			<xsl:for-each select="1 to ($rowspan - 1)">
-			  <xsl:element name="td" namespace="">
+			  <xsl:element name="td" namespace="{$namespace-switch}">
 			    <xsl:attribute name="id" select="'rowspan'"/>			    
 			  </xsl:element>
 			</xsl:for-each>
