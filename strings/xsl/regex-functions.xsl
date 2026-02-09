@@ -43,4 +43,36 @@
                                  else  ']+')"/>
   </xsl:function>
   
+  <!-- tr:replace-list(xs:string, xs:string*, xs:string*, xs:string)
+       tr:replace-list(xs:string, xs:string*, xs:string*)
+    
+       Instead of nesting multiple replace() calls, this 
+       function applies its arguments consecutively, making 
+       the code more concise and easier to read, e.g.     
+       
+  -->
+  
+  <xsl:function name="tr:replace-list" as="xs:string">
+    <xsl:param name="text" as="xs:string"/>
+    <xsl:param name="patterns" as="xs:string*"/>
+    <xsl:param name="replacements" as="xs:string*"/>
+    <xsl:param name="flags" as="xs:string?"/>
+    <xsl:variable name="count" select="count($patterns)"/>
+    <xsl:sequence select="if($count = 0)
+                          then $text
+                          else tr:replace-list(
+                                 replace($text, $patterns[1], $replacements[1]),
+                                 $patterns[position() > 1],
+                                 $replacements[position() > 1],
+                                 $flags
+                               )"/>
+  </xsl:function>
+  
+  <xsl:function name="tr:replace-list" as="xs:string">
+    <xsl:param name="text" as="xs:string"/>
+    <xsl:param name="patterns" as="xs:string*"/>
+    <xsl:param name="replacements" as="xs:string*"/>
+    <xsl:sequence select="tr:replace-list($text, $patterns, $replacements, ())"/>
+  </xsl:function>
+  
 </xsl:stylesheet>
