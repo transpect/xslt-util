@@ -57,7 +57,10 @@
     <xsl:param name="patterns" as="xs:string*"/>
     <xsl:param name="replacements" as="xs:string*"/>
     <xsl:param name="flags" as="xs:string?"/>
-    <xsl:variable name="count" select="count($patterns)"/>
+    <xsl:variable name="count" select="count($patterns)" as="xs:integer"/>
+    <xsl:if test="$count != count($replacements)">
+      <xsl:message terminate="yes" select="'Error in tr:replace-list(): The number of patterns must match the number of replacements.'"/>
+    </xsl:if>
     <xsl:sequence select="if($count = 0)
                           then $text
                           else tr:replace-list(
