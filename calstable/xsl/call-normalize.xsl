@@ -10,9 +10,9 @@
   
   <xsl:template match="*:tgroup">
     <xsl:sequence select="calstable:check-normalized(
-                                                     calstable:normalize(.), 
-                                                     'no'
-                                                     )"/>
+                            calstable:normalize(.), 
+                            'no'
+                          )"/>
   </xsl:template>
   
   <xsl:template match="node() | @*">

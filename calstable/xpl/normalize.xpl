@@ -27,7 +27,7 @@
     
   </p:documentation>
   
-  <p:viewport match="//*:tgroup[empty(ancestor::*:tgroup)]">
+  <p:viewport match="//*:tgroup[not(ancestor::*:entry)]">
     
     <p:xslt name="normalize-calstables-xslt">
       <p:input port="stylesheet">
