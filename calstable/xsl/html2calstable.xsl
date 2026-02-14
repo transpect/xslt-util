@@ -172,7 +172,7 @@
 					<xsl:value-of select="concat('col',$position + number(@colspan) - 1)"/>
 				</xsl:attribute>
 			</xsl:if>
-			<xsl:if test="@rowspan &gt; 1">
+			<xsl:if test="@rowspan castable as xs:integer and @rowspan &gt; 1">
 				<xsl:attribute name="morerows">
 					<xsl:value-of select="number(@rowspan) - 1"/>
 				</xsl:attribute>
