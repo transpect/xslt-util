@@ -142,9 +142,13 @@
   <xsl:variable name="preserved-space-elements" as="element(*)*">
     <xsl:variable name="atts" as="element(rng:attribute)*" 
       select="$schemas//rng:attribute[@name = 'xml:space'][@a:defaultValue = 'preserve']"/>
+    <xsl:variable name="verbatim_contenttypes" as="element(rng:ref)*" 
+      select="$schemas//rng:ref[@name = 'db.verbatim.contentmodel']"/>
     <xsl:sequence select="$atts ! rng:find-element-define(.)
       union
-      $schemas//xs:element[xs:complexType/xs:attribute[@ref = 'xml:space'][@fixed = 'preserve']]"/>
+      $schemas//xs:element[xs:complexType/xs:attribute[@ref = 'xml:space'][@fixed = 'preserve']]
+      union
+      $verbatim_contenttypes ! rng:find-element-define(.)"/>
   </xsl:variable>
   
   <xsl:variable name="rng-mixed-elements" as="element(rng:element)*">
@@ -158,7 +162,7 @@
     <xsl:param name="rng-elt" as="element(*)+"/>
     <xsl:for-each select="$rng-elt">
       <xsl:variable name="containing-elt-or-def" as="element(*)*"
-        select="ancestor::*[self::rng:element union self::rng:define union self::rng:attribute][1]"/>
+        select="ancestor::*[self::rng:element union self::rng:define union self::rng:attribute union self::rng:ref][1]"/>
 <!--      <xsl:message select="'looking up ', ."></xsl:message>-->
       <xsl:if test="empty($containing-elt-or-def)">
         <xsl:message select="'empty for ', string-join((name(), @name), ' ')"></xsl:message>
