@@ -70,7 +70,8 @@
   <xsl:function name="tr:normalize-uri" as="xs:string">
     <xsl:param name="uri" as="xs:string"/>
     <xsl:variable name="normalized-uri" select="replace(
-      if (matches($uri, '^file:/(/{2,})?$')) then 'file:/' 
+      if (matches($uri, '^file:/(/{2,})?$')) then 'file:/'
+      else if (matches($uri, '^jar:file:/(/{2,})?$')) then 'jar:file:/'
       else replace(
              $uri, 
              '^(.+)/.+$', '$1'),
