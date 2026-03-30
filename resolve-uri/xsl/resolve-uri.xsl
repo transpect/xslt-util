@@ -18,7 +18,7 @@
   <xsl:function name="tr:uri-composer" as="xs:string">
     <xsl:param name="uri-so-far" as="xs:string"/>
     <xsl:param name="override" as="xs:string?"/>
-    <xsl:variable name="start-regex" as="xs:string" select="'^(file|https?|ftps?|gopher|mailto):/+'"/>
+    <xsl:variable name="start-regex" as="xs:string" select="'^((jar:)?file|https?|ftps?|gopher|mailto):/+'"/>
     <xsl:choose>
       <xsl:when test="matches($override, $start-regex)">
         <xsl:sequence select="$override"/>
