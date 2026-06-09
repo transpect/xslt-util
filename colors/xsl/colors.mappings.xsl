@@ -2534,6 +2534,7 @@
     <css:color name="355 U" rgb="25 151 93"/>
     <css:color name="356 U" rgb="57 126 88"/>
     <css:color name="357 U" rgb="81 110 90"/>
+    <css:color name="3547 U" rgb="197 144 20"/>
     <css:color name="7478 U" rgb="160 234 197"/>
     <css:color name="7479 U" rgb="41 203 126"/>
     <css:color name="7480 U" rgb="0 194 129"/>
