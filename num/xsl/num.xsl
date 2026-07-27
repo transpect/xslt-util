@@ -4,8 +4,8 @@
   xmlns:xs		= "http://www.w3.org/2001/XMLSchema"
   xmlns:map="http://www.w3.org/2005/xpath-functions/map"
   xmlns:tr= "http://transpect.io"
-  xmlns:tr-hex-private		= "http://transpect.io"
-  exclude-result-prefixes="xs tr"
+  xmlns:tr-hex-private="http://transpect.io/xslt-util/hex/private"
+  exclude-result-prefixes="xs tr tr-hex-private"
   >
 
   <xsl:import href="num-3.0.xsl" use-when="xs:decimal(system-property('xsl:version')) ge 3.0"/>
