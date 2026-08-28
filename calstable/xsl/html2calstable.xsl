@@ -8,7 +8,7 @@
   xmlns:saxon="http://saxon.sf.net/"
   xmlns="http://docbook.org/ns/docbook"
   exclude-result-prefixes="xs xhtml tr saxon"
-  version="2.0">
+  version="3.0">
 
   <!-- Based on a stylesheet by Roman Huditsch, roman.huditsch@bkf.at -->
   <!-- 1. preprocess -->
@@ -204,12 +204,13 @@
 	<xsl:function name="tr:max-width" as="xs:double">
 		<xsl:param name="context" as="element()"/>
 		<xsl:param name="count" as="xs:double"/>
-		<xsl:sequence select="max(for $x in ($context/* | $context/*/* )/(*:td[$count] | *:th[$count])/@*[local-name() = 'width'] return (if($x castable as xs:double) then($x) else(replace($x, '[a-z%]', ''))))"/>
+		<xsl:sequence select="max(for $x in ($context/* | $context/*/* )/(*:td[$count] | *:th[$count])/@*[local-name() = 'width'] return (if($x castable as xs:double) then($x) else xs:double(replace($x, '[a-z%]', ''))))"/>
 	</xsl:function>
-
+  
 	<xsl:template match="*:colgroup | *:td[@id=('rowspan', 'colspan')]" mode="html2cals"/>
 
 	<xsl:template match="*[@colspan]" mode="preprocess">
+	  <xsl:variable name="width" select="exists(@width)" as="xs:boolean"/>
 		<xsl:element name="td" namespace="{$namespace-switch}">
 			<xsl:apply-templates select="@*" mode="#current"/>
 			<xsl:apply-templates mode="#current"/>
@@ -217,7 +218,10 @@
 	  <xsl:if test="@colspan castable as xs:integer">
 	    <xsl:for-each select="1 to (xs:integer(@colspan)-1)">
 	      <xsl:element name="td" namespace="{$namespace-switch}">
-	        <xsl:attribute name="id" select="'colspan'"/>  
+	        <xsl:attribute name="id" select="'colspan'"/>
+	        <xsl:if test="$width">
+	          <xsl:attribute name="width" select="'0'"/>
+	        </xsl:if>
 	      </xsl:element>
 	    </xsl:for-each>
 	  </xsl:if>
