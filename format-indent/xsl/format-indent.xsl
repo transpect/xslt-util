@@ -152,7 +152,7 @@
       <xsl:variable name="xmlns" as="text()*">
         <xsl:apply-templates select="." mode="xmlns"/>
       </xsl:variable>
-      <xsl:variable name="xmlns-length" as="xs:integer" select="1 + string-length($xmlns)"/>
+      <xsl:variable name="xmlns-length" as="xs:integer" select="1 + string-length(string-join($xmlns, ''))"/>
       <xsl:variable name="attributes-length" as="xs:integer*" select="xs:integer(sum(@* ! tr:attribute-length(.)))"/>
       <xsl:variable name="whole-start-tag-length" as="xs:integer"
         select="$tag-beginning-length + $namespace-decl-length + $xmlns-length + $attributes-length + 1"/>
