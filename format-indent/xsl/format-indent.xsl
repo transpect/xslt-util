@@ -195,8 +195,8 @@
     <xsl:value-of select="'&#xa;' || tr:indent(.)"/>
     <xsl:copy>
       <xsl:apply-templates select="@*, node()" mode="#current"/>
-      <xsl:if test="not(tr:is-mixed(.))">
-        <xsl:value-of select="'&#xa;' || tr:indent(.)"/>  
+      <xsl:if test="not(tr:is-mixed(.)) and not(tr:is-empty(.))">
+        <xsl:value-of select="'&#xa;' || tr:indent(.)"/>
       </xsl:if>
     </xsl:copy>
   </xsl:template>

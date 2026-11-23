@@ -130,6 +130,18 @@
     </xsl:choose>
   </xsl:function>
   
+  <xsl:function name="tr:is-empty" as="xs:boolean" cache="yes">
+    <xsl:param name="elt" as="element(*)?"/>
+    <xsl:choose>
+      <xsl:when test="exists($elt) and $schemas[rng:grammar]">
+        <xsl:sequence select="name($elt) = $rng-empty-elements/@name"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:sequence select="false()"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:function>
+  
   <xsl:function name="tr:preserves-space" as="xs:boolean">
     <xsl:param name="elt" as="element()?"/>
     <xsl:sequence  
@@ -157,7 +169,38 @@
               $schemas/descendant::rng:data[@type = ('string', 'xs:string')]"/>
     <xsl:sequence select="$text-schema-elts ! rng:find-element-define(.)"/>
   </xsl:variable>
-
+  
+  <xsl:variable name="rng-empty-elements" as="element(rng:element)*">
+    <xsl:variable name="empty-schema-elts" as="element()*" 
+      select="$schemas/descendant::rng:empty"/>
+    <xsl:sequence select="$empty-schema-elts ! rng:find-specific-define(.)"/>
+  </xsl:variable>
+  
+  <xsl:function name="rng:find-specific-define" as="element(*)*" cache="yes">
+    <xsl:param name="rng-elt" as="element(*)+"/>
+    <xsl:for-each select="$rng-elt">
+      <xsl:variable name="containing-elt-or-def" as="element(*)*"
+        select="ancestor::*[self::rng:element union self::rng:define union self::rng:ref][1]"/>
+      <!--      <xsl:message select="'looking up ', ."></xsl:message>-->
+      <xsl:if test="empty($containing-elt-or-def)">
+        <xsl:message select="'empty for ', string-join((name(), @name), ' ')"></xsl:message>
+      </xsl:if>
+      <xsl:choose>
+        <xsl:when test="exists($containing-elt-or-def/self::rng:attribute)"/>
+        <xsl:when test="exists($containing-elt-or-def/self::rng:element)">
+          <xsl:sequence select="$containing-elt-or-def"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:variable name="def" as="element(rng:define)" select="$containing-elt-or-def"/>
+          <xsl:variable name="referenced-by" as="element(*)*" select="key('ref-by-name', $def/@name, root($def[1]))"/>
+          <xsl:if test="exists($referenced-by)">
+            <xsl:sequence select="rng:find-element-define($referenced-by)"/>
+          </xsl:if>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:for-each>
+  </xsl:function>
+  
   <xsl:function name="rng:find-element-define" as="element(*)*" cache="yes">
     <xsl:param name="rng-elt" as="element(*)+"/>
     <xsl:for-each select="$rng-elt">
